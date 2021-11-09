@@ -1,0 +1,47 @@
+*** B2C:
+
+	* Survey :/<survey_ID>/questions
+		GET
+		return Json(an array of question objects), status 200.
+		error: 204, 404, 405
+		
+	* Answer :/answer
+		POST, return Json(message), status 201
+		PUT, return Json(message), status 202.
+		error: 405
+		
+***B2B:		
+	
+	* Register :/register
+		POST, return Json(message), status 201
+		error: 403, 405 
+		
+	* Find existing client :/register/existing-client/<field>/<param>
+		GET
+		<field>: 'email' or 'name'.
+		<param>: following email address or a name string.
+	
+	* Login :/login
+		PUT
+	
+	* Logout :/logout/<id>
+		PUT
+	
+	* User re-visit :/token-expiration/<id>/<token>
+		Keep user logged in while he was away.
+		GET
+
+
+
+*** Status code explanation
+
+	200 OK
+	201 Created
+	202 Accepted
+	204 No Content
+	400 Bad Request
+
+	401 Unauthorized (RFC 7235)
+	403 Forbidden
+	404 Not Found
+	405 Method Not Allowed

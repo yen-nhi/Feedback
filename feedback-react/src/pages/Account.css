@@ -1,0 +1,48 @@
+.account{
+    width: 60%;
+    box-shadow: 0px 2px 4px 0px gray;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul{
+    list-style: none;
+}
+
+.category{
+    margin: 1rem;
+    padding: 1rem;
+    color: rgb(0, 88, 104);
+    border: rgb(0, 88, 104) solid 1px;
+    font-weight: bold;
+}
+
+.category img{
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.inner{
+    margin-left: 2rem;
+    margin-right: 1rem;
+    background-color: rgb(241, 241, 241);
+    padding: 1rem;
+}
+
+.inner li{
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
+    font-weight: normal;
+    color: rgb(0, 88, 104);
+
+}
+
+@media (max-width: 536px) {
+    .account{
+        width: 100%;
+        box-shadow: none;
+    }
+}
