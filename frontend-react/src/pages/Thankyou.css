@@ -1,0 +1,12 @@
+.thankyou {
+    text-align: center;
+    height: 85vh;
+}
+
+.thankyou img{
+    width: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
