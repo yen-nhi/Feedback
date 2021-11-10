@@ -1,0 +1,42 @@
+.login-background{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-box{
+    width: 30%;
+    margin-top: 12%;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url('../media/vertical-mint-background.jpg');
+    background-size: cover;
+    opacity: 0.8;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: rgb(0, 88, 104);
+}
+.form-group{
+    margin: 30px;   
+}
+.login-button{
+    text-align: center;
+}
+
+.register-link{
+    text-align: center;
+    margin-top: 30px;
+}
+
+.header{
+    display: none;
+}
+
+@media (max-width: 536px) {
+    .login-box{
+        width: 100%;
+        background-image: none;
+        box-shadow: none;
+    }
+}

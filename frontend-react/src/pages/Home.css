@@ -1,0 +1,40 @@
+.home-background{
+    width: 100%;
+    height: 100vh;
+    background-image: url('../media/penup_20211013_162120.jpg');
+    background-size: cover;
+}
+
+.home-card{
+    margin-top: 10%;
+}
+
+.card-content{
+    padding: 2rem;
+    height: 100%;
+    position: relative;
+}
+
+.card-content div{
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.error{
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+}
+
+@media (max-width: 900px) {
+    .card-content{
+        padding-left: 0;
+    }
+    .card-content div{
+        -ms-transform: translateY(0%);
+        transform: translateY(0%);
+        text-align: center;
+    }
+}
