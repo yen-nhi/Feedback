@@ -13,9 +13,10 @@ const ChangePasswordForm = (props) => {
     const [ rePasswordValid, setRePasswordValid ] = useState(true);
 
     const history = useHistory();
+    const clientID = localStorage.getItem('id');
 
     const checkCurrentPassword = () => {
-        fetch(`http://127.0.0.1:5000/${props.id}/password-update/checking`, {
+        fetch(`http://127.0.0.1:5000/${clientID}/password-update/checking`, {
             method: 'PUT',
             body: JSON.stringify({
                 password: currentPassword.current.value,
@@ -50,7 +51,7 @@ const ChangePasswordForm = (props) => {
     const changePasswordHandler = (event) => {
         event.preventDefault();
         if ( passwordValid && newPasswordValid && rePasswordValid) {
-            fetch(`http://127.0.0.1:5000/${props.id}/password-update`, {
+            fetch(`http://127.0.0.1:5000/${clientID}/password-update`, {
                 method: 'PUT',
                 body: JSON.stringify({ 
                     new_password: newPassword.current.value,
@@ -60,7 +61,7 @@ const ChangePasswordForm = (props) => {
             .then(result => console.log(result))
             .catch(err => console.log(err));
 
-            fetch(`http://127.0.0.1:5000/logout/${props.id}`, {method: 'PUT'})
+            fetch(`http://127.0.0.1:5000/logout/${clientID}`, {method: 'PUT'})
             history.replace('/login');
             
         }

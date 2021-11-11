@@ -32,7 +32,7 @@ const MainHeader = () => {
             <ul className={classes.nav}>
                 {user.isAuthenticated && 
                 <li>
-                    <NavLink to='/account/1'>My account</NavLink>
+                    <NavLink to={`/account/${localStorage.getItem('id')}`}>My account</NavLink>
                 </li>}
                 {user.isAuthenticated && 
                 <li>

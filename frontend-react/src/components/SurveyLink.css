@@ -1,0 +1,20 @@
+.survey-link{
+    padding: 1rem;
+    background-color: rgb(229, 255, 246);
+    border-radius: 10px;
+    color: rgb(0, 88, 104);
+    position: relative;
+}
+
+.copy{
+    position: absolute;
+    right: 10px;
+    margin-left: 20px;
+    font-size: small;
+    color: rgb(24, 188, 218);    
+}
+
+.copy:hover{
+    color: rgb(0, 88, 104);
+    cursor: grabbing;
+}

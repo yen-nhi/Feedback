@@ -4,7 +4,7 @@ import surveyIcon from '../media/essay.png';
 import reportIcon from '../media/line-chart.png';
 import ChangePasswordForm from '../components/ChangePasswordForm';
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import AccountInfo from '../components/AccountInfo';
@@ -24,10 +24,10 @@ const Account = () => {
     const changeingPasswordToggle = () => {setChangingPassword(!changeingPassword)};
     const showInfoHandler = () => {setShowInfo(!showInfo)};
 
-    const params = useParams();
+    const clientID = localStorage.getItem('id');
 
     useEffect( () => {
-        fetch(`http://127.0.0.1:5000/${params.clientID}/surveys`)
+        fetch(`http://127.0.0.1:5000/${clientID}/surveys`)
         .then(res => res.json())
         .then(data => {
             setSurveys(data);
@@ -37,9 +37,14 @@ const Account = () => {
 
 
     const surveysList = (
-        <ul className='inner'>
-            {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${params.clientID}/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
-        </ul>
+        <div>
+            {!surveys && <p>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>}
+            {surveys &&
+            <ul className='inner'>
+                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
+            </ul>}
+        </div>
+        
     );
 
     const profileInner = (
@@ -57,8 +62,8 @@ const Account = () => {
 
     return (
         <React.Fragment>
-            {changeingPassword && <ChangePasswordForm onClose={changeingPasswordToggle} id={params.clientID}/>}
-            {showInfo && <AccountInfo onClose={showInfoHandler} id={params.clientID}/>}
+            {changeingPassword && <ChangePasswordForm onClose={changeingPasswordToggle}/>}
+            {showInfo && <AccountInfo onClose={showInfoHandler}/>}
             <div className='account'>
                 <div className='category' onClick={profileToggle}>
                     <img src={userIcon} alt='icon' width='40'/>Your profile

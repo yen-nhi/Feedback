@@ -31,7 +31,7 @@ const Login = () => {
             dispatch(clientActions.login({id: data.user_id, token: data.token}));
             localStorage.setItem('token', data.token);
             localStorage.setItem('id', data.user_id);
-            history.replace('/');
+            history.replace(`/account/${data.user_id}`);
         });
     };
 
