@@ -5,15 +5,16 @@ import { useDispatch } from 'react-redux';
 import { clientActions } from './store/client';
 
 import Layout from './layout/Layout';
-const Opening = React.lazy(() => import('./pages/Opening'))
-const Survey = React.lazy(() => import('./pages/Survey'))
-const Home = React.lazy(() => import('./pages/Home'))
-const Thankyou = React.lazy(() => import('./pages/Thankyou'))
-const Login = React.lazy(() => import('./pages/Login'))
-const SignUp = React.lazy(() => import('./pages/Signup'))
-const NewSurvey = React.lazy(() => import('./pages/NewSurvey'))
-const Account = React.lazy(() => import('./pages/Account'))
-const ClientSurvey = React.lazy(() => import('./components/ClientSurvey'))
+const Opening = React.lazy(() => import('./pages/Opening'));
+const Survey = React.lazy(() => import('./pages/Survey'));
+const Home = React.lazy(() => import('./pages/Home'));
+const Thankyou = React.lazy(() => import('./pages/Thankyou'));
+const Login = React.lazy(() => import('./pages/Login'));
+const SignUp = React.lazy(() => import('./pages/Signup'));
+const NewSurvey = React.lazy(() => import('./pages/NewSurvey'));
+const Account = React.lazy(() => import('./pages/Account'));
+const ClientSurvey = React.lazy(() => import('./components/ClientSurvey'));
+const Report = React.lazy(() => import('./pages/Report'));
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
           } 
         });
       }
-    }, []);
+    }, [dispatch]);
 
   return (
     <React.Fragment>
@@ -64,6 +65,9 @@ function App() {
             </Route>
             <Route path='/account/:clientID/surveys/:surveyID'>
               <ClientSurvey/>
+            </Route>
+            <Route path='/account/:clientID/reports/:surveyID'>
+              <Report/>
             </Route>
           </Switch>
         </Suspense>

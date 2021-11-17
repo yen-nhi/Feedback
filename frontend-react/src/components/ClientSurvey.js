@@ -8,6 +8,7 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 import SurveyLink from './SurveyLink';
 import React from 'react';
 import DeletionConfirm from './DeletionConfirm';
+import ChartBar from './ChartBar';
 
 const ClientSurvey = (props) => {
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
@@ -28,7 +29,7 @@ const ClientSurvey = (props) => {
     const showDeletionConfirmHandler = () => {
         setShowDeletionConfirm(true);
     }
-    const closeDeletionConfirmHandler = () => {
+    const closeDeletion = () => {
         setShowDeletionConfirm(false);
     }
 
@@ -41,12 +42,13 @@ const ClientSurvey = (props) => {
         history.push(`/account/${params.clientID}`);
     };
 
-    const questions = recievedData.map((item, i) => <li key={item.id}>{i+1}. {item.question}</li>);
+    const questions = recievedData.map((item, i) => 
+        <li key={item.id}>{i+1}. {item.question} <ChartBar questionID={item.id}/></li>);
 
     return(
         <React.Fragment>
             {showlink && <SurveyLink surveyID={params.surveyID} onClose={closelinkHandler}/>}
-            {showDeletionConfirm && <DeletionConfirm title={title} onClose={closeDeletionConfirmHandler}/>}
+            {showDeletionConfirm && <DeletionConfirm title={title} surveyID={params.surveyID} onClose={closeDeletion}/>}
             <div className='survey-details-page'>
                 <div className='survey-details'>
                     <div className='survey-header'>

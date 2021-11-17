@@ -18,3 +18,20 @@
     color: rgb(0, 88, 104);
     cursor: grabbing;
 }
+
+.qr-code{
+    text-align: center;
+    margin: 3rem;
+}
+
+.download{
+    text-align: center;
+    margin: 1rem;
+}
+
+.download button{
+    background-color: white;
+    padding: 10px;
+    border: rgb(0, 97, 114) solid 1px;
+    color: rgb(0, 97, 114);
+}

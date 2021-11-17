@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import AccountInfo from '../components/AccountInfo';
 
-
 const Account = () => {
     const account = useSelector(state => state.account);
     const dispatch = useDispatch();
@@ -55,9 +54,9 @@ const Account = () => {
     );
 
     const reportsInner = (
-        <div className='inner'>
-            <p>Reports</p>
-        </div>
+        <ul className='inner'>
+            {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
+        </ul>
     );
 
     return (

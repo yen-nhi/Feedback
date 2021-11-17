@@ -250,3 +250,32 @@ def api_account_info(account_id):
             return jsonify(info)
         return jsonify(message='Invalid token.')
     return jsonify(message='Method not allowed!', status=405)
+
+
+@app.route('/<account_id>/surveys/<survey_id>/delete', methods=['PUT'])
+@cross_origin()
+def api_delete_survey(survey_id, account_id):
+    if request.method == 'PUT':
+        body = request.get_json('body')
+        token = body['token']
+        if check_token(account_id, token):
+            connection = connect_db()
+            db = connection.cursor()
+            db.execute('delete from surveys where id=?', (survey_id,))
+            commit_close(connection)
+            return jsonify(message='Deleted successfully')
+        return jsonify(message='Invalid token.')
+    return jsonify(message='Method not allowed!', status=405)
+
+
+@app.route('/<account_id>/surveys/<survey_id>/<question_id>/average', methods=['GET'])
+def api_average_score(account_id, survey_id, question_id):
+    if request.method == 'GET':
+        connection = connect_db()
+        db = connection.cursor()
+        avg_score = db.execute('select avg(score) as avg_score from answers where question_id=?', (question_id,))
+        data = avg_score.fetchone()
+        print(data[0])
+        connection.close()
+        return jsonify(data)
+    return jsonify(message='Method not allowed!', status=405)
