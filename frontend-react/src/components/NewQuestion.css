@@ -1,0 +1,9 @@
+.delete-question{
+    background-color: white;
+    border-left: none;
+}
+
+.new-question input{
+    border-right: none;
+}
+
