@@ -3,4 +3,5 @@
 myenv/
 __pycache__/
 backend-flask/feedback.db
+*.db
 
