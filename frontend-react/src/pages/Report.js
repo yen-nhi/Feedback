@@ -16,7 +16,7 @@ const Report = (props) => {
         <li key={question.id}>
             <h5>{`Question ${i+1}. ${question.question}`}</h5>
             <div>
-                <p>Total vote for each score level</p>
+                <p>Total votes for each score level</p>
                 <BarChart questionID={question.id}/>
             </div>
         </li>);

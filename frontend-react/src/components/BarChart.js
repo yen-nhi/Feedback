@@ -24,7 +24,7 @@ return (
 			datasets: [
 			{
 				// Label for bars
-				label: "total votes/level",
+				label: "number of people vote",
 				// Data or value of your each variable
 				data: data,
 				// Color of each bar

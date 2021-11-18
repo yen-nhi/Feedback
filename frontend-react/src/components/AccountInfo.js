@@ -8,19 +8,17 @@ const AccountInfo = (props) => {
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
 
     useEffect( () => {
-        fetchData(`http://127.0.0.1:5000/${props.id}/info`, 'PUT', {token: localStorage.getItem('token')});
+        fetchData(`http://127.0.0.1:5000/${localStorage.getItem('id')}/info`, 'PUT', {token: localStorage.getItem('token')});
     }, []);
-
-    const info = recievedData.map(client => {
-        let date = new Date(client.token_exp);
-        date.setDate(date.getDate() - 1)
-        return(
-            <div>
-                <p><span className='info-title'>Name</span>{client.name}</p>
-                <p><span className='info-title'>Email</span>{client.email}</p>
-                <p><span className='info-title'>Last login</span>{date.toString()}</p>
-            </div>)
-        })
+     
+    let date = new Date(recievedData[2]);
+    date.setDate(date.getDate() - 1)
+    const info = 
+        <div>
+            <p><span className='info-title'>Name</span>{recievedData[0]}</p>
+            <p><span className='info-title'>Email</span>{recievedData[1]}</p>
+            <p><span className='info-title'>Last login</span>{date.toString()}</p>
+        </div>;
     
     return(
         <Modal onClose={props.onClose}>
