@@ -16,7 +16,7 @@ const ChartBar = (props) => {
 
     return(
         <div className='chart-bar'>
-            <div className='filling' style={{width: percentage}}><span>{recievedData[0]}</span></div>
+            <div className='filling' style={{width: percentage}}><span>{parseFloat(recievedData[0]).toFixed(1)}</span></div>
         </div>
     )
 };

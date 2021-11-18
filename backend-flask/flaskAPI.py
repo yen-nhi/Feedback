@@ -6,6 +6,9 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 
+from util import connect_db
+from util import json_transform_data
+
 CORS(app)
 
 
@@ -275,7 +278,20 @@ def api_average_score(account_id, survey_id, question_id):
         db = connection.cursor()
         avg_score = db.execute('select avg(score) as avg_score from answers where question_id=?', (question_id,))
         data = avg_score.fetchone()
-        print(data[0])
         connection.close()
         return jsonify(data)
+    return jsonify(message='Method not allowed!', status=405)
+
+
+@app.route('/<account_id>/analysis/<question_id>/', methods=['GET'])
+def api_survey_collected_data(account_id, question_id):
+    if request.method == 'GET':
+        connection = connect_db()
+        db = connection.cursor()
+        raw_data = db.execute('select count() as number_of_votes, score from answers where question_id=? group by score', (question_id,))
+        data = json_transform_data(raw_data)
+        pass_data = jsonify(data)
+        pass_data.headers.add("Access-Control-Allow-Origin", "*")
+        connection.close()
+        return pass_data
     return jsonify(message='Method not allowed!', status=405)

@@ -12,13 +12,12 @@ const Report = (props) => {
         fetchData(`http://127.0.0.1:5000/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
     }, []);
 
-    const data = [20, 17, 33, 44, 62];
     const chart = recievedData.map((question, i) => 
         <li key={question.id}>
             <h5>{`Question ${i+1}. ${question.question}`}</h5>
             <div>
                 <p>Total vote for each score level</p>
-                <BarChart data={data}/>
+                <BarChart questionID={question.id}/>
             </div>
         </li>);
 
