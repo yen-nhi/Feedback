@@ -3,13 +3,15 @@ import userIcon from '../media/user.png';
 import surveyIcon from '../media/essay.png';
 import reportIcon from '../media/line-chart.png';
 import ChangePasswordForm from '../components/ChangePasswordForm';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import AccountInfo from '../components/AccountInfo';
+import EndpointContext from '../store/api-endpoint';
 
 const Account = () => {
+    const apiRoot = useContext(EndpointContext);
     const account = useSelector(state => state.account);
     const dispatch = useDispatch();
     const [surveys, setSurveys] = useState([]);
@@ -26,12 +28,13 @@ const Account = () => {
     const clientID = localStorage.getItem('id');
 
     useEffect( () => {
-        fetch(`http://127.0.0.1:5000/${clientID}/surveys`)
+        fetch(`${apiRoot.url}/${clientID}/surveys`)
         .then(res => res.json())
         .then(data => {
             setSurveys(data);
         })
         .catch(err => console.log(err));
+        // eslint-disable-next-line
     }, []);
 
 

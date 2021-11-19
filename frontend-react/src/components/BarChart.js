@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Bar } from "react-chartjs-2";
 import './BarChart.css';
 import useFetch from "../hooks/use-fetch";
 import { useParams } from "react-router-dom";
+import EndpointContext from '../store/api-endpoint';
+
 
 const BarChart = (props) => {
 	const params = useParams();
 	const { isLoading, hasError, recievedData, fetchData } = useFetch();
+	const apiRoot = useContext(EndpointContext);
+
 
 	useEffect( () => {
-		fetchData(`http://localhost:5000/${params.clientID}/analysis/${props.questionID}/`)
+		fetchData(`${apiRoot.url}/${params.clientID}/analysis/${props.questionID}/`)
+		// eslint-disable-next-line
 	}, []);
 
 	const data = new Array(5)
@@ -17,7 +22,7 @@ const BarChart = (props) => {
 	
 return (
 	<div className="bar-chart">
-		<Bar
+		<Bar className='bar'
 		data={{
 			// Name of the variables on x-axies for each bar
 			labels: ["1", "2", "3", "4", "5"],
@@ -33,7 +38,7 @@ return (
 			],
 		}}
 		// Height of graph
-		height={400}
+		//height={400}
 		options={{
 			maintainAspectRatio: false
 		}}

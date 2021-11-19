@@ -1,6 +1,6 @@
 import './ClientSurvey.css';
 import useFetch from '../hooks/use-fetch';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Button from '../UI/Button';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import backIcon from '../media/back.png';
@@ -9,8 +9,11 @@ import SurveyLink from './SurveyLink';
 import React from 'react';
 import DeletionConfirm from './DeletionConfirm';
 import ChartBar from './ChartBar';
+import EndpointContext from '../store/api-endpoint';
+
 
 const ClientSurvey = (props) => {
+    const apiRoot = useContext(EndpointContext);
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
     const params = useParams();
     const location = useLocation();
@@ -35,7 +38,8 @@ const ClientSurvey = (props) => {
 
 
     useEffect( () => {
-        fetchData(`http://127.0.0.1:5000/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
+        fetchData(`${apiRoot.url}/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
+        // eslint-disable-next-line
     }, []);
 
     const returnHandler = () => {

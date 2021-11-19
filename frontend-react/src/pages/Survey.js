@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-
+import { useEffect, useContext } from 'react';
 import './Survey.css';
 import Question from '../components/Question';
 import LoadingSpinner from '../UI/LoadingSpinner';
@@ -7,16 +6,19 @@ import Button from '../UI/Button';
 import { useParams, Link } from 'react-router-dom';
 import useFetch from '../hooks/use-fetch';
 import SurveyorContextProvider from '../store/survey-context';
+import EndpointContext from '../store/api-endpoint';
+
 
 const Survey = () => {
     const params = useParams();
     const surveyID = params.surveyID;
+    const apiRoot = useContext(EndpointContext);
 
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
     
     
     useEffect ( () => {
-        fetchData(`http://127.0.0.1:5000/survey${surveyID}/questions`, 'GET', null);
+        fetchData(`${apiRoot.url}/survey${surveyID}/questions`, 'GET', null);
         // eslint-disable-next-line
     }, []);
 

@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import classes from './MainHeader.module.css';
 import { NavLink, useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
@@ -6,9 +7,10 @@ import { clientActions } from '../store/client';
 
 import logo from '../media/logo2.png';
 import menuIcon from '../media/menu.svg';
+import EndpointContext from '../store/api-endpoint';
 
 const MainHeader = () => {
-
+    const apiRoot = useContext(EndpointContext);
     const user = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -20,7 +22,7 @@ const MainHeader = () => {
     };
 
     const logoutHandler = () => {
-        fetch(`http://127.0.0.1:5000/logout/${user.id}`, {method: 'PUT'})
+        fetch(`${apiRoot.url}/logout/${user.id}`, {method: 'PUT'})
             .then(res => res.json()).then(data => console.log(data));
         dispatch(clientActions.logout());
         console.log(user)

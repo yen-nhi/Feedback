@@ -1,10 +1,12 @@
 import './ChangePasswordForm.css';
 import Button from '../UI/Button';
 import Modal from '../UI/Modal';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import EndpointContext from '../store/api-endpoint';
 
 const ChangePasswordForm = (props) => {
+    const apiRoot = useContext(EndpointContext);
     const currentPassword = useRef();
     const newPassword = useRef();
     const confirmPassword = useRef();
@@ -16,7 +18,7 @@ const ChangePasswordForm = (props) => {
     const clientID = localStorage.getItem('id');
 
     const checkCurrentPassword = () => {
-        fetch(`http://127.0.0.1:5000/${clientID}/password-update/checking`, {
+        fetch(`${apiRoot.url}/${clientID}/password-update/checking`, {
             method: 'PUT',
             body: JSON.stringify({
                 password: currentPassword.current.value,
@@ -51,7 +53,7 @@ const ChangePasswordForm = (props) => {
     const changePasswordHandler = (event) => {
         event.preventDefault();
         if ( passwordValid && newPasswordValid && rePasswordValid) {
-            fetch(`http://127.0.0.1:5000/${clientID}/password-update`, {
+            fetch(`${apiRoot.url}/${clientID}/password-update`, {
                 method: 'PUT',
                 body: JSON.stringify({ 
                     new_password: newPassword.current.value,
@@ -61,7 +63,7 @@ const ChangePasswordForm = (props) => {
             .then(result => console.log(result))
             .catch(err => console.log(err));
 
-            fetch(`http://127.0.0.1:5000/logout/${clientID}`, {method: 'PUT'})
+            fetch(`${apiRoot.url}/logout/${clientID}`, {method: 'PUT'})
             history.replace('/login');
             
         }

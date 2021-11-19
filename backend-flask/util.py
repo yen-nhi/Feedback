@@ -2,7 +2,7 @@ import sqlite3
 from flask import jsonify
 from datetime import datetime
 from werkzeug.security import check_password_hash
-
+import os
 
 def json_transform_data(raw_data):
     rows = raw_data.fetchall()
@@ -15,7 +15,8 @@ def json_transform_data(raw_data):
     return array
 
 def connect_db():
-    return sqlite3.connect('feedback.db')
+    database = os.getenv('DATABASE')
+    return sqlite3.connect(database)
 
 
 def json_response(data):

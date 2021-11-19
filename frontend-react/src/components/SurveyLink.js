@@ -1,11 +1,15 @@
+import { useContext } from "react";
 import Modal from "../UI/Modal";
 import './SurveyLink.css';
 import copyIcon from '../media/copy1.png';
 import QRCode from "qrcode.react";
+import EndpointContext from '../store/api-endpoint';
+
 
 const SurveyLink = (props) => { 
-    
-    const link = `http://localhost:3000/survey/${props.surveyID}`;
+    const url = useContext(EndpointContext);
+
+    const link = `${url.endpoint}/survey/${props.surveyID}`;
     
     const copyLinkHandler = () => {
         const tempInput = document.createElement('input')

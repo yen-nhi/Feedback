@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import React, { useEffect, Suspense } from 'react';
 import { useDispatch } from 'react-redux';
 import { clientActions } from './store/client';
+import EndpointContext, { EndpointProvider } from './store/api-endpoint';
 
 import Layout from './layout/Layout';
 const Opening = React.lazy(() => import('./pages/Opening'));
@@ -19,13 +20,14 @@ const Report = React.lazy(() => import('./pages/Report'));
 function App() {
 
   const dispatch = useDispatch();
+  const apiRoot = React.useContext(EndpointContext);
 
   useEffect( () => {
       const currentToken = localStorage.getItem('token');
       const currentID = localStorage.getItem('id');
 
       if (currentToken && currentID) {
-        fetch(`http://127.0.0.1:5000/token-expiration/${currentID}/${currentToken}`)
+        fetch(`${apiRoot.url}/token-expiration/${currentID}/${currentToken}`)
         .then(response => response.json()).then(result => {
           if (result.message === 'VALID') {
             dispatch(clientActions.login({id: currentID, token: currentToken}));
@@ -35,7 +37,7 @@ function App() {
     }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <EndpointProvider>
       <Layout>
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
@@ -72,7 +74,7 @@ function App() {
           </Switch>
         </Suspense>
       </Layout>
-    </React.Fragment>
+    </EndpointProvider>
   );
 }
 

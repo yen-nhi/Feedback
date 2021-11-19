@@ -1,22 +1,24 @@
 import Button from '../UI/Button';
 import './Login.css';
 import { Link, useHistory } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { clientActions } from '../store/client';
+import EndpointContext from '../store/api-endpoint';
+
 
 const Login = () => {
     const email = useRef('');
     const password = useRef('');
     const [invaidUser, setInvalidUser] = useState(false);
-
+    const apiRoot = useContext(EndpointContext);
     const dispatch = useDispatch();
     const history = useHistory();
 
     const logInHandler = (event) => {
         event.preventDefault();
         console.log('Login');
-        fetch('http://127.0.0.1:5000/login', {
+        fetch(`${apiRoot.url}/login`, {
             method: 'PUT',
             body: JSON.stringify({
                 email: email.current.value,

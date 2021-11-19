@@ -1,16 +1,16 @@
 import { useRef } from 'react';
 import './NewSurvey.css';
 import NewQuestion from '../components/NewQuestion';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useFetch from '../hooks/use-fetch';
+import EndpointContext from '../store/api-endpoint';
 
 
 const NewSurvey = () => {
     
     const title = useRef('');
     const [inputs, setInputs] = useState([]);
-
+    const apiRoot = useContext(EndpointContext);
     const changeQuestionHandler = (index, value) => {
             const newInputs = [...inputs];
             newInputs[index] = value;
@@ -51,7 +51,7 @@ const NewSurvey = () => {
             title: title.current.value,
             questions: inputs
         }
-        fetchData(`http://127.0.0.1:5000/new-survey`, 'POST', obj);
+        fetchData(`${apiRoot.url}/new-survey`, 'POST', obj);
         console.log(recievedData);
         setInputs(['']);
         title.current.value = '';

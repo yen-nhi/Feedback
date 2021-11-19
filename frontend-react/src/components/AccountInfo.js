@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import Modal from '../UI/Modal';
 import './AccountInfo.css';
 import useFetch from '../hooks/use-fetch'
 import LoadingSpinner from '../UI/LoadingSpinner';
+import EndpointContext from '../store/api-endpoint';
 
 const AccountInfo = (props) => {
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
+    const apiRoot = useContext(EndpointContext);
 
     useEffect( () => {
-        fetchData(`http://127.0.0.1:5000/${localStorage.getItem('id')}/info`, 'PUT', {token: localStorage.getItem('token')});
+        fetchData(`${apiRoot.url}/${localStorage.getItem('id')}/info`, 'PUT', {token: localStorage.getItem('token')});
+        // eslint-disable-next-line
     }, []);
      
     let date = new Date(recievedData[2]);

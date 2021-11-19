@@ -4,8 +4,10 @@ import OptionalQuestion from "./OptionalQuestion";
 import { useContext, useState } from "react";
 import useFetch from "../hooks/use-fetch";
 import {SurveyorContext} from "../store/survey-context";
+import EndpointContext from '../store/api-endpoint';
 
     const Question = (props) => {
+        const apiRoot = useContext(EndpointContext);
         const [showOptinalQuestion, setShowOptionalQuestion] = useState(false);
         const [answerID, setAnswerID] = useState(null)
         const { hasError, fetchData } = useFetch();
@@ -21,8 +23,8 @@ import {SurveyorContext} from "../store/survey-context";
 
             // If not created surveyor
             if (!surveyorCtx.surveyorID) {
-                //fetchData('http://127.0.0.1:5000/create-surveyor', 'POST', {survey_id: props.surveyID})
-                fetch('http://127.0.0.1:5000/new-surveyor', {
+                //fetchData('${apiRoot.url}/create-surveyor', 'POST', {survey_id: props.surveyID})
+                fetch(`${apiRoot.url}/new-surveyor`, {
                 method: 'POST',
                 body: JSON.stringify({
                     survey_id: props.surveyID
@@ -38,7 +40,7 @@ import {SurveyorContext} from "../store/survey-context";
                         score: score,
                         surveyor_id: data1
                     };
-                    fetch('http://127.0.0.1:5000/answer', {
+                    fetch(`${apiRoot.url}/answer`, {
                     method: 'POST',
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data2 => {
@@ -56,9 +58,9 @@ import {SurveyorContext} from "../store/survey-context";
                         score: score,
                         surveyor_id: surveyorCtx.surveyorID
                     };
-                    // fetchData('http://127.0.0.1:5000/send-answer', 'POST', object);
+                    // fetchData('${apiRoot.url}/send-answer', 'POST', object);
                     // setAnswerID(recievedData);
-                    fetch('http://127.0.0.1:5000/answer', {
+                    fetch(`${apiRoot.url}/answer`, {
                     method: 'POST',
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data => {
@@ -72,7 +74,7 @@ import {SurveyorContext} from "../store/survey-context";
                         answer_id: answerID,
                         score: score,
                     };
-                    fetchData('http://127.0.0.1:5000/answer', 'PUT', object);  
+                    fetchData(`${apiRoot.url}/answer`, 'PUT', object);  
                 }
             }
         };
@@ -83,7 +85,7 @@ import {SurveyorContext} from "../store/survey-context";
                 answer_id: answerID,
                 optional_answer: inputAnwser,
             };
-            fetchData('http://127.0.0.1:5000/send-answer', 'PUT', object);  
+            fetchData(`${apiRoot.url}/send-answer`, 'PUT', object);  
         };
 
         return(

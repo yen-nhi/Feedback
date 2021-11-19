@@ -1,15 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import BarChart from '../components/BarChart';
 import './Report.css';
 import useFetch from '../hooks/use-fetch';
 import { useParams } from 'react-router-dom';
+import EndpointContext from '../store/api-endpoint';
 
 const Report = (props) => {
     const params = useParams();
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
-
+    const apiRoot = useContext(EndpointContext);
+    
     useEffect( () => {
-        fetchData(`http://127.0.0.1:5000/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
+        fetchData(`${apiRoot.url}/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
+        // eslint-disable-next-line
     }, []);
 
     const chart = recievedData.map((question, i) => 

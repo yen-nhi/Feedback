@@ -1,12 +1,14 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import Button from '../UI/Button';
 import './Signup.css';
 import { Link } from 'react-router-dom';
 import useFetch from '../hooks/use-fetch';
 import LoadingSpinner from '../UI/LoadingSpinner';
+import EndpointContext from '../store/api-endpoint';
+
 
 const SignUp = () => {
-
+    const apiRoot = useContext(EndpointContext);
     const email = useRef('');
     const name = useRef('');
     const password = useRef('');
@@ -21,7 +23,7 @@ const SignUp = () => {
 
     const checkEmail = () => {
         if (email.current.value.trim() !== '') {
-            fetch(`http://localhost:5000/register/existing-client/email/${email.current.value}`)
+            fetch(`${apiRoot.url}/register/existing-client/email/${email.current.value}`)
             .then(res => res.json()).then(result => {
                 if (result.message === 'true') {
                     setExistingEmail(true);
@@ -34,7 +36,7 @@ const SignUp = () => {
 
     const checkName = () => {
         if (name.current.value.trim() !== '') {
-            fetch(`http://localhost:5000/register/existing-client/name/${name.current.value}`)
+            fetch(`${apiRoot.url}/register/existing-client/name/${name.current.value}`)
             .then(res => res.json()).then(result => {
                 if (result.message === 'true') {
                     setExistingName(true);
@@ -77,7 +79,7 @@ const SignUp = () => {
         }
 
         console.log('new user input', object);
-        fetchData('http://127.0.0.1:5000/register', 'POST', object);
+        fetchData('${apiRoot.url}/register', 'POST', object);
         console.log(recievedData);
         email.current.value = '';
         name.current.value = '';
