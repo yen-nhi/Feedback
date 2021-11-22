@@ -19,6 +19,9 @@ const Login = () => {
         event.preventDefault();
         console.log('Login');
         fetch(`${apiRoot.url}/login`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
             method: 'PUT',
             body: JSON.stringify({
                 email: email.current.value,
