@@ -10,5 +10,6 @@ RUN pip3 install -r requirements.txt
 
 ENV FLASK_APP flaskAPI.py
 ENV FLASK_ENV development
+ENV DATABASE feedback.db
 
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
