@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  backend-flask:
+    build: backend-flask
+    volumes:
+      - type: bind
+        source: $HOME/sqlite/feedback.db
+        target: /app/feedback.db
+    ports:
+      - "5000:5000"
+  frontend-react:
+    build: frontend-react
+    ports:
+      - "8080:80"
+
