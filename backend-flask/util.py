@@ -24,11 +24,6 @@ def json_response(data):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-
-def commit_close(connection):
-    connection.commit()
-    connection.close()
-
 def check_new_user(email, name):
     connection = connect_db()
     db = connection.cursor()

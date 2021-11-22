@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import useFetch from '../hooks/use-fetch';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import EndpointContext from '../store/api-endpoint';
+import Modal from '../UI/Modal';
 
 
 const SignUp = () => {
@@ -18,6 +19,7 @@ const SignUp = () => {
     const [existingName, setExistingName] = useState(false);
     const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(true);
+    const [informing, setInforming] = useState(false);
 
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
 
@@ -62,6 +64,11 @@ const SignUp = () => {
             setIsPasswordsMatch(true);
         }
     };
+    const onCloseModal = () => { setInforming(false) };
+    const redirectToLogin = <Modal onClose={onCloseModal}>
+            <span>Your account has been created! </span>
+            <Link className='to-log-in' to='/login'>Log in</Link>
+        </Modal>;
 
     const SubmitHandler = (event) => {
         event.preventDefault();
@@ -81,13 +88,16 @@ const SignUp = () => {
         console.log('new user input', object);
         fetchData(`${apiRoot.url}/register`, 'POST', object);
         console.log(recievedData);
+
         email.current.value = '';
         name.current.value = '';
         password.current.value = '';
         rePassword.current.value = '';
+        setInforming(true);
     };
     return (
         <div id="register-background">
+            {informing && redirectToLogin}
             <div className="register-box">
                 {isLoading && <LoadingSpinner/>}
                 {hasError && <p>{hasError}</p>}

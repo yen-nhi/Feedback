@@ -19,6 +19,7 @@
 
 .login-link{
     margin-bottom: 2rem;
+    text-decoration: underline;
 }
 
 .warning{
@@ -26,6 +27,11 @@
     text-align: left;
     color: rgb(255, 59, 59);
     font-size: small;
+}
+
+.to-log-in{
+    text-decoration: underline;
+    color: darkblue;
 }
 
 @media (max-width: 900px) {

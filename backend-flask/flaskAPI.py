@@ -15,15 +15,14 @@ CORS(app)
 @app.route("/survey<survey_id>/questions", methods=['GET'])
 def api_questions(survey_id):
     print ('GET QUESTIONS')
-    connection = connect_db()
-    db = connection.cursor()
-    raw_data = db.execute('select * from questions where survey_id=?', survey_id)
+    with connect_db() as connection:
+        db = connection.cursor()
+        raw_data = db.execute('select * from questions where survey_id=?', survey_id)
 
-    data = json_transform_data(raw_data)
-    pass_data = jsonify(data)
-    pass_data.headers.add("Access-Control-Allow-Origin", "*")
-    connection.close()
-    return pass_data
+        data = json_transform_data(raw_data)
+        pass_data = jsonify(data)
+        pass_data.headers.add("Access-Control-Allow-Origin", "*")
+        return pass_data
 
 
 @app.route("/new-surveyor", methods = ['POST'])
@@ -33,11 +32,11 @@ def create_surveyor():
         posted_data = request.get_json('body')
         survey_id = posted_data['survey_id']
 
-        connection = connect_db()
-        db = connection.cursor()
-        db.execute('insert into surveyors (survey_id, datetime) values (?, datetime("now"))', (survey_id))
-        commit_close(connection)
-        return jsonify(db.lastrowid)
+        with connect_db() as connection:
+            db = connection.cursor()
+            db.execute('insert into surveyors (survey_id, datetime) values (?, datetime("now"))', (survey_id))
+            connection.commit()
+            return jsonify(db.lastrowid)
     return jsonify(message='Method not allowed!', status=405)
 
 
@@ -46,50 +45,46 @@ def create_surveyor():
 @cross_origin()
 def api_send_answer():
     posted_data = request.get_json('body')
-    print('send answer', posted_data)
+    with connect_db() as connection:
+        db = connection.cursor()
 
-    connection = connect_db()
-    db = connection.cursor()
-
-    if request.method == 'POST':
-        score = posted_data['score']
-        question_id = posted_data['question_id']
-        surveyor_id = posted_data['surveyor_id']
-        db.execute('insert into answers (question_id, score, surveyor_id) values (?, ?, ?)', (question_id, score, surveyor_id))
-        commit_close(connection)
-        return jsonify(db.lastrowid)
-
-    elif request.method == 'PUT':
-        answer_id = posted_data['answer_id']
-        try: 
-            opt_ans = posted_data['optional_answer']
-            db.execute('update answers set optional_answer=? where id=?', (opt_ans, answer_id))
-        except KeyError:
+        if request.method == 'POST':
             score = posted_data['score']
-            if score >= 3:
-                db.execute('update answers set optional_answer=?, score=? where id=?', (None, score, answer_id))
-            else:
-                db.execute('update answers set score=? where id=?', (score, answer_id))
-        commit_close(connection)
-        return jsonify(message='Answer has been sent!', status=202)
-    return jsonify(message='Method not allowed!', status=405)
+            question_id = posted_data['question_id']
+            surveyor_id = posted_data['surveyor_id']
+            db.execute('insert into answers (question_id, score, surveyor_id) values (?, ?, ?)', (question_id, score, surveyor_id))
+            connection.commit()
+            return jsonify(db.lastrowid)
+
+        elif request.method == 'PUT':
+            answer_id = posted_data['answer_id']
+            try: 
+                opt_ans = posted_data['optional_answer']
+                db.execute('update answers set optional_answer=? where id=?', (opt_ans, answer_id))
+            except KeyError:
+                score = posted_data['score']
+                if score >= 3:
+                    db.execute('update answers set optional_answer=?, score=? where id=?', (None, score, answer_id))
+                else:
+                    db.execute('update answers set score=? where id=?', (score, answer_id))
+            connection.commit()
+            return jsonify(message='Answer has been sent!', status=202)
+        return jsonify(message='Method not allowed!', status=405)
 
 
 @app.route("/register/existing-client/<field>/<param>", methods=['GET'])
 @cross_origin()
 def api_checking_client(field, param):
-    connection = connect_db()
-    db = connection.cursor()
-    if field == 'email':
-        existing_client = db.execute('select id from clients where email=?', (param,))
-    elif field == 'name':
-        existing_client = db.execute('select id from clients where name=?', (param,))
-    connection.close()
-
-    if existing_client.fetchone() is None: 
-        return jsonify(message='false')
-
-    return jsonify(message='true')
+    with connect_db() as connection:
+        db = connection.cursor()
+        if field == 'email':
+            existing_client = db.execute('select id from clients where email=?', (param,))
+        elif field == 'name':
+            existing_client = db.execute('select id from clients where name=?', (param,))
+        client = existing_client.fetchone()
+        if client is None: 
+            return jsonify(message='false')
+        return jsonify(message='true')
 
 
 @app.route('/register', methods=['POST'])
@@ -106,11 +101,11 @@ def register_new_client():
         password = posted_data['password']
         hashed_password = generate_password_hash(password)
         
-        connection = connect_db()
-        db = connection.cursor()
-        db.execute('insert into clients (email, name, hash_password) values (?, ?, ?)', (email, name, hashed_password))
-        commit_close(connection)
-        return jsonify(message='Created new account!', status=201)
+        with connect_db() as connection:
+            db = connection.cursor()
+            db.execute('insert into clients (email, name, hash_password) values (?, ?, ?)', (email, name, hashed_password))
+            connection.commit()
+            return jsonify(message='Created new account!', status=201)
     return jsonify(message='Method not allowed!', status=405)
 
 
@@ -120,23 +115,21 @@ def login():
     if request.method == 'PUT':
         body = request.get_json('body')
         email = body['email']
-        connection = connect_db()
-        db = connection.cursor()
+        with connect_db() as connection:
+            db = connection.cursor()
+            raw = db.execute('select id, hash_password from clients where email=?', (email,))
+            user = raw.fetchone()
 
-        raw = db.execute('select id, hash_password from clients where email=?', (email,))
-        user = raw.fetchone()
-
-        if user is not None:
-            user_id = user[0]
-            if check_password_hash(user[1], body['password']):
-                token = secrets.token_urlsafe(16)
-                exp = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
-                db.execute('update clients set token=?, token_exp=? where id=?', (token, exp, user_id))
-                commit_close(connection)
-                return jsonify({'user_id': user_id, 'token': token})       
-        else:
-            connection.close()
-            return jsonify(message='Wrong user or password', status=403)
+            if user is not None:
+                user_id = user[0]
+                if check_password_hash(user[1], body['password']):
+                    token = secrets.token_urlsafe(16)
+                    exp = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+                    db.execute('update clients set token=?, token_exp=? where id=?', (token, exp, user_id))
+                    connection.commit()
+                    return jsonify({'user_id': user_id, 'token': token})       
+            else:
+                return jsonify(message='Wrong user or password', status=403)
     return jsonify(message='Method not allowed!', status=405)
 
 
@@ -144,11 +137,11 @@ def login():
 @cross_origin()
 def logout(id):
     if request.method == 'PUT':
-        connection = connect_db()
-        db = connection.cursor()
-        db.execute('update clients set token=?, token_exp=? where id=?', (None, None, id))
-        commit_close(connection)
-        return jsonify(message='User has been logged out!', status=202)
+        with connect_db() as connection:
+            db = connection.cursor()
+            db.execute('update clients set token=?, token_exp=? where id=?', (None, None, id))
+            connection.commit()
+            return jsonify(message='User has been logged out!', status=202)
     return jsonify(message='Method not allowed!', status=405)
 
 
@@ -172,42 +165,39 @@ def api_create_survey():
         title = body['title']
         questions = body['questions']
 
-        connection = connect_db()
-        db = connection.cursor()
-        db.execute('insert into surveys (client_id, name) values (?, ?)', (client_id, title))
-        connection.commit()
-        for q in questions:
-            db.execute('insert into questions (survey_id, question) values (?, ?)', (db.lastrowid, q))
-        commit_close(connection)
-        return jsonify(message='Save survey successfully!')
+        with connect_db() as connection:
+            db = connection.cursor()
+            db.execute('insert into surveys (client_id, name) values (?, ?)', (client_id, title))
+            for q in questions:
+                db.execute('insert into questions (survey_id, question) values (?, ?)', (db.lastrowid, q))
+            connection.commit()
+            return jsonify(message='Save survey successfully!')
     return jsonify(message='Method not allowed!', status=405)
 
 
 @app.route('/<account_id>/surveys', methods=['GET'])
 def get_surveys_list(account_id):
     if request.method == 'GET':
-        connection = connect_db()
-        db = connection.cursor()
-        raw_data = db.execute('select id, name from surveys where client_id=?', (account_id,))
-        data = json_transform_data(raw_data)
-        json_data = jsonify(data)
-        json_data.headers.add("Access-Control-Allow-Origin", "*")
-        connection.close()
-        return json_data
+        with connect_db() as connection:
+            db = connection.cursor()
+            raw_data = db.execute('select id, name from surveys where client_id=?', (account_id,))
+            data = json_transform_data(raw_data)
+            json_data = jsonify(data)
+            json_data.headers.add("Access-Control-Allow-Origin", "*")
+            return json_data
     return jsonify(message='Method not allowed!', status=405)
 
 
 @app.route('/<account_id>/surveys/<survey_id>', methods=['GET'])
 def get_survey(account_id, survey_id):
     if request.method == 'GET':
-        connection = connect_db()
-        db = connection.cursor()
-        raw_data = db.execute('select * from questions where survey_id=?', (survey_id,))
-        data = json_transform_data(raw_data)
-        json_data = jsonify(data)
-        json_data.headers.add("Access-Control-Allow-Origin", "*")
-        connection.close()
-        return json_data
+        with connect_db() as connection:
+            db = connection.cursor()
+            raw_data = db.execute('select * from questions where survey_id=?', (survey_id,))
+            data = json_transform_data(raw_data)
+            json_data = jsonify(data)
+            json_data.headers.add("Access-Control-Allow-Origin", "*")
+            return json_data
     return jsonify(message='Method not allowed!', status=405)
 
 
@@ -219,11 +209,11 @@ def change_user_password(account_id):
         new_pw = body['new_password']
         token = body['token']
         if check_token(account_id, token):
-            connection = connect_db()
-            db = connection.cursor()
-            db.execute('update clients set hash_password=? where id=?', (generate_password_hash(new_pw), account_id))
-            commit_close(connection)
-            return jsonify(message='Changed password successfully!')
+            with connect_db() as connection:
+                db = connection.cursor()
+                db.execute('update clients set hash_password=? where id=?', (generate_password_hash(new_pw), account_id))
+                connection.commit()
+                return jsonify(message='Changed password successfully!')
         return jsonify(message='Token is not valid.', status=403)
     return jsonify(message='Method not allowed!', status=405)
     
@@ -245,13 +235,11 @@ def api_account_info(account_id):
         body = request.get_json('body')
         token = body['token']
         if check_token(account_id, token):
-            connection = connect_db()
-            db = connection.cursor()
-            query = db.execute('select name, email, token_exp from clients where id=?', (account_id, ))
-            info = query.fetchone()
-            print(info)
-            connection.close()
-            return jsonify(info)
+            with connect_db() as connection:
+                db = connection.cursor()
+                query = db.execute('select name, email, token_exp from clients where id=?', (account_id, ))
+                info = query.fetchone()
+                return jsonify(info)
         return jsonify(message='Invalid token.')
     return jsonify(message='Method not allowed!', status=405)
 
@@ -263,11 +251,11 @@ def api_delete_survey(survey_id, account_id):
         body = request.get_json('body')
         token = body['token']
         if check_token(account_id, token):
-            connection = connect_db()
-            db = connection.cursor()
-            db.execute('delete from surveys where id=?', (survey_id,))
-            commit_close(connection)
-            return jsonify(message='Deleted successfully')
+            with connect_db() as connection:
+                db = connection.cursor()
+                db.execute('delete from surveys where id=?', (survey_id,))
+                connection.commit()
+                return jsonify(message='Deleted successfully')
         return jsonify(message='Invalid token.')
     return jsonify(message='Method not allowed!', status=405)
 
@@ -275,24 +263,22 @@ def api_delete_survey(survey_id, account_id):
 @app.route('/<account_id>/surveys/<survey_id>/<question_id>/average', methods=['GET'])
 def api_average_score(account_id, survey_id, question_id):
     if request.method == 'GET':
-        connection = connect_db()
-        db = connection.cursor()
-        avg_score = db.execute('select avg(score) as avg_score from answers where question_id=?', (question_id,))
-        data = avg_score.fetchone()
-        connection.close()
-        return jsonify(data)
+        with connect_db() as connection:
+            db = connection.cursor()
+            avg_score = db.execute('select avg(score) as avg_score from answers where question_id=?', (question_id,))
+            data = avg_score.fetchone()
+            return jsonify(data)
     return jsonify(message='Method not allowed!', status=405)
 
 
 @app.route('/<account_id>/analysis/<question_id>/', methods=['GET'])
 def api_survey_collected_data(account_id, question_id):
     if request.method == 'GET':
-        connection = connect_db()
-        db = connection.cursor()
-        raw_data = db.execute('select count() as number_of_votes, score from answers where question_id=? group by score', (question_id,))
-        data = json_transform_data(raw_data)
-        pass_data = jsonify(data)
-        pass_data.headers.add("Access-Control-Allow-Origin", "*")
-        connection.close()
-        return pass_data
+        with connect_db() as connection:
+            db = connection.cursor()
+            raw_data = db.execute('select count() as number_of_votes, score from answers where question_id=? group by score', (question_id,))
+            data = json_transform_data(raw_data)
+            pass_data = jsonify(data)
+            pass_data.headers.add("Access-Control-Allow-Origin", "*")
+            return pass_data
     return jsonify(message='Method not allowed!', status=405)
