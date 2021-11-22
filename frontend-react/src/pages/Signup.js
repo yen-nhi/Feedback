@@ -79,7 +79,7 @@ const SignUp = () => {
         }
 
         console.log('new user input', object);
-        fetchData('${apiRoot.url}/register', 'POST', object);
+        fetchData(`${apiRoot.url}/register`, 'POST', object);
         console.log(recievedData);
         email.current.value = '';
         name.current.value = '';
