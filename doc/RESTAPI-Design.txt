@@ -30,7 +30,21 @@
 	* User re-visit :/token-expiration/<id>/<token>
 		Keep user logged in while he was away.
 		GET
-
+		
+	* Create new survey			:/new-survey
+		
+	* User information 			:/<account_id>/info
+	* User password change 		:/<account_id>/password-update
+	* Password checking valid to change 	:/<account_id>/password-update/checking
+	* User's surveys 			:/<account_id>/surveys
+	* Survey details 			:/<account_id>/surveys/<survey_id>
+	* Remove survey 			:/<account_id>/surveys/<survey_id>/delete
+	* Get average score for each question	:/<account_id>/surveys/<survey_id>/<question_id>/average
+	* Get data for each question		:/<account_id>/analysis/<question_id>
+	
+	
+	
+	
 
 
 *** Status code explanation

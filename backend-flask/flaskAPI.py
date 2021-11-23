@@ -164,13 +164,14 @@ def api_create_survey():
         client_id = body['id']
         title = body['title']
         questions = body['questions']
-
+        print(questions)
         with connect_db() as connection:
             db = connection.cursor()
             db.execute('insert into surveys (client_id, name) values (?, ?)', (client_id, title))
+            survey_id = db.lastrowid
             for q in questions:
-                db.execute('insert into questions (survey_id, question) values (?, ?)', (db.lastrowid, q))
-            connection.commit()
+                db.execute('insert into questions (survey_id, question) values (?, ?)', (survey_id, q))
+                connection.commit()
             return jsonify(message='Save survey successfully!')
     return jsonify(message='Method not allowed!', status=405)
 

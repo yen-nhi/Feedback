@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import AccountInfo from '../components/AccountInfo';
 import EndpointContext from '../store/api-endpoint';
+import Modal from '../UI/Modal';
 
 const Account = () => {
     const apiRoot = useContext(EndpointContext);
@@ -38,16 +39,14 @@ const Account = () => {
     }, []);
 
 
-    const surveysList = (
+    const surveysList = 
         <div>
-            {!surveys && <p>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>}
-            {surveys &&
+        {surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>
+            : 
             <ul className='inner'>
                 {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
             </ul>}
-        </div>
-        
-    );
+        </div>;
 
     const profileInner = (
         <ul className='inner'>
@@ -56,11 +55,15 @@ const Account = () => {
         </ul>
     );
 
-    const reportsInner = (
-        <ul className='inner'>
-            {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
-        </ul>
-    );
+    const reportsInner = 
+        <div>
+            {surveys.length === 0 ? <p className='inner'>No survey found</p>
+            :
+            <ul className='inner'>
+                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
+            </ul>}
+        </div>;
+ 
 
     return (
         <React.Fragment>

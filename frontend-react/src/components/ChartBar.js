@@ -14,11 +14,12 @@ const ChartBar = (props) => {
         // eslint-disable-next-line
     }, []);
 
-    const percentage = (recievedData[0]/5)*100 + '%';
+    const percentage = (recievedData[0] ? (recievedData[0]/5)*100 + '%' : 0);
+    const avg_score =  (recievedData[0] ? parseFloat(recievedData[0]).toFixed(1) : 0);
 
     return(
         <div className='chart-bar'>
-            <div className='filling' style={{width: percentage}}><span>{parseFloat(recievedData[0]).toFixed(1)}</span></div>
+            <div className='filling' style={{width: percentage}}><span>{avg_score}</span></div>
         </div>
     )
 };
