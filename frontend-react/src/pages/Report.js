@@ -4,6 +4,7 @@ import './Report.css';
 import useFetch from '../hooks/use-fetch';
 import { useParams } from 'react-router-dom';
 import EndpointContext from '../store/api-endpoint';
+import LoadingSpinner from '../UI/LoadingSpinner';
 
 const Report = (props) => {
     const params = useParams();
@@ -26,6 +27,8 @@ const Report = (props) => {
 
     return(
         <ul className='report'>
+            {isLoading && <LoadingSpinner/>}
+            {hasError && <p>Something went wrong!</p>}
             {chart}
         </ul>
         

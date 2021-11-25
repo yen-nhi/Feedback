@@ -25,34 +25,43 @@ def json_response(data):
     return response
 
 def check_new_user(email, name):
-    connection = connect_db()
-    db = connection.cursor()
-    existing_client = db.execute('select id from clients where email=? or name=?', (email, name))
-    if existing_client.fetchone() is None:
-        connection.close()
-        return True
-    connection.close()
-    return False
+    with connect_db() as connection:
+        db = connection.cursor()
+        existing_client = db.execute('select id from clients where email=? or name=?', (email, name))
+        if existing_client.fetchone() is None:
+            connection.close()
+            return True
+        return False
 
 def check_token(id, token):
-    connection = connect_db()
-    db = connection.cursor()
-    query = db.execute('select token_exp from clients where id=? and token=?', (id, token))
-    expiration = query.fetchone()
-    connection.close()
-    if expiration is not None:
-        expiration = datetime.strptime(expiration[0], "%Y-%m-%d %H:%M:%S")
-        if expiration > datetime.now():
-            return True
-    return False
+    with connect_db() as connection:
+        db = connection.cursor()
+        query = db.execute('select token_exp from clients where id=? and token=?', (id, token))
+        expiration = query.fetchone()
+        if expiration is not None:
+            expiration = datetime.strptime(expiration[0], "%Y-%m-%d %H:%M:%S")
+            if expiration > datetime.now():
+                return True
+        return False
 
 def check_password(id, password):
-    connection = connect_db()
-    db = connection.cursor()
-    query = db.execute('select hash_password from clients where id=?', (id, ))
-    hash_pw = query.fetchone()[0]
-    connection.close()
-    if hash_pw is not None:
-        if check_password_hash(hash_pw, password):
+    with connect_db() as connection:
+        db = connection.cursor()
+        query = db.execute('select hash_password from clients where id=?', (id, ))
+        hash_pw = query.fetchone()[0]
+        if hash_pw is not None:
+            if check_password_hash(hash_pw, password):
+                return True
+        return False
+
+
+
+
+def exceed_drafts(client_id):
+    with connect_db() as connection:
+        db =  connection.cursor()
+        query = db.execute('select count() from surveys where client_id=? and drafts=?', (client_id, 1))
+        num = query.fetchone()[0]
+        if num > 10:
             return True
-    return False
+        return False

@@ -9,13 +9,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import AccountInfo from '../components/AccountInfo';
 import EndpointContext from '../store/api-endpoint';
-import Modal from '../UI/Modal';
 
 const Account = () => {
     const apiRoot = useContext(EndpointContext);
     const account = useSelector(state => state.account);
     const dispatch = useDispatch();
     const [surveys, setSurveys] = useState([]);
+    const [drafts, setDrafts] = useState([]);
+    const [showDrafts, setShowDrafts] = useState(false);
     const [changeingPassword, setChangingPassword] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
 
@@ -35,6 +36,14 @@ const Account = () => {
             setSurveys(data);
         })
         .catch(err => console.log(err));
+
+        fetch(`${apiRoot.url}/${clientID}/drafts`)
+        .then(res => res.json())
+        .then(data => {
+            setDrafts(data);
+        })
+        .catch(err => console.log(err));
+
         // eslint-disable-next-line
     }, []);
 
@@ -45,7 +54,15 @@ const Account = () => {
             : 
             <ul className='inner'>
                 {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
-            </ul>}
+                <div>
+                    <p className='drafts-el' onClick={() => setShowDrafts(!showDrafts)}>Drafts</p>
+                    {showDrafts &&
+                    <ul className='i'>
+                        {drafts.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/new-survey`, state: { draft:  item.id, name: item.name}}}>{item.name}</Link></li>)}
+                    </ul>}
+                </div>
+            </ul>         
+            }
         </div>;
 
     const profileInner = (

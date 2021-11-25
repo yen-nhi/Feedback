@@ -34,7 +34,7 @@ function App() {
           } 
         });
       }
-    }, [dispatch]);
+    }, [apiRoot.url, dispatch]);
 
   return (
     <EndpointProvider>

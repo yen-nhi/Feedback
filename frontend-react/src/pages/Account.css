@@ -40,6 +40,12 @@ ul{
 
 }
 
+.drafts-el{
+    font-weight: bold;
+    color: rgb(0, 88, 104);
+    margin-top: 1rem;
+}
+
 @media (max-width: 536px) {
     .account{
         width: 100%;

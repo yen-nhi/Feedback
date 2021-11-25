@@ -1,9 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { Bar } from "react-chartjs-2";
 import './BarChart.css';
 import useFetch from "../hooks/use-fetch";
 import { useParams } from "react-router-dom";
 import EndpointContext from '../store/api-endpoint';
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 
 const BarChart = (props) => {
@@ -22,6 +23,8 @@ const BarChart = (props) => {
 	
 return (
 	<div className="bar-chart">
+		{isLoading && <LoadingSpinner/>}
+		{hasError && <p>Something went wrong!</p>}
 		<Bar className='bar'
 		data={{
 			// Name of the variables on x-axies for each bar

@@ -35,6 +35,10 @@
     display: none;
 }
 
+.warning{
+    color: red;
+}
+
 @media (max-width: 536px) {
     .login-box{
         width: 100%;

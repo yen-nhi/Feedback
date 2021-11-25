@@ -1,5 +1,10 @@
+.survey-header-control{
+    padding: 1rem;
+    margin-left: 5rem;
+}
+
 .new-survey-form{
-    padding: 2rem;
+    padding: 1rem;
     margin-left: 5rem;
     margin-right: 5rem;
     color: rgb(0, 131, 155);
@@ -9,15 +14,26 @@
     color: gray;
 }
 
+.drafts{
+    list-style: none;
+    color: rgb(0, 131, 155);
+    text-decoration: underline;
+}
+
+.drafts li{
+    margin: 0.5rem;
+}
+
 .add-question-btn {
     background-color: white;
     padding: 10px;
     border: rgb(0, 97, 114) solid 1px;
     color: rgb(0, 97, 114);
+    margin-right: 1rem;
 }
 
 .save-new-survey{
-    display: block;
+    display: inline;
     width: 100%;
     background-color: rgb(82, 253, 225);
     border: none;
@@ -30,6 +46,10 @@
 .save-new-survey:disabled{
     background-color: lightgrey;
     color: white;
+}
+
+.warning{
+    color: red !important;
 }
 
 @media (max-width: 536px) {

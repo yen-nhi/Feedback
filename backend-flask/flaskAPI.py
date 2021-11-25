@@ -164,11 +164,56 @@ def api_create_survey():
         client_id = body['id']
         title = body['title']
         questions = body['questions']
-        print(questions)
         with connect_db() as connection:
             db = connection.cursor()
             db.execute('insert into surveys (client_id, name) values (?, ?)', (client_id, title))
             survey_id = db.lastrowid
+            for q in questions:
+                db.execute('insert into questions (survey_id, question) values (?, ?)', (survey_id, q))
+                connection.commit()
+            return jsonify(message='Save survey successfully!')
+    return jsonify(message='Method not allowed!', status=405)
+
+
+
+@app.route('/existing-survey/<title>', methods=['GET'])
+def existing_survey_title(title):
+    print(title)
+    if request.method == 'GET':
+        with connect_db() as connection:
+            db =  connection.cursor()
+            query = db.execute('select id from surveys where name=?', (title,))
+            id = query.fetchone()
+            print(id)
+            if id is None:
+                return jsonify(message='NOT EXIST')
+            return jsonify(message=id[0])
+    return jsonify(message='Method not allowed!', status=405)
+    
+
+@app.route('/new-draft', methods=['POST'])
+@cross_origin()
+def api_save_draft():
+    if request.method == 'POST':
+        body = request.get_json('body')
+        client_id = body['id']
+        title = body['title']
+        questions = body['questions']
+        try: 
+            draft_id = body['draft_id']
+        except:
+            draft_id = 0
+        
+        with connect_db() as connection:
+            db = connection.cursor()
+            if draft_id != 0:
+                db.execute('delete from questions where survey_id=?', (draft_id,))
+                db.execute('update surveys set name=? where id=?', (title, draft_id))
+                survey_id = draft_id
+            else:
+                db.execute('insert into surveys (client_id, name, is_draft) values (?, ?, ?)', (client_id, title, 1))
+                survey_id = db.lastrowid
+
             for q in questions:
                 db.execute('insert into questions (survey_id, question) values (?, ?)', (survey_id, q))
                 connection.commit()
@@ -181,7 +226,7 @@ def get_surveys_list(account_id):
     if request.method == 'GET':
         with connect_db() as connection:
             db = connection.cursor()
-            raw_data = db.execute('select id, name from surveys where client_id=?', (account_id,))
+            raw_data = db.execute('select id, name from surveys where client_id=? and is_draft=?', (account_id, 0))
             data = json_transform_data(raw_data)
             json_data = jsonify(data)
             json_data.headers.add("Access-Control-Allow-Origin", "*")
@@ -283,3 +328,17 @@ def api_survey_collected_data(account_id, question_id):
             pass_data.headers.add("Access-Control-Allow-Origin", "*")
             return pass_data
     return jsonify(message='Method not allowed!', status=405)
+
+
+@app.route('/<account_id>/drafts', methods=['GET'])
+def api_get_draft(account_id):
+    if request.method == 'GET':
+        with connect_db() as connection:
+            db = connection.cursor()
+            raw_data = db.execute('select id, name from surveys where client_id=? and is_draft=?', (account_id, 1))
+            data = json_transform_data(raw_data)
+            pass_data = jsonify(data)
+            pass_data.headers.add("Access-Control-Allow-Origin", "*")
+            return pass_data
+    return jsonify(message='Method not allowed!', status=405)
+

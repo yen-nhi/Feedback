@@ -41,7 +41,7 @@
 	* Remove survey 			:/<account_id>/surveys/<survey_id>/delete
 	* Get average score for each question	:/<account_id>/surveys/<survey_id>/<question_id>/average
 	* Get data for each question		:/<account_id>/analysis/<question_id>
-	
+	* Get drafts surveys			:/<account_id>/drafts
 	
 	
 	

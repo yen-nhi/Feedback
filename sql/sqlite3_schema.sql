@@ -11,6 +11,7 @@ CREATE TABLE surveys (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     client_id INTEGER NOT NULL,
     name TEXT NOT NULL,
+    is_draft BOOL DEFAULT 0,
     FOREIGN KEY(client_id) REFERENCES clients(id) ON DELETE CASCADE
 );
 
