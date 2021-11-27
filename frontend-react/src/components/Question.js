@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import useFetch from "../hooks/use-fetch";
 import {SurveyorContext} from "../store/survey-context";
 import EndpointContext from '../store/api-endpoint';
+import React from "react";
 
     const Question = (props) => {
         const apiRoot = useContext(EndpointContext);
@@ -89,9 +90,10 @@ import EndpointContext from '../store/api-endpoint';
         };
 
         return(
+            <React.Fragment>
             <li className='question'>
                 <div className='question-left'>
-                    <h5>{props.question.question}</h5>
+                    <p>{props.question.question}</p>
                 </div>
                 <div className='question-right'>
                     <Score onScore={onScoreHandler}/>
@@ -99,6 +101,8 @@ import EndpointContext from '../store/api-endpoint';
                 {showOptinalQuestion && <OptionalQuestion onInput={updateAnwser}/>}
                 {hasError && <p>Sent answer failed!</p>}
             </li>
+            <hr/>
+            </React.Fragment>
         )
     };
 

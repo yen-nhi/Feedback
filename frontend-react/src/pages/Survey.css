@@ -2,28 +2,30 @@
     width: 100%;
     height: 100vh;
     display: block;
-    background-image: url('../media/mint-background.jpg');
-    background-size: cover;
-
 }
 
 .survey-content{
     box-shadow: 0px 2px 6px 0px rgb(168, 167, 167);
     width: 70%;
-    height: fit-content;
+    height: 95vh;
     background-color: white;
+    margin-top: 1rem;
     margin-left: auto;
     margin-right: auto;
     padding: 2rem;
     color: gray;
-    border-radius: 10px;
 }
 
-ul{
+.survey-page ul{
     list-style: none;
+    height: 90%;
+    overflow: auto;
 }
 
 .submit-survey{
+    position: absolute;
+    bottom: 2rem;
+    width: 65%;
     margin-top: 2rem;
     text-align: center;
 }

@@ -20,8 +20,10 @@ const DraftWarning = (props) => {
     return(
         <Modal onClose={props.onClose}>
             <p>There is a existing survey's title. Do you want to replace?</p>
-            <Button onClick={replaceDraft}>Yes</Button>
-            <Button onClick={props.onClose}>No</Button>
+            <div className='replace-button'>
+                <Button onClick={replaceDraft}>Yes</Button>
+                <Button onClick={props.onClose}>No</Button>
+            </div>
         </Modal>
     )
 };

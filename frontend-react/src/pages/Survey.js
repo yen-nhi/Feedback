@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import './Survey.css';
 import Question from '../components/Question';
 import LoadingSpinner from '../UI/LoadingSpinner';
@@ -13,6 +13,7 @@ const Survey = () => {
     const params = useParams();
     const surveyID = params.surveyID;
     const apiRoot = useContext(EndpointContext);
+    const [questions, setQuestions] = useState([]);
 
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
     
@@ -22,12 +23,11 @@ const Survey = () => {
         // eslint-disable-next-line
     }, []);
 
-    const listQuestions = recievedData.map((quest) => 
-        <Question 
-            key={quest.id} 
-            question={quest} 
-            surveyID={surveyID}
-        />);
+    useEffect( () => {
+        if (recievedData.questions) {
+            setQuestions(recievedData.questions)
+        }
+    }, [recievedData])
 
 
     return (
@@ -36,8 +36,14 @@ const Survey = () => {
                 <div className='survey-content'>
                     {isLoading && <LoadingSpinner />}
                     {hasError && <p className='error'>{hasError}</p>}
+                    <h4>{recievedData.title}</h4>
                     <ul>
-                        {listQuestions}
+                        {questions.map((quest) => 
+                            <Question 
+                                key={quest.id} 
+                                question={quest} 
+                                surveyID={surveyID}
+                            />)}
                     </ul>
                     <div className='submit-survey'>
                         <Link to='/thankyou'><Button>Finish</Button></Link>

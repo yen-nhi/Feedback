@@ -1,3 +1,8 @@
+.new-survey-page{
+    height: 100vh;
+    background-color: white;
+}
+
 .survey-header-control{
     padding: 1rem;
     margin-left: 5rem;

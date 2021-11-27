@@ -14,13 +14,13 @@ CORS(app)
 
 @app.route("/survey<survey_id>/questions", methods=['GET'])
 def api_questions(survey_id):
-    print ('GET QUESTIONS')
     with connect_db() as connection:
         db = connection.cursor()
-        raw_data = db.execute('select * from questions where survey_id=?', survey_id)
-
-        data = json_transform_data(raw_data)
-        pass_data = jsonify(data)
+        questions = db.execute('select * from questions where survey_id=?', survey_id)
+        questions = json_transform_data(questions)
+        title = db.execute('select name from surveys where id=?', survey_id)
+        title = title.fetchone()
+        pass_data = jsonify({'questions' : questions, 'title': title[0]})
         pass_data.headers.add("Access-Control-Allow-Origin", "*")
         return pass_data
 

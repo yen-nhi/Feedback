@@ -1,6 +1,11 @@
 .question{
-    padding: 2rem;
+    padding: 1rem;
+    padding-bottom: 2rem;
     vertical-align: middle;
+}
+
+.question-left{
+    font-size: large;
 }
 
 .question-right{

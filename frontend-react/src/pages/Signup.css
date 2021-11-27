@@ -5,10 +5,9 @@
 }
 
 .register-box{
+    background-color: white;
     width: 40%;
     margin: auto;
-    background-image: url('../media/mint-background.jpg');
-    background-size: cover;
     opacity: 0.8;
     padding: 20px;
     text-align: center;

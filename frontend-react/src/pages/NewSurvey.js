@@ -121,7 +121,7 @@ const NewSurvey = () => {
         };
 
     return(
-        <React.Fragment>
+        <div className="new-survey-page">
             {showDrafts && 
                 <Modal onClose={closeDraftsModal}>
                     <ul className="drafts">{drafts}</ul>
@@ -148,7 +148,7 @@ const NewSurvey = () => {
                 {hasError && <p className='warning'>Save survey failed!</p>}
                 <button type='submit' disabled={isLoading? true : false} className='save-new-survey'>Save</button>
             </form>
-        </React.Fragment>
+        </div>
     );
 };
 
