@@ -6,8 +6,6 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 
-from util import connect_db
-from util import json_transform_data
 
 CORS(app)
 

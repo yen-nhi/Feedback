@@ -9,6 +9,7 @@
     color: rgb(0, 88, 104);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     position: relative;
+    background-color: white;
 }
 
 .survey-details ul{
