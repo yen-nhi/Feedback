@@ -19,7 +19,10 @@ const Survey = () => {
     
     
     useEffect ( () => {
-        fetchData(`${apiRoot.url}/survey${surveyID}/questions`, 'GET', null);
+        const header = {
+            'Content-Type': 'application/json',
+        }
+        fetchData(`${apiRoot.url}/${surveyID}/questions`, 'GET', header, null);
         // eslint-disable-next-line
     }, []);
 

@@ -13,6 +13,7 @@ import EndpointContext from '../store/api-endpoint';
 
 
 const ClientSurvey = (props) => {
+
     const apiRoot = useContext(EndpointContext);
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
     const params = useParams();
@@ -22,28 +23,13 @@ const ClientSurvey = (props) => {
     const [ showlink, setShowLink ] = useState(false);
     const [ showDeletionConfirm, setShowDeletionConfirm ] = useState(false);
 
-    const showlinkHandler = () => {
-        setShowLink(true);
-    };
-    const closelinkHandler = () => {
-        setShowLink(false);
-    };
-
-    const showDeletionConfirmHandler = () => {
-        setShowDeletionConfirm(true);
-    }
-    const closeDeletion = () => {
-        setShowDeletionConfirm(false);
-    }
-
-
     useEffect( () => {
-        fetchData(`${apiRoot.url}/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
+        fetchData(`${apiRoot.url}/surveys/${params.surveyID}`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
 
     const returnHandler = () => {
-        history.push(`/account/${params.clientID}`);
+        history.push(`/account`);
     };
 
     const questions = recievedData.map((item, i) => 
@@ -51,8 +37,8 @@ const ClientSurvey = (props) => {
 
     return(
         <React.Fragment>
-            {showlink && <SurveyLink surveyID={params.surveyID} onClose={closelinkHandler}/>}
-            {showDeletionConfirm && <DeletionConfirm title={title} surveyID={params.surveyID} onClose={closeDeletion}/>}
+            {showlink && <SurveyLink surveyID={params.surveyID} onClose={() => setShowLink(false)}/>}
+            {showDeletionConfirm && <DeletionConfirm title={title} surveyID={params.surveyID} onClose={() => setShowDeletionConfirm(false)}/>}
             <div className='survey-details-page'>
                 <div className='survey-details'>
                     <div className='survey-header'>
@@ -69,8 +55,8 @@ const ClientSurvey = (props) => {
                     </ul>
                     <hr/>
                     <div className='inactive-btn'>
-                        <Button onClick={showlinkHandler}>Get link</Button>
-                        <Button onClick={showDeletionConfirmHandler}>Delete</Button>
+                        <Button onClick={() => setShowLink(true)}>Get link</Button>
+                        <Button onClick={() => setShowDeletionConfirm(true)}>Delete</Button>
                     </div>
                 </div>
             </div>

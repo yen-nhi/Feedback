@@ -14,7 +14,7 @@ const BarChart = (props) => {
 
 
 	useEffect( () => {
-		fetchData(`${apiRoot.url}/${params.clientID}/analysis/${props.questionID}/`)
+		fetchData(`${apiRoot.url}/questions/${props.questionID}?filter=chart`, 'GET', null, null)
 		// eslint-disable-next-line
 	}, []);
 

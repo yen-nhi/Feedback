@@ -10,7 +10,7 @@ const AccountInfo = (props) => {
     const apiRoot = useContext(EndpointContext);
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/${localStorage.getItem('id')}/info`, 'PUT', {token: localStorage.getItem('token')});
+        fetchData(`${apiRoot.url}/clients/info`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
      

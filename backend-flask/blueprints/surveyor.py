@@ -7,34 +7,32 @@ from util import json_transform_data
 surveyor_routes = Blueprint('surveyor', __name__)
 
 
-@surveyor_routes.route("/survey<survey_id>/questions", methods=['GET'])
+@surveyor_routes.route("/<survey_id>/questions", methods=['GET'])
 def api_questions(survey_id):
     with connect_db() as connection:
         db = connection.cursor()
-        questions = db.execute('select * from questions where survey_id=?', survey_id)
+        questions = db.execute('select * from questions where survey_id=?', (survey_id, ))
         questions = json_transform_data(questions)
-        title = db.execute('select name from surveys where id=?', survey_id)
+        title = db.execute('select name from surveys where id=?', (survey_id, ))
         title = title.fetchone()
-        pass_data = jsonify({'questions' : questions, 'title': title[0]})
-        pass_data.headers.add("Access-Control-Allow-Origin", "*")
-        return pass_data
+        return jsonify({'questions' : questions, 'title': title[0]})
 
 
-@surveyor_routes.route("/new-surveyor", methods = ['POST'])
+@surveyor_routes.route("/surveyors", methods = ['POST', 'GET'])
 @cross_origin()
 def create_surveyor():
-    posted_data = request.get_json('body')
-    survey_id = posted_data['survey_id']
-
-    with connect_db() as connection:
-        db = connection.cursor()
-        db.execute('insert into surveyors (survey_id, datetime) values (?, datetime("now"))', (survey_id))
-        connection.commit()
-        return jsonify(db.lastrowid)
+    if request.method == 'POST':
+        posted_data = request.get_json('body')
+        survey_id = posted_data['survey_id']
+        with connect_db() as connection:
+            db = connection.cursor()
+            db.execute('insert into surveyors (survey_id, datetime) values (?, datetime("now"))', (survey_id))
+            connection.commit()
+            return jsonify(db.lastrowid)
 
 
 ### If new answer add new row in answer table, else edit existing row.
-@surveyor_routes.route("/answer", methods=['POST', 'PUT'])
+@surveyor_routes.route("/answers", methods=['POST', 'PUT'])
 @cross_origin()
 def api_send_answer():
     posted_data = request.get_json('body')

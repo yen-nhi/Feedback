@@ -20,24 +20,25 @@ const Account = () => {
     const [changeingPassword, setChangingPassword] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
 
-    const profileToggle = () => {dispatch(accountActions.profileToggle())};
-    const surveysToggle = () => {dispatch(accountActions.surveysToggle())};
-    const reportsToggle = () => {dispatch(accountActions.reportsToggle())};
-
     const changeingPasswordToggle = () => {setChangingPassword(!changeingPassword)};
     const showInfoHandler = () => {setShowInfo(!showInfo)};
 
-    const clientID = localStorage.getItem('id');
+    const header = {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+    }
 
     useEffect( () => {
-        fetch(`${apiRoot.url}/${clientID}/surveys`)
+        fetch(`${apiRoot.url}/surveys`, {
+            headers: header
+        })
         .then(res => res.json())
         .then(data => {
             setSurveys(data);
         })
         .catch(err => console.log(err));
 
-        fetch(`${apiRoot.url}/${clientID}/drafts`)
+        fetch(`${apiRoot.url}/drafts`, {headers: header})
         .then(res => res.json())
         .then(data => {
             setDrafts(data);
@@ -45,15 +46,15 @@ const Account = () => {
         .catch(err => console.log(err));
 
         // eslint-disable-next-line
-    }, []);
-
+    }, []);   
+    
 
     const surveysList = 
         <div>
         {surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>
             : 
             <ul className='inner'>
-                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
+                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
                 <div>
                     <p className='drafts-el' onClick={() => setShowDrafts(!showDrafts)}>Drafts</p>
                     {showDrafts &&
@@ -77,7 +78,7 @@ const Account = () => {
             {surveys.length === 0 ? <p className='inner'>No survey found</p>
             :
             <ul className='inner'>
-                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/${clientID}/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
+                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
             </ul>}
         </div>;
  
@@ -87,15 +88,15 @@ const Account = () => {
             {changeingPassword && <ChangePasswordForm onClose={changeingPasswordToggle}/>}
             {showInfo && <AccountInfo onClose={showInfoHandler}/>}
             <div className='account'>
-                <div className='category' onClick={profileToggle}>
+                <div className='category' onClick={() => dispatch(accountActions.profileToggle())}>
                     <img src={userIcon} alt='icon' width='40'/>Your profile
                 </div>
                 {account.profile && profileInner}
-                <div className='category' onClick={surveysToggle}>
+                <div className='category' onClick={() => dispatch(accountActions.surveysToggle())}>
                     <img src={surveyIcon} alt='icon' width='40'/>Your surveys
                 </div>
                 {account.surveys && surveysList}
-                <div className='category' onClick={reportsToggle}>
+                <div className='category' onClick={() => dispatch(accountActions.reportsToggle())}>
                     <img src={reportIcon} alt='icon' width='40'/>Analysis   
                 </div>
                 {account.reports && reportsInner}

@@ -16,10 +16,15 @@ const ChangePasswordForm = (props) => {
 
     const history = useHistory();
     const clientID = localStorage.getItem('id');
+    const header = {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+    }
 
     const checkCurrentPassword = () => {
-        fetch(`${apiRoot.url}/${clientID}/password-update/checking`, {
-            method: 'PUT',
+        fetch(`${apiRoot.url}/clients/password`, {
+            method: 'GET',
+            headers: header,
             body: JSON.stringify({
                 password: currentPassword.current.value,
             })
@@ -53,8 +58,9 @@ const ChangePasswordForm = (props) => {
     const changePasswordHandler = (event) => {
         event.preventDefault();
         if ( passwordValid && newPasswordValid && rePasswordValid) {
-            fetch(`${apiRoot.url}/${clientID}/password-update`, {
+            fetch(`${apiRoot.url}/clients/password`, {
                 method: 'PUT',
+                headers: header,
                 body: JSON.stringify({ 
                     new_password: newPassword.current.value,
                     token: localStorage.getItem('token')
@@ -63,7 +69,6 @@ const ChangePasswordForm = (props) => {
             .then(result => console.log(result))
             .catch(err => console.log(err));
 
-            fetch(`${apiRoot.url}/logout/${clientID}`, {method: 'PUT'})
             history.replace('/login');
             
         }

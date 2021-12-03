@@ -6,15 +6,21 @@ const useFetch =  () => {
     const [hasError, setHasError] = useState(null);
     const [recievedData, setRecievedData] = useState([]);
  
-    const fetchData = async(url, method, object) => {
+    const fetchData = async(url, method, customHeader, body) => {
+        let header = customHeader;
+        if (customHeader === null) {
+            header = {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            }
+        }
+        
         try {
             setIsLoading(true);
             const response = await fetch(url, {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 method: method,
-                body: (object ? JSON.stringify({...object}) : null)
+                headers: header,
+                body: (body ? JSON.stringify({...body}) : null)
             });
 
             if (!response.ok) {
@@ -30,9 +36,7 @@ const useFetch =  () => {
         } catch (err) {
             console.log(err);
         } 
-     
     }
-
     return{ isLoading, hasError, recievedData, fetchData };
 };
 

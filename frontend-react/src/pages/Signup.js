@@ -25,7 +25,7 @@ const SignUp = () => {
 
     const checkEmail = () => {
         if (email.current.value.trim() !== '') {
-            fetch(`${apiRoot.url}/register/existing-client/email/${email.current.value}`)
+            fetch(`${apiRoot.url}/clients?email=${email.current.value}`)
             .then(res => res.json()).then(result => {
                 if (result.message === 'true') {
                     setExistingEmail(true);
@@ -38,7 +38,7 @@ const SignUp = () => {
 
     const checkName = () => {
         if (name.current.value.trim() !== '') {
-            fetch(`${apiRoot.url}/register/existing-client/name/${name.current.value}`)
+            fetch(`${apiRoot.url}/clients?name=${name.current.value}`)
             .then(res => res.json()).then(result => {
                 if (result.message === 'true') {
                     setExistingName(true);
@@ -86,7 +86,10 @@ const SignUp = () => {
         }
 
         console.log('new user input', object);
-        fetchData(`${apiRoot.url}/register`, 'POST', object);
+        const header = {
+            'Content-Type': 'application/json',
+        }
+        fetchData(`${apiRoot.url}/register`, 'POST', header, object);
         console.log(recievedData);
 
         email.current.value = '';

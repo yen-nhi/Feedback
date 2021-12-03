@@ -15,6 +15,10 @@ import React from "react";
 
         const surveyorCtx = useContext(SurveyorContext);
 
+        const header = {
+            'Content-Type': 'application/json',
+        }
+
         const onScoreHandler = (score) => {
             if ( score > 0 && score < 3 ) {
                 setShowOptionalQuestion(true);
@@ -25,8 +29,9 @@ import React from "react";
             // If not created surveyor
             if (!surveyorCtx.surveyorID) {
                 //fetchData('${apiRoot.url}/create-surveyor', 'POST', {survey_id: props.surveyID})
-                fetch(`${apiRoot.url}/new-surveyor`, {
+                fetch(`${apiRoot.url}/surveyors`, {
                 method: 'POST',
+                headers: header,
                 body: JSON.stringify({
                     survey_id: props.surveyID
                 })
@@ -41,8 +46,9 @@ import React from "react";
                         score: score,
                         surveyor_id: data1
                     };
-                    fetch(`${apiRoot.url}/answer`, {
+                    fetch(`${apiRoot.url}/answers`, {
                     method: 'POST',
+                    headers: header,
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data2 => {
                         console.log('no surveyor last answer', data2);
@@ -61,8 +67,9 @@ import React from "react";
                     };
                     // fetchData('${apiRoot.url}/send-answer', 'POST', object);
                     // setAnswerID(recievedData);
-                    fetch(`${apiRoot.url}/answer`, {
+                    fetch(`${apiRoot.url}/answers`, {
                     method: 'POST',
+                    headers: header,
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data => {
                         console.log('with surveyor last answer', data);
@@ -75,7 +82,7 @@ import React from "react";
                         answer_id: answerID,
                         score: score,
                     };
-                    fetchData(`${apiRoot.url}/answer`, 'PUT', object);  
+                    fetchData(`${apiRoot.url}/answers`, 'PUT', header, object);  
                 }
             }
         };
@@ -86,7 +93,7 @@ import React from "react";
                 answer_id: answerID,
                 optional_answer: inputAnwser,
             };
-            fetchData(`${apiRoot.url}/send-answer`, 'PUT', object);  
+            fetchData(`${apiRoot.url}/answers`, 'PUT', header, object);  
         };
 
         return(

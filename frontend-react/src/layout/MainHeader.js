@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import classes from './MainHeader.module.css';
 import { NavLink, useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
@@ -7,10 +6,8 @@ import { clientActions } from '../store/client';
 
 import logo from '../media/logo2.png';
 import menuIcon from '../media/menu.svg';
-import EndpointContext from '../store/api-endpoint';
 
 const MainHeader = () => {
-    const apiRoot = useContext(EndpointContext);
     const user = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -22,10 +19,8 @@ const MainHeader = () => {
     };
 
     const logoutHandler = () => {
-        fetch(`${apiRoot.url}/logout/${user.id}`, {method: 'PUT'})
-            .then(res => res.json()).then(data => console.log(data));
+        localStorage.removeItem('token');
         dispatch(clientActions.logout());
-        console.log(user)
         history.replace('/')
     };
 
@@ -34,7 +29,7 @@ const MainHeader = () => {
             <ul className={classes.nav}>
                 {user.isAuthenticated && 
                 <li>
-                    <NavLink to={`/account/${localStorage.getItem('id')}`}>My account</NavLink>
+                    <NavLink to='/account'>My account</NavLink>
                 </li>}
                 {user.isAuthenticated && 
                 <li>

@@ -12,7 +12,7 @@ const DraftWarning = (props) => {
 
     const object = {...props.object(), draft_id: props.id}
     const replaceDraft = () => {
-        fetchData(`${apiRoot.url}/new-draft`, 'POST', object);
+        fetchData(`${apiRoot.url}/drafts`, 'POST', null, object);
         console.log(recievedData);
         props.onClose();
     };

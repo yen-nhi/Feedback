@@ -1,8 +1,9 @@
 import sqlite3
-from flask import jsonify
+from flask import jsonify, request
 from datetime import datetime
+from flask.globals import current_app
 from werkzeug.security import check_password_hash
-import os
+import os, jwt
 
 def json_transform_data(raw_data):
     rows = raw_data.fetchall()
@@ -33,16 +34,15 @@ def check_new_user(email, name):
             return True
         return False
 
-def check_token(id, token):
-    with connect_db() as connection:
-        db = connection.cursor()
-        query = db.execute('select token_exp from clients where id=? and token=?', (id, token))
-        expiration = query.fetchone()
-        if expiration is not None:
-            expiration = datetime.strptime(expiration[0], "%Y-%m-%d %H:%M:%S")
-            if expiration > datetime.now():
-                return True
-        return False
+def decode_token():
+    token = request.headers.get('Authorization')
+    print('TOKEN', token)
+    try:
+        payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms='HS256')
+        return (True, payload)
+    except Exception as error:  
+        return (False, error)
+
 
 def check_password(id, password):
     with connect_db() as connection:
@@ -55,8 +55,6 @@ def check_password(id, password):
         return False
 
 
-
-
 def exceed_drafts(client_id):
     with connect_db() as connection:
         db =  connection.cursor()
@@ -65,3 +63,5 @@ def exceed_drafts(client_id):
         if num > 10:
             return True
         return False
+
+

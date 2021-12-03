@@ -1,11 +1,12 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-import React, { useEffect, Suspense } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, Suspense, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { clientActions } from './store/client';
 import EndpointContext, { EndpointProvider } from './store/api-endpoint';
 
 import Layout from './layout/Layout';
+import NotFound from './pages/NotFound';
 const Opening = React.lazy(() => import('./pages/Opening'));
 const Survey = React.lazy(() => import('./pages/Survey'));
 const Home = React.lazy(() => import('./pages/Home'));
@@ -17,25 +18,31 @@ const Account = React.lazy(() => import('./pages/Account'));
 const ClientSurvey = React.lazy(() => import('./components/ClientSurvey'));
 const Report = React.lazy(() => import('./pages/Report'));
 
+
 function App() {
 
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+  console.log('isAuthenticated', isAuthenticated);
   const apiRoot = React.useContext(EndpointContext);
+
 
   useEffect( () => {
       const currentToken = localStorage.getItem('token');
-      const currentID = localStorage.getItem('id');
 
-      if (currentToken && currentID) {
-        fetch(`${apiRoot.url}/token-expiration/${currentID}/${currentToken}`)
+      if (currentToken) {
+        fetch(`${apiRoot.url}/clients`, {headers: {'Content-Type': 'application/json',
+        'Authorization': currentToken}})
         .then(response => response.json()).then(result => {
           if (result.message === 'VALID') {
-            dispatch(clientActions.login({id: currentID, token: currentToken}));
+            dispatch(clientActions.login({token: currentToken}));
           } 
         });
       }
     }, [apiRoot.url, dispatch]);
 
+
+   
   return (
     <EndpointProvider>
       <Layout>
@@ -60,16 +67,19 @@ function App() {
               <SignUp />
             </Route>
             <Route path='/new-survey'>
-              <NewSurvey />
+              <NewSurvey/>
             </Route>
-            <Route exact path='/account/:clientID'>
-              <Account />
+            <Route exact path='/account'>
+              <Account/>
             </Route>
-            <Route path='/account/:clientID/surveys/:surveyID'>
+            <Route path='/account/surveys/:surveyID'>
               <ClientSurvey/>
             </Route>
-            <Route path='/account/:clientID/reports/:surveyID'>
+            <Route path='/account/reports/:surveyID'>
               <Report/>
+            </Route>
+            <Route path="*">
+              <NotFound />
             </Route>
           </Switch>
         </Suspense>

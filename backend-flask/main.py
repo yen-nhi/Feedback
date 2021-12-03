@@ -8,8 +8,10 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-CORS(app)
+
 
 app.register_blueprint(surveyor_routes)
 app.register_blueprint(client_routes)
 app.register_blueprint(auth_routes)
+
+CORS(app, origins="*", allow_headers=["Content-Type", "Authorization"])

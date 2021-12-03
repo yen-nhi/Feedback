@@ -10,9 +10,9 @@ const Report = (props) => {
     const params = useParams();
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
     const apiRoot = useContext(EndpointContext);
-    
+
     useEffect( () => {
-        fetchData(`${apiRoot.url}/${params.clientID}/surveys/${params.surveyID}`, 'GET', null);
+        fetchData(`${apiRoot.url}/surveys/${params.surveyID}`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
 

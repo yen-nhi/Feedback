@@ -12,14 +12,12 @@ const DeletionConfirm = (props) => {
     const { fetchData } = useFetch();
     const clientID = localStorage.getItem('id');
 
+    
+
     const deleteSurveyHandler = () => {
         console.log('Yes!');
-        fetchData(
-            `${apiRoot.url}/${clientID}/surveys/${props.surveyID}/delete`, 
-            'PUT', 
-            {token: localStorage.getItem('token')}
-            )
-        history.push(`/account/${clientID}`)
+        fetchData(`${apiRoot.url}/surveys/${props.surveyID}`, 'DELETE', null, {token: localStorage.getItem('token')});
+        history.push(`/account`)
     };
 
     return(

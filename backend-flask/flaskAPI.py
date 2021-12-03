@@ -304,16 +304,6 @@ def api_delete_survey(survey_id, account_id):
     return jsonify(message='Method not allowed!', status=405)
 
 
-@app.route('/<account_id>/surveys/<survey_id>/<question_id>/average', methods=['GET'])
-def api_average_score(account_id, survey_id, question_id):
-    if request.method == 'GET':
-        with connect_db() as connection:
-            db = connection.cursor()
-            avg_score = db.execute('select avg(score) as avg_score from answers where question_id=?', (question_id,))
-            data = avg_score.fetchone()
-            return jsonify(data)
-    return jsonify(message='Method not allowed!', status=405)
-
 
 @app.route('/<account_id>/analysis/<question_id>/', methods=['GET'])
 def api_survey_collected_data(account_id, question_id):

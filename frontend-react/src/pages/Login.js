@@ -2,9 +2,9 @@ import Button from '../UI/Button';
 import './Login.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useRef, useState, useContext } from 'react';
+import EndpointContext from '../store/api-endpoint';
 import { useDispatch } from 'react-redux';
 import { clientActions } from '../store/client';
-import EndpointContext from '../store/api-endpoint';
 
 
 const Login = () => {
@@ -12,31 +12,27 @@ const Login = () => {
     const password = useRef('');
     const [invaidUser, setInvalidUser] = useState(false);
     const apiRoot = useContext(EndpointContext);
-    const dispatch = useDispatch();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const logInHandler = (event) => {
         event.preventDefault();
         console.log('Login');
         fetch(`${apiRoot.url}/login`, {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'PUT',
-            body: JSON.stringify({
-                email: email.current.value,
-                password: password.current.value
-            })
+                'Content-Type': 'application/json',
+                'Authorization': Buffer(email.current.value + ":" + password.current.value).toString('base64')
+            }
         }).then(res => res.json()).then(data => {
             if (data.status) {
                 setInvalidUser(true);
                 return
             }
             console.log(data);
-            dispatch(clientActions.login({id: data.user_id, token: data.token}));
+            dispatch(clientActions.login({token: data.token}));
             localStorage.setItem('token', data.token);
-            localStorage.setItem('id', data.user_id);
-            history.replace(`/account/${data.user_id}`);
+            history.replace('/account');
         });
     };
 

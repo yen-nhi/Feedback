@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 const NewSurvey = () => {
     const title = useRef('');
-    const [invalidTitle, setInvalidTitle] = useState(false);
+    const [invalidTitle, setInvalidTitle] = useState(null);
     const [showDrafts, setShowDrafts] = useState(false);
     const [isDraft, setIsDraft] = useState(null);
     const [drafts, setDrafts] = useState([]);
@@ -19,11 +19,18 @@ const NewSurvey = () => {
     const apiRoot = useContext(EndpointContext);
     const location = useLocation();
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
+    
+    const header = {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+    }
 
     //When user click 'Open drafts' button, the list of user's drafts will be shown
     const draftsHandler = () => {
         setShowDrafts(true);
-        fetch(`${apiRoot.url}/${localStorage.getItem('id')}/drafts`)
+        fetch(`${apiRoot.url}/drafts`, {
+            headers: header
+        })
         .then(res => res.json().then(data => {
             const draftsList = data.map(item => <li key={item.id} onClick={() => openDraftHandler(item.id, item.name)}>{item.name}</li>);
             setDrafts(draftsList);   
@@ -35,7 +42,7 @@ const NewSurvey = () => {
     const openDraftHandler = (id, name) => {
         setShowDrafts(false);
         title.current.value = name;
-        fetch(`${apiRoot.url}/${localStorage.getItem('id')}/surveys/${id}`)
+        fetch(`${apiRoot.url}/surveys/${id}`, {headers: header})
         .then(res => res.json()).then(data => {
             setInputs(data.map(item => item.question));
         })
@@ -83,23 +90,28 @@ const NewSurvey = () => {
     //Build object to send to POST request
     const object = () => {
         return{
-        id: localStorage.getItem('id'), 
         title: title.current.value,
         questions: inputs,
     }};
 
     //User can save the draft as new draft or replace the exiting draft
     const saveDraftHandler = () => {
-        const draft_name = title.current.value;
+        const draft_name = title.current.value.trim();
         if (draft_name === '') {
+            setInvalidTitle('*Title cannot be empty')
             return;
         }
-        fetch(`${apiRoot.url}/existing-survey/${draft_name}`)
+        fetch(`${apiRoot.url}/surveys?title=${draft_name}`, {headers: header})
         .then(res => res.json()).then(data => {
-            console.log(data)
             if (data.message === 'NOT EXIST') {
-                fetchData(`${apiRoot.url}/new-drafts`, 'POST', object());
+                setInvalidTitle(null);
+                fetch(`${apiRoot.url}/drafts`, {
+                    method: 'POST',
+                    headers: header,
+                    body: JSON.stringify(object())
+                })
             } else {
+                setInvalidTitle('*Existed title');
                 setIsDraft(data.message);
             }
         });
@@ -107,10 +119,10 @@ const NewSurvey = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        fetch(`${apiRoot.url}/existing-survey/${title.current.value}`)
+        fetch(`${apiRoot.url}/surveys?title=${title.current.value.trim()}`, {headers: header})
         .then(res => res.json()).then(data => {
             if (data.message === 'NOT EXIST') {
-                fetchData(`${apiRoot.url}/new-survey`, 'POST', object());
+                fetchData(`${apiRoot.url}/surveys`, 'POST', null, object());
                 setInvalidTitle(false);
                 setInputs(['', '', '']);
                 title.current.value = '';        
@@ -138,7 +150,7 @@ const NewSurvey = () => {
             <form className='new-survey-form' onSubmit={submitHandler}>
                 <div className="mb-3">
                     <input className="form-control" type="text" placeholder="Survey's title" ref={title} required/>
-                    {invalidTitle && <small className='warning'>* Existed title</small>}
+                    {invalidTitle !== null && <small className='warning'>{invalidTitle}</small>}
                 </div>
                 <p>Questions</p>
                 <small>* Please be notice that every question is answered by giving score from 1 to 5. Make sure they are score-questions.</small>
