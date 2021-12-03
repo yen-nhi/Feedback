@@ -31,7 +31,6 @@ const Login = () => {
             }
             console.log(data);
             dispatch(clientActions.login({token: data.token}));
-            localStorage.setItem('token', data.token);
             history.replace('/account');
         });
     };

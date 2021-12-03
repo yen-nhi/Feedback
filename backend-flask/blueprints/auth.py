@@ -68,7 +68,8 @@ def login():
             if check_password_hash(user[1], password):
                 exp = datetime.datetime.utcnow() + datetime.timedelta(days=1)
                 token = jwt.encode({"user_id": user_id, "exp": exp}, os.getenv('SECRET_KEY'), algorithm="HS256")
-                return jsonify({'token': token})       
+                return jsonify({'token': token})  
+            return jsonify(message='Wrong password', status=403)     
         else:
-            return jsonify(message='Wrong user or password', status=403)
+            return jsonify(message='User not exist', status=403)
 

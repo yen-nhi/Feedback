@@ -19,7 +19,6 @@ const MainHeader = () => {
     };
 
     const logoutHandler = () => {
-        localStorage.removeItem('token');
         dispatch(clientActions.logout());
         history.replace('/')
     };

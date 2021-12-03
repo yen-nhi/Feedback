@@ -113,10 +113,6 @@ def api_average_score(question_id):
     return jsonify(message=payload, status=401)
 
 
-
-        
-
-
 @client_routes.route('/clients/info', methods=['GET'])    
 @cross_origin()  
 def api_account_info():
@@ -133,33 +129,21 @@ def api_account_info():
 # NOT YET FIXED
 #-------------------------------------------------------------------------------------------------
 
-@client_routes.route('/clients/password', methods=['PUT', 'GET'])
+@client_routes.route('/clients/password', methods=['PUT'])
 @cross_origin()
 def password():
     (is_valid_token, payload) = decode_token()
     if is_valid_token:
         client_id = payload['user_id']
-        if request.method == 'PUT':
-            body = request.get_json('body')
-            new_pw = body['new_password']
+        body = request.get_json('body')
+        pw = body['password']
+        new_pw = body['new_password']
+        if check_password(client_id, pw):
             with connect_db() as connection:
                 db = connection.cursor()
                 db.execute('update clients set hash_password=? where id=?', (generate_password_hash(new_pw), client_id))
                 connection.commit()
                 return jsonify(message='Changed password successfully!')
-        elif request.method == 'GET':
-            body = request.get_json('body')
-            pw = body['password']
-            if check_password(payload, pw):
-                return jsonify(message='VALID')
-            return jsonify(message='INVALID', status=403)
+        return jsonify(message='Wrong password', status=403)
     return jsonify(message=payload, status=401)
-
-
-
-
-    
-
-
-
 

@@ -4,43 +4,29 @@ import Modal from '../UI/Modal';
 import { useRef, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import EndpointContext from '../store/api-endpoint';
+import { useDispatch } from 'react-redux';
+import { clientActions } from '../store/client';
+
 
 const ChangePasswordForm = (props) => {
     const apiRoot = useContext(EndpointContext);
     const currentPassword = useRef();
     const newPassword = useRef();
     const confirmPassword = useRef();
-    const [ passwordValid, setPasswordValid ] = useState(true);
     const [ newPasswordValid, setNewPasswordValid ] = useState(true);
     const [ rePasswordValid, setRePasswordValid ] = useState(true);
+    const [ wrongPassword, setWrongPassword ] = useState(false);
+    const dispatch = useDispatch();
 
     const history = useHistory();
-    const clientID = localStorage.getItem('id');
+
     const header = {
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem('token')
     }
 
-    const checkCurrentPassword = () => {
-        fetch(`${apiRoot.url}/clients/password`, {
-            method: 'GET',
-            headers: header,
-            body: JSON.stringify({
-                password: currentPassword.current.value,
-            })
-        }).then(response => response.json())
-        .then(result => {
-            console.log(result);
-            if (result.message !== 'VALID' ) {
-                setPasswordValid(false);
-            } else {
-                setPasswordValid(true);
-            }
-        }).catch(err => console.log(err));
-    };
-
     const checkNewPassword = () => {
-        if (newPassword.current.value.length < 8 || newPassword.current.value === currentPassword.current.value) {
+        if (newPassword.current.value.length < 8) {
             setNewPasswordValid(false);
         } else {
             setNewPasswordValid(true);
@@ -57,29 +43,35 @@ const ChangePasswordForm = (props) => {
 
     const changePasswordHandler = (event) => {
         event.preventDefault();
-        if ( passwordValid && newPasswordValid && rePasswordValid) {
+        if (newPasswordValid && rePasswordValid) {
             fetch(`${apiRoot.url}/clients/password`, {
                 method: 'PUT',
                 headers: header,
                 body: JSON.stringify({ 
+                    password: currentPassword.current.value,
                     new_password: newPassword.current.value,
-                    token: localStorage.getItem('token')
                 })
             }).then(res => res.json())
-            .then(result => console.log(result))
+            .then(data => {
+                console.log(data);
+                if (data.status === 403) {
+                    setWrongPassword(true);
+                } else {
+                    dispatch(clientActions.logout());
+                    
+                    history.replace('/login');
+                }
+            })
             .catch(err => console.log(err));
-
-            history.replace('/login');
-            
         }
     };
 
     return(
         <Modal onClose={props.onClose}>
             <form onSubmit={changePasswordHandler}>
+                {wrongPassword && <small className='invalid'>Current password is wrong</small>}
                 <div className="form-group">
-                    <input className="form-control" type="password" placeholder="Current password" ref={currentPassword} required onBlur={checkCurrentPassword}/>
-                    {!passwordValid && <small>Wrong password.</small>}
+                    <input className="form-control" type="password" placeholder="Current password" ref={currentPassword} required />
                 </div>
                 <div className="form-group">
                     <input className="form-control" type="password" placeholder="New password" ref={newPassword} onBlur={checkNewPassword} required/>
