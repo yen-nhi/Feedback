@@ -7,8 +7,25 @@ from bl.client import *
 
 client_routes = Blueprint('clients', __name__)
 
+@client_routes.route('/surveys', methods=['POST'])
+@cross_origin()
+def api_surveys_post():
+    (is_valid_token, payload) = decode_token()
+    if is_valid_token:
+        client_id = payload['user_id']
+        with connect_db() as connection:
+            db = connection.cursor()
+            body = request.get_json('body')
+            title = body['title']
+            questions = body['questions']
+            survey_id = insert_survey(connection, client_id, title)
+            insert_questions(connection, survey_id, questions)
+            connection.commit()
+            return jsonify(message='Save survey successfully!')
+    return jsonify(message=payload, status=401)
 
-@client_routes.route('/surveys', methods=['GET', 'POST'])
+
+@client_routes.route('/surveys', methods=['GET'])
 @cross_origin()
 def api_surveys():
     (is_valid_token, payload) = decode_token()
@@ -16,29 +33,22 @@ def api_surveys():
         client_id = payload['user_id']
         with connect_db() as connection:
             db = connection.cursor()
-            if request.method == "GET":
-                title = request.args.get('title')
-                if title:
-                    query = db.execute('select id from surveys where name=?', (title,))
-                    id = query.fetchone()
-                    if id is None:
-                        return jsonify(message='NOT EXIST')
-                    return jsonify(message=id[0])
-                else:
-                    raw_data = db.execute('select id, name from surveys where client_id=? and is_draft=?', (client_id, 0))
-                    data = json_transform_data(raw_data)
-                    return jsonify(data)    
-            elif request.method == "POST":
-                body = request.get_json('body')
-                title = body['title']
-                questions = body['questions']
-                survey_id = insert_survey(connection, client_id, title)
-                insert_questions(connection, survey_id, questions)
-                connection.commit()
-                return jsonify(message='Save survey successfully!')
+            title = request.args.get('title')
+            if title:
+                query = db.execute('select id from surveys where name=?', (title,))
+                id = query.fetchone()
+                if id is None:
+                    return jsonify(message='NOT EXIST')
+                return jsonify(message=id[0])
+            else:
+                raw_data = db.execute('select id, name from surveys where client_id=? and is_draft=?', (client_id, 0))
+                data = json_transform_data(raw_data)
+                return jsonify(data)    
     return jsonify(message=payload, status=401)
 
-    
+
+
+
 @client_routes.route('/drafts', methods=['GET', 'POST'])
 @cross_origin()
 def api_drafts():
