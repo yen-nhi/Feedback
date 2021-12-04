@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import './NewSurvey.css';
+import trashIcon from '../media/trash-bin.png';
 import NewQuestion from '../components/NewQuestion';
 import { useState, useEffect, useContext } from 'react';
 import useFetch from '../hooks/use-fetch';

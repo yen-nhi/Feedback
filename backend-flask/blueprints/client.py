@@ -49,7 +49,7 @@ def api_surveys():
 
 
 
-@client_routes.route('/drafts', methods=['GET', 'POST'])
+@client_routes.route('/drafts', methods=['GET', 'POST', 'DELETE'])
 @cross_origin()
 def api_drafts():
     (is_valid_token, payload) = decode_token()
@@ -58,10 +58,13 @@ def api_drafts():
         with connect_db() as connection:
             db = connection.cursor()
             if request.method == 'GET':
+                # Get list of draft surveys
                 raw_data = db.execute('select id, name from surveys where client_id=? and is_draft=?', (client_id, 1))
                 data = json_transform_data(raw_data)
                 return jsonify(data)
+
             elif request.method == 'POST':
+                # Check if title is exist, if exist update survey, else create new survey.
                 body = request.get_json('body')
                 title = body['title']
                 questions = body['questions']
@@ -69,7 +72,6 @@ def api_drafts():
                     draft_id = body['draft_id']
                 except:
                     draft_id = 0
-                
                 if draft_id != 0:
                     db.execute('delete from questions where survey_id=?', (draft_id,))
                     db.execute('update surveys set name=? where id=?', (title, draft_id))
@@ -77,11 +79,15 @@ def api_drafts():
                 else:
                     db.execute('insert into surveys (client_id, name, is_draft) values (?, ?, ?)', (client_id, title, 1))
                     survey_id = db.lastrowid
-
                 for q in questions:
                     db.execute('insert into questions (survey_id, question) values (?, ?)', (survey_id, q))
                     connection.commit()
                 return jsonify(message='Save survey successfully!')
+
+            elif request.method == 'DELETE':
+                # Remove all drafts
+                db.execute('delete from surveys where client_id=? and is_draft=?', (client_id, 1))
+                connection.commit()
     return jsonify(message=payload, status=401)
 
 
@@ -96,7 +102,6 @@ def get_survey(survey_id):
                 data = json_transform_data(raw_data)
                 return jsonify(data)
             elif request.method == 'DELETE':
-                body = request.get_json('body')
                 db.execute('delete from surveys where id=?', (survey_id,))
                 connection.commit()
                 return jsonify(message='Deleted successfully')

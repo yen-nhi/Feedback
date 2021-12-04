@@ -2,6 +2,8 @@ import './Account.css';
 import userIcon from '../media/user.png';
 import surveyIcon from '../media/essay.png';
 import reportIcon from '../media/line-chart.png';
+import trashBinIcon from '../media/trash-bin.png';
+import removeIcon from '../media/close.png';
 import ChangePasswordForm from '../components/ChangePasswordForm';
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -29,25 +31,31 @@ const Account = () => {
     }
 
     useEffect( () => {
-        fetch(`${apiRoot.url}/surveys`, {
-            headers: header
-        })
-        .then(res => res.json())
+        fetch(`${apiRoot.url}/surveys`, {headers: header}).then(res => res.json())
         .then(data => {
             setSurveys(data);
         })
         .catch(err => console.log(err));
 
-        fetch(`${apiRoot.url}/drafts`, {headers: header})
-        .then(res => res.json())
+        fetch(`${apiRoot.url}/drafts`, {headers: header}).then(res => res.json())
         .then(data => {
             setDrafts(data);
         })
         .catch(err => console.log(err));
 
         // eslint-disable-next-line
-    }, []);   
+    }, [drafts]);   
     
+    const removeDraft = (id) => {
+        fetch(`${apiRoot.url}/surveys/${id}`, {
+            method: 'DELETE',
+            headers: header
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+        })
+        .catch(err => console.log(err));
+        setDrafts([]);
+    }
 
     const surveysList = 
         <div>
@@ -58,9 +66,14 @@ const Account = () => {
                 <div>
                     <p className='drafts-el' onClick={() => setShowDrafts(!showDrafts)}>Drafts</p>
                     {showDrafts &&
-                    <ul className='i'>
-                        {drafts.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/new-survey`, state: { draft:  item.id, name: item.name}}}>{item.name}</Link></li>)}
+                    <ul>
+                        {drafts.map(item => <li key={item.id} title={item.name}>
+                                <img src={removeIcon} className="remove-icon" onClick={() => removeDraft(item.id)}/>
+                                <Link to={{ pathname: `/new-survey`, state: { draft:  item.id, name: item.name}}}>{item.name}</Link>
+                            </li>)}
+                        <li><button className="clear-drafts"><img src={trashBinIcon} width='25'/> Clear all drafts</button></li>
                     </ul>}
+                    
                 </div>
             </ul>         
             }

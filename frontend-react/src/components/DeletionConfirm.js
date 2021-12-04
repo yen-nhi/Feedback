@@ -2,22 +2,24 @@ import { useContext } from 'react';
 import Button from '../UI/Button';
 import Modal from '../UI/Modal';
 import './DeletionConfirm.css';
-import useFetch from '../hooks/use-fetch';
 import { useHistory } from 'react-router-dom';
 import EndpointContext from '../store/api-endpoint';
 
 const DeletionConfirm = (props) => {
     const apiRoot = useContext(EndpointContext);
     const history = useHistory();
-    const { fetchData } = useFetch();
-    const clientID = localStorage.getItem('id');
-
     
 
     const deleteSurveyHandler = () => {
-        console.log('Yes!');
-        fetchData(`${apiRoot.url}/surveys/${props.surveyID}`, 'DELETE', null, {token: localStorage.getItem('token')});
-        history.push(`/account`)
+        fetch(`${apiRoot.url}/surveys/${props.surveyID}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            }
+        }).then(res => res.json()).then(data =>  console.log(data))
+        .catch(err => console.log(err));
+        history.replace(`/account`)
     };
 
     return(

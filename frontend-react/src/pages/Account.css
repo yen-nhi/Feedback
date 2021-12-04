@@ -38,7 +38,6 @@ ul{
     text-decoration: underline;
     font-weight: normal;
     color: rgb(0, 88, 104);
-
 }
 
 .drafts-el{
@@ -46,6 +45,25 @@ ul{
     color: rgb(0, 88, 104);
     margin-top: 1rem;
 }
+
+.clear-drafts{
+    border: rgb(82, 253, 225) solid 1px;
+    padding: 5px 15px;
+    color: rgb(0, 97, 114);
+    background-color: white;
+    margin-top: 1rem;
+}
+
+.remove-icon{
+    width: 20px;
+    margin-right: 1rem;
+}
+
+.clear-drafts img{
+    margin-bottom: 10px;
+}
+
+
 
 @media (max-width: 536px) {
     .account{
