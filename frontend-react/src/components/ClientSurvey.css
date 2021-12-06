@@ -36,6 +36,10 @@
     right: 25%;
 }
 
+ul{
+    list-style: none;
+}
+
 @media (max-width: 675px) {
     .survey-details{
         width: 100%;

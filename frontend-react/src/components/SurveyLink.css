@@ -19,6 +19,10 @@
     cursor: grabbing;
 }
 
+.copy img:active{
+    width: 2rem;
+}
+
 .qr-code{
     text-align: center;
     margin: 3rem;

@@ -24,16 +24,24 @@ const ClientSurvey = (props) => {
     const [ showDeletionConfirm, setShowDeletionConfirm ] = useState(false);
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/surveys/${params.surveyID}`, 'GET', null, null);
+        fetchData(`${apiRoot.url}/surveys/${params.surveyID}/questions`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
+
+ 
+
+    const questions =  recievedData.map((item, i) => 
+        <li key={item.id}>{i+1}. {item.question} <ChartBar questionID={item.id} surveyID={params.surveyID}/></li>);  
+    
+      
+
 
     const returnHandler = () => {
         history.push(`/account`);
     };
+    
 
-    const questions = recievedData.map((item, i) => 
-        <li key={item.id}>{i+1}. {item.question} <ChartBar questionID={item.id}/></li>);
+    
 
     return(
         <React.Fragment>

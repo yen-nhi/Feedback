@@ -25,9 +25,9 @@ const SignUp = () => {
 
     const checkEmail = () => {
         if (email.current.value.trim() !== '') {
-            fetch(`${apiRoot.url}/clients?email=${email.current.value}`)
+            fetch(`${apiRoot.url}/accounts?email=${email.current.value}`)
             .then(res => res.json()).then(result => {
-                if (result.message === 'true') {
+                if (result.message === 'Exist') {
                     setExistingEmail(true);
                 } else {
                     setExistingEmail(false);
@@ -38,9 +38,9 @@ const SignUp = () => {
 
     const checkName = () => {
         if (name.current.value.trim() !== '') {
-            fetch(`${apiRoot.url}/clients?name=${name.current.value}`)
+            fetch(`${apiRoot.url}/accounts?name=${name.current.value}`)
             .then(res => res.json()).then(result => {
-                if (result.message === 'true') {
+                if (result.message === 'Exist') {
                     setExistingName(true);
                 } else {
                     setExistingName(false);
@@ -84,13 +84,10 @@ const SignUp = () => {
             name: name.current.value,
             password: password.current.value,
         }
-
-        console.log('new user input', object);
         const header = {
             'Content-Type': 'application/json',
         }
-        fetchData(`${apiRoot.url}/register`, 'POST', header, object);
-        console.log(recievedData);
+        fetchData(`${apiRoot.url}/accounts`, 'POST', header, object);
 
         email.current.value = '';
         name.current.value = '';
@@ -128,7 +125,7 @@ const SignUp = () => {
                     </div>
                 </form>
                 <div className="login-link">
-                    Already had an account? <Link to='/login'>Log in</Link>
+                    Already had an account? <span><Link to='/login'>Log in</Link></span>
                 </div>
             </div>
         </div>

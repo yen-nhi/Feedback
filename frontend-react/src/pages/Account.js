@@ -33,18 +33,18 @@ const Account = () => {
     useEffect( () => {
         fetch(`${apiRoot.url}/surveys`, {headers: header}).then(res => res.json())
         .then(data => {
-            setSurveys(data);
+            setSurveys(data.data);
         })
         .catch(err => console.log(err));
 
         fetch(`${apiRoot.url}/drafts`, {headers: header}).then(res => res.json())
         .then(data => {
-            setDrafts(data);
+            setDrafts(data.data);
         })
         .catch(err => console.log(err));
 
         // eslint-disable-next-line
-    }, [drafts]);   
+    }, []);   
     
     const removeDraft = (id) => {
         fetch(`${apiRoot.url}/surveys/${id}`, {
@@ -68,10 +68,10 @@ const Account = () => {
                     {showDrafts &&
                     <ul>
                         {drafts.map(item => <li key={item.id} title={item.name}>
-                                <img src={removeIcon} className="remove-icon" onClick={() => removeDraft(item.id)}/>
+                                <img src={removeIcon} alt='icon' className="remove-icon" onClick={() => removeDraft(item.id)}/>
                                 <Link to={{ pathname: `/new-survey`, state: { draft:  item.id, name: item.name}}}>{item.name}</Link>
                             </li>)}
-                        <li><button className="clear-drafts"><img src={trashBinIcon} width='25'/> Clear all drafts</button></li>
+                        <li><button className="clear-drafts"><img src={trashBinIcon} alt='icon' width='25'/> Clear all drafts</button></li>
                     </ul>}
                     
                 </div>

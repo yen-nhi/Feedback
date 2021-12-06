@@ -10,25 +10,19 @@ const AccountInfo = (props) => {
     const apiRoot = useContext(EndpointContext);
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/clients/info`, 'GET', null, null);
+        fetchData(`${apiRoot.url}/accounts/profile`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
-     
-    let date = new Date(recievedData[2]);
-    date.setDate(date.getDate() - 1)
-    const info = 
-        <div>
-            <p><span className='info-title'>Name</span>{recievedData[0]}</p>
-            <p><span className='info-title'>Email</span>{recievedData[1]}</p>
-            <p><span className='info-title'>Last login</span>{date.toString()}</p>
-        </div>;
-    
+         
     return(
         <Modal onClose={props.onClose}>
             <div>
                 {isLoading && <LoadingSpinner/>}
                 {hasError && <p>Get data failed!</p>}
-                {info}
+                <div>
+                    <p><span className='info-title'>Name</span>{recievedData.name}</p>
+                    <p><span className='info-title'>Email</span>{recievedData.email}</p>
+                </div>
             </div>
         </Modal>
     )

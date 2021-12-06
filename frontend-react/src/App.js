@@ -1,6 +1,6 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-import React, { useEffect, Suspense, useState } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clientActions } from './store/client';
 import EndpointContext, { EndpointProvider } from './store/api-endpoint';
@@ -31,10 +31,11 @@ function App() {
       const currentToken = localStorage.getItem('token');
 
       if (currentToken) {
-        fetch(`${apiRoot.url}/clients`, {headers: {'Content-Type': 'application/json',
-        'Authorization': currentToken}})
+        fetch(`${apiRoot.url}/accounts/verification`, {
+          headers: {'Content-Type': 'application/json',
+                    'Authorization': currentToken}})
         .then(response => response.json()).then(result => {
-          if (result.message === 'VALID') {
+          if (result.status === 'OK') {
             dispatch(clientActions.login({token: currentToken}));
           } 
         });

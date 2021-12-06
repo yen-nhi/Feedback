@@ -1,17 +1,15 @@
 import './ChartBar.css';
 import useFetch from '../hooks/use-fetch';
-import { useParams } from 'react-router-dom';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import EndpointContext from '../store/api-endpoint';
 
 
 const ChartBar = (props) => {
     const apiRoot = useContext(EndpointContext);
-    const params = useParams();
-    const { isLoading, hasError, recievedData, fetchData } = useFetch();
+    const { recievedData, fetchData } = useFetch();
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/questions/${props.questionID}?filter=avgscore`, 'GET', null, null)
+        fetchData(`${apiRoot.url}/bi/answers?survey_id=${props.surveyID}`, 'GET', null, null)
         // eslint-disable-next-line
     }, []);
 

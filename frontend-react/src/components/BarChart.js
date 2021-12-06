@@ -2,13 +2,11 @@ import { useEffect, useContext } from "react";
 import { Bar } from "react-chartjs-2";
 import './BarChart.css';
 import useFetch from "../hooks/use-fetch";
-import { useParams } from "react-router-dom";
 import EndpointContext from '../store/api-endpoint';
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 
 const BarChart = (props) => {
-	const params = useParams();
 	const { isLoading, hasError, recievedData, fetchData } = useFetch();
 	const apiRoot = useContext(EndpointContext);
 

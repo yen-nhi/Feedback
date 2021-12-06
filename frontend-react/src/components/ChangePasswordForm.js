@@ -44,7 +44,7 @@ const ChangePasswordForm = (props) => {
     const changePasswordHandler = (event) => {
         event.preventDefault();
         if (newPasswordValid && rePasswordValid) {
-            fetch(`${apiRoot.url}/clients/password`, {
+            fetch(`${apiRoot.url}/accounts/password`, {
                 method: 'PUT',
                 headers: header,
                 body: JSON.stringify({ 
@@ -54,7 +54,7 @@ const ChangePasswordForm = (props) => {
             }).then(res => res.json())
             .then(data => {
                 console.log(data);
-                if (data.status === 403) {
+                if (data.status === 'Fail') {
                     setWrongPassword(true);
                 } else {
                     dispatch(clientActions.logout());

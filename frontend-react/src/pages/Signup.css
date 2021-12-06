@@ -21,6 +21,10 @@
     text-decoration: underline;
 }
 
+.login-link span{
+    font-weight: bold;
+}
+
 .warning{
     margin-top: 5px;
     text-align: left;

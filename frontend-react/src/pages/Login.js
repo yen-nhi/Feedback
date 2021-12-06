@@ -18,14 +18,14 @@ const Login = () => {
     const logInHandler = (event) => {
         event.preventDefault();
         console.log('Login');
-        fetch(`${apiRoot.url}/login`, {
+        fetch(`${apiRoot.url}/accounts/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Buffer(email.current.value + ":" + password.current.value).toString('base64')
             }
         }).then(res => res.json()).then(data => {
-            if (data.status) {
+            if (data.status === 'Fail') {
                 setInvalidUser(true);
                 return
             }
@@ -52,7 +52,7 @@ const Login = () => {
                     </div>
                 </form>
                 <div className="register-link">
-                    Don't have an account? <Link to='/signup'>Register</Link>
+                    Don't have an account? <span><Link to='/signup'>Register</Link></span>
                 </div>
             </div>
         </div>

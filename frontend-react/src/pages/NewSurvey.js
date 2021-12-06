@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import './NewSurvey.css';
-import trashIcon from '../media/trash-bin.png';
 import NewQuestion from '../components/NewQuestion';
 import { useState, useEffect, useContext } from 'react';
 import useFetch from '../hooks/use-fetch';
@@ -19,7 +18,7 @@ const NewSurvey = () => {
     const [inputs, setInputs] = useState([]);
     const apiRoot = useContext(EndpointContext);
     const location = useLocation();
-    const { isLoading, hasError, recievedData, fetchData } = useFetch();
+    const { isLoading, hasError, fetchData } = useFetch();
     
     const header = {
         'Content-Type': 'application/json',
@@ -33,7 +32,7 @@ const NewSurvey = () => {
             headers: header
         })
         .then(res => res.json().then(data => {
-            const draftsList = data.map(item => <li key={item.id} onClick={() => openDraftHandler(item.id, item.name)}>{item.name}</li>);
+            const draftsList = data.data.map(item => <li key={item.id} onClick={() => openDraftHandler(item.id, item.name)}>{item.name}</li>);
             setDrafts(draftsList);   
         }));
     };
@@ -43,9 +42,9 @@ const NewSurvey = () => {
     const openDraftHandler = (id, name) => {
         setShowDrafts(false);
         title.current.value = name;
-        fetch(`${apiRoot.url}/surveys/${id}`, {headers: header})
+        fetch(`${apiRoot.url}/surveys/${id}/questions`, {headers: header})
         .then(res => res.json()).then(data => {
-            setInputs(data.map(item => item.question));
+            setInputs(data.data.map(item => item.question));
         })
     };
 

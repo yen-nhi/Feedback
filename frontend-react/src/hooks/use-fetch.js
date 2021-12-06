@@ -30,7 +30,8 @@ const useFetch =  () => {
     
             const data = await response.json();
             console.log('data fetched: ', data);
-            setRecievedData(data);
+            
+            setRecievedData(data.data);
             setIsLoading(false);
             
         } catch (err) {
