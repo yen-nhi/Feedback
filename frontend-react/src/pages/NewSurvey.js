@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import useFetch from '../hooks/use-fetch';
 import EndpointContext from '../store/api-endpoint';
 import Modal from '../UI/Modal';
+import ButtonOutline from '../UI/ButtonOutline';
 import DraftWarning from '../components/DraftWarning';
 import { useLocation } from 'react-router-dom';
 
@@ -144,8 +145,8 @@ const NewSurvey = () => {
                 id={isDraft}
                 object={object}/>}
             <div className='survey-header-control'>
-                <button type='button' className='add-question-btn' onClick={draftsHandler}>Open drafts</button>
-                <button type='button' className='add-question-btn' onClick={saveDraftHandler}>Save as drafts</button>
+                <ButtonOutline onClick={draftsHandler}>Open drafts</ButtonOutline>
+                <ButtonOutline onClick={saveDraftHandler}>Save as drafts</ButtonOutline>
             </div>
             <form className='new-survey-form' onSubmit={submitHandler}>
                 <div className="mb-3">

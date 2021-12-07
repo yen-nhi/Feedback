@@ -58,8 +58,8 @@ const Account = () => {
     }
 
     const surveysList = 
-        <div>
-        {surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>
+        
+        (surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>
             : 
             <ul className='inner'>
                 {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
@@ -76,8 +76,7 @@ const Account = () => {
                     
                 </div>
             </ul>         
-            }
-        </div>;
+            );
 
     const profileInner = (
         <ul className='inner'>
@@ -87,13 +86,11 @@ const Account = () => {
     );
 
     const reportsInner = 
-        <div>
-            {surveys.length === 0 ? <p className='inner'>No survey found</p>
+            (surveys.length === 0 ? <p className='inner'>No survey found</p>
             :
             <ul className='inner'>
                 {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
-            </ul>}
-        </div>;
+            </ul>);
  
 
     return (

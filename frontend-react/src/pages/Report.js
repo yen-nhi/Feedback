@@ -5,6 +5,7 @@ import useFetch from '../hooks/use-fetch';
 import { useParams } from 'react-router-dom';
 import EndpointContext from '../store/api-endpoint';
 import LoadingSpinner from '../UI/LoadingSpinner';
+import ButtonOutline from '../UI/ButtonOutline';
 
 const Report = (props) => {
     const params = useParams();
@@ -12,7 +13,7 @@ const Report = (props) => {
     const apiRoot = useContext(EndpointContext);
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/surveys/${params.surveyID}`, 'GET', null, null);
+        fetchData(`${apiRoot.url}/bi/answers?survey_id=${params.surveyID}`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
 
@@ -26,11 +27,20 @@ const Report = (props) => {
         </li>);
 
     return(
-        <ul className='report'>
-            {isLoading && <LoadingSpinner/>}
-            {hasError && <p>Something went wrong!</p>}
-            {chart}
-        </ul>
+        <div className='report'>
+            <div className='report-header-control'>
+                <ButtonOutline>Details</ButtonOutline>
+                <ButtonOutline>Overall</ButtonOutline>
+                <ButtonOutline>Period</ButtonOutline>
+            </div>
+            <div className='report-session'>
+                <ul>
+                    {isLoading && <LoadingSpinner/>}
+                    {hasError && <p>Something went wrong!</p>}
+                    {chart}
+                </ul>
+            </div>
+        </div>
         
     )
 };

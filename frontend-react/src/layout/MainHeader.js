@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clientActions } from '../store/client';
 
-import logo from '../media/logo2.png';
+import logo from '../media/FeeDBack.png';
 import menuIcon from '../media/menu.svg';
 
 const MainHeader = () => {

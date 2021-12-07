@@ -13,4 +13,4 @@ const ChartBar = (props) => {
     )
 };
 
-export default ChartBar;
+export default ChartBar;    

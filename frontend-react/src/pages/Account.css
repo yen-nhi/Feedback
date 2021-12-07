@@ -2,15 +2,11 @@
     background-color: white;
     width: 60%;
     box-shadow: 0px 2px 4px 0px gray;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 1rem;
     margin: 2rem;
     margin-left: auto;
     margin-right: auto;
-}
-
-ul{
-    list-style: none;
 }
 
 .category{
@@ -18,7 +14,10 @@ ul{
     padding: 1rem;
     color: rgb(0, 88, 104);
     border: rgb(0, 88, 104) solid 1px;
-    font-weight: bold;
+    font-size:x-large;
+    font-stretch:ultra-expanded;
+    font-variant: small-caps;
+    font-weight: 300;
 }
 
 .category img{
@@ -27,17 +26,18 @@ ul{
 }
 
 .inner{
+    list-style: none;
     margin-left: 2rem;
     margin-right: 1rem;
     background-color: rgb(241, 241, 241);
     padding: 1rem;
 }
 
-.inner li{
+.inner li, a{
     margin-bottom: 0.5rem;
     text-decoration: underline;
     font-weight: normal;
-    color: rgb(0, 88, 104);
+    color: rgb(0, 65, 82);
 }
 
 .drafts-el{

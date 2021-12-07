@@ -2,9 +2,8 @@
 
 def get_surveyor_survey(connection, survey_id):
     cur = connection.cursor()
-    questions = cur.execute('select * from questions where survey_id=?', (survey_id, ))
-    title = cur.execute('select name from surveys where id=?', (survey_id, ))
-    return {'questions' : questions, 'title': title}
+    data = cur.execute('select q.id, q.question, s.name from questions q inner join surveys s on q.survey_id = s.id where s.id=?', (survey_id, ))
+    return data.fetchall()
 
 def create_surveyor(connection, survey_id):
     cur = connection.cursor()

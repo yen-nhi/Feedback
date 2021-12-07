@@ -12,14 +12,19 @@
 
 .filling{
     height: 0.6rem;
-    background-color: rgb(82, 253, 225);
-    margin-top: 0.1rem;
+    background-color: rgb(89, 89, 128);
     position: relative;
 }
 
 .chart-bar span{
     position: absolute;
-    right: -10px;
+    right: -20px;
     top: -5px;
+    font-weight: bold;
     font-size: small;
+    color: white;
+    background-color: rgb(149, 149, 218);
+    width: 25px;
+    border-radius: 10px;
+    text-align: center;
 }

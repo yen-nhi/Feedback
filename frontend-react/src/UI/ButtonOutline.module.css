@@ -1,0 +1,13 @@
+.buttonOutline {
+    background-color: white;
+    padding: 10px;
+    border: rgb(0, 97, 114) solid 1px;
+    color: rgb(0, 97, 114);
+    margin-right: 1rem;
+    width: 8rem;
+}
+
+.buttonOutline:hover{
+    border: rgb(1, 153, 180) solid 1px;
+    color: rgb(3, 136, 160);
+}
