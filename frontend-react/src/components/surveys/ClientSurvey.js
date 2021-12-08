@@ -1,15 +1,14 @@
 import './ClientSurvey.css';
-import useFetch from '../hooks/use-fetch';
-import { useEffect, useState, useContext } from 'react';
-import Button from '../UI/Button';
+import useFetch from '../../hooks/use-fetch';
+import React, { useEffect, useState, useContext } from 'react';
+import Button from '../../UI/Button';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
-import backIcon from '../media/back.png';
-import LoadingSpinner from '../UI/LoadingSpinner';
+import backIcon from '../../media/back.png';
+import LoadingSpinner from '../../UI/LoadingSpinner';
 import SurveyLink from './SurveyLink';
-import React from 'react';
 import DeletionConfirm from './DeletionConfirm';
-import ChartBar from './ChartBar';
-import EndpointContext from '../store/api-endpoint';
+import ChartBar from '../charts/ChartBar';
+import EndpointContext from '../../store/api-endpoint';
 
 
 const ClientSurvey = (props) => {
@@ -24,7 +23,7 @@ const ClientSurvey = (props) => {
     const [ showDeletionConfirm, setShowDeletionConfirm ] = useState(false);
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/bi/answers?survey_id=${params.surveyID}`, 'GET', null, null);
+        fetchData(`${apiRoot.url}/bi/answers?filter=avg_score&survey_id=${params.surveyID}`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
 

@@ -1,5 +1,5 @@
 import './NewQuestion.css';
-import deleteIcon from '../media/close.png';
+import deleteIcon from '../../media/close.png';
 
 const NewQuestion = (props) => {
 

@@ -11,11 +11,11 @@ bi_routes = Blueprint('bi', __name__)
 @jwt_required
 @db_connection
 def api_bi_answers(client_id, connection):
-    question_id = request.args.get('question_id')
+    filter = request.args.get('filter')
     survey_id = request.args.get('survey_id')
-    if question_id:
-        data = select_answers_by_score(connection, question_id)
-    elif survey_id:
+    if filter == 'analysis':
+        data = select_answers_by_score(connection, survey_id)
+    elif filter == 'avg_score':
         data = select_answers(connection, client_id, survey_id)
     return jsonify(data=data, status='OK')
 

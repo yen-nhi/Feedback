@@ -1,8 +1,8 @@
 .new-survey-page{
     height: 100vh;
     background-color: white;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
 }
 
 .survey-header-control{
@@ -47,6 +47,10 @@
     color: white;
 }
 
+.save-new-survey:hover{
+    background-color: rgb(140, 207, 209);
+}
+
 .warning{
     color: red !important;
 }
@@ -54,6 +58,11 @@
 @media (max-width: 536px) {
     .new-survey-form{
         padding: 1rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .new-survey-page{
         margin-left: 0;
         margin-right: 0;
     }

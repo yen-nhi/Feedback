@@ -4,12 +4,12 @@ import surveyIcon from '../media/essay.png';
 import reportIcon from '../media/line-chart.png';
 import trashBinIcon from '../media/trash-bin.png';
 import removeIcon from '../media/close.png';
-import ChangePasswordForm from '../components/ChangePasswordForm';
+import ChangePasswordForm from '../components/account/ChangePasswordForm';
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
-import AccountInfo from '../components/AccountInfo';
+import AccountInfo from '../components/account/AccountInfo';
 import EndpointContext from '../store/api-endpoint';
 
 const Account = () => {

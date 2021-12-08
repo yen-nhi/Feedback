@@ -1,15 +1,15 @@
 import React, { useReducer } from "react";
 import './Score.css';
-import Icon1b from '../media/1b.png';
-import Icon1 from '../media/1.png'; 
-import Icon2b from '../media/2b.png'; 
-import Icon2 from '../media/2.png'; 
-import Icon3b from '../media/3b.png'; 
-import Icon3 from '../media/3.png'; 
-import Icon4b from '../media/4b.png'; 
-import Icon4 from '../media/4.png'; 
-import Icon5b from '../media/5b.png'; 
-import Icon5 from '../media/5.png'; 
+import Icon1b from '../../media/1b.png';
+import Icon1 from '../../media/1.png'; 
+import Icon2b from '../../media/2b.png'; 
+import Icon2 from '../../media/2.png'; 
+import Icon3b from '../../media/3b.png'; 
+import Icon3 from '../../media/3.png'; 
+import Icon4b from '../../media/4b.png'; 
+import Icon4 from '../../media/4.png'; 
+import Icon5b from '../../media/5b.png'; 
+import Icon5 from '../../media/5.png'; 
 
 
 const initialState = {

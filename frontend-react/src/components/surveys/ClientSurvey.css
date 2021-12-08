@@ -10,6 +10,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     position: relative;
     background-color: white;
+    position: relative;
 }
 
 .survey-details ul{
@@ -29,8 +30,8 @@
 }
 
 .inactive-btn{
-    position: fixed;
-    bottom: 2rem;
+    position: absolute;
+    bottom: 1rem;
     text-align: center;
     left: 25%;
     right: 25%;

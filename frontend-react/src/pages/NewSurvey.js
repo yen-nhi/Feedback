@@ -1,12 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import './NewSurvey.css';
-import NewQuestion from '../components/NewQuestion';
-import { useState, useEffect, useContext } from 'react';
+import NewQuestion from '../components/surveys/NewQuestion';
+import DraftWarning from '../components/surveys/DraftWarning';
 import useFetch from '../hooks/use-fetch';
 import EndpointContext from '../store/api-endpoint';
 import Modal from '../UI/Modal';
 import ButtonOutline from '../UI/ButtonOutline';
-import DraftWarning from '../components/DraftWarning';
 import { useLocation } from 'react-router-dom';
 
 
@@ -145,8 +144,8 @@ const NewSurvey = () => {
                 id={isDraft}
                 object={object}/>}
             <div className='survey-header-control'>
-                <ButtonOutline onClick={draftsHandler}>Open drafts</ButtonOutline>
-                <ButtonOutline onClick={saveDraftHandler}>Save as drafts</ButtonOutline>
+                <ButtonOutline type='button' onClick={draftsHandler}>Open drafts</ButtonOutline>
+                <ButtonOutline type='button' onClick={saveDraftHandler}>Save as drafts</ButtonOutline>
             </div>
             <form className='new-survey-form' onSubmit={submitHandler}>
                 <div className="mb-3">
@@ -157,7 +156,7 @@ const NewSurvey = () => {
                 <small>* Please be notice that every question is answered by giving score from 1 to 5. Make sure they are score-questions.</small>
                 <br/><br/>
                 {questions}
-                <button type='button' className='add-question-btn' onClick={addQuestionHandler}>+ Add question</button>
+                <ButtonOutline type='button'onClick={addQuestionHandler}>Add question</ButtonOutline>
                 {hasError && <p className='warning'>Save survey failed!</p>}
                 <button type='submit' disabled={isLoading? true : false} className='save-new-survey'>Save</button>
             </form>

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import Button from '../UI/Button';
-import Modal from '../UI/Modal';
+import Button from '../../UI/Button';
+import Modal from '../../UI/Modal';
 import './DeletionConfirm.css';
 import { useHistory } from 'react-router-dom';
-import EndpointContext from '../store/api-endpoint';
+import EndpointContext from '../../store/api-endpoint';
 
 const DeletionConfirm = (props) => {
     const apiRoot = useContext(EndpointContext);

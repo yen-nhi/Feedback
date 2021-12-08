@@ -8,14 +8,13 @@ import EndpointContext, { EndpointProvider } from './store/api-endpoint';
 import Login from './pages/Login';
 import Layout from './layout/Layout';
 import NotFound from './pages/NotFound';
-const Opening = React.lazy(() => import('./pages/Opening'));
 const Survey = React.lazy(() => import('./pages/Survey'));
 const Home = React.lazy(() => import('./pages/Home'));
 const Thankyou = React.lazy(() => import('./pages/Thankyou'));
 const SignUp = React.lazy(() => import('./pages/Signup'));
 const NewSurvey = React.lazy(() => import('./pages/NewSurvey'));
 const Account = React.lazy(() => import('./pages/Account'));
-const ClientSurvey = React.lazy(() => import('./components/ClientSurvey'));
+const ClientSurvey = React.lazy(() => import('./components/surveys/ClientSurvey'));
 const Report = React.lazy(() => import('./pages/Report'));
 
 
@@ -51,9 +50,6 @@ function App() {
           <Switch>
             <Route path='/' exact>
               <Home/>
-            </Route>
-            <Route path='/survey' exact>
-              <Opening />
             </Route>
             <Route path='/survey/:surveyID'>
               <Survey />

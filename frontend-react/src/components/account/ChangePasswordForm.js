@@ -1,11 +1,11 @@
 import './ChangePasswordForm.css';
-import Button from '../UI/Button';
-import Modal from '../UI/Modal';
+import Button from '../../UI/Button';
+import Modal from '../../UI/Modal';
 import { useRef, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import EndpointContext from '../store/api-endpoint';
+import EndpointContext from '../../store/api-endpoint';
 import { useDispatch } from 'react-redux';
-import { clientActions } from '../store/client';
+import { clientActions } from '../../store/client';
 
 
 const ChangePasswordForm = (props) => {

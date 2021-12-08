@@ -1,5 +1,5 @@
 import React, {useEffect, useContext} from 'react';
-import BarChart from '../components/BarChart';
+import ColumnChart from '../components/charts/ColumnChart';
 import './Report.css';
 import useFetch from '../hooks/use-fetch';
 import { useParams } from 'react-router-dom';
@@ -13,18 +13,12 @@ const Report = (props) => {
     const apiRoot = useContext(EndpointContext);
 
     useEffect( () => {
-        fetchData(`${apiRoot.url}/bi/answers?survey_id=${params.surveyID}`, 'GET', null, null);
+        fetchData(`${apiRoot.url}/bi/answers?filter=avg_score&survey_id=${params.surveyID}`, 'GET', null, null);
         // eslint-disable-next-line
     }, []);
 
-    const chart = recievedData.map((question, i) => 
-        <li key={question.id}>
-            <h5>{`Question ${i+1}. ${question.question}`}</h5>
-            <div>
-                <p>Total votes for each score level</p>
-                <BarChart questionID={question.id}/>
-            </div>
-        </li>);
+    const questions = recievedData.map((question, i) => {return {num: i+1, id: question.id, question: question.question}});
+    
 
     return(
         <div className='report'>
@@ -34,11 +28,9 @@ const Report = (props) => {
                 <ButtonOutline>Period</ButtonOutline>
             </div>
             <div className='report-session'>
-                <ul>
-                    {isLoading && <LoadingSpinner/>}
-                    {hasError && <p>Something went wrong!</p>}
-                    {chart}
-                </ul>
+                {isLoading && <LoadingSpinner/>}
+                {hasError && <p>Something went wrong!</p>}
+                <ColumnChart questions={questions} surveyID={params.surveyID}/>
             </div>
         </div>
         

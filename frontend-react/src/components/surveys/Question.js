@@ -2,9 +2,9 @@ import Score from "./Score";
 import './Question.css';
 import OptionalQuestion from "./OptionalQuestion";
 import { useContext, useState } from "react";
-import useFetch from "../hooks/use-fetch";
-import {SurveyorContext} from "../store/survey-context";
-import EndpointContext from '../store/api-endpoint';
+import useFetch from "../../hooks/use-fetch";
+import {SurveyorContext} from "../../store/survey-context";
+import EndpointContext from '../../store/api-endpoint';
 import React from "react";
 
     const Question = (props) => {
@@ -38,13 +38,13 @@ import React from "react";
                 }).then(res => res.json())
                 .then(data1 => {
                     console.log('last surveyor', data1);
-                    surveyorCtx.updateSurveyorID(data1);
+                    surveyorCtx.updateSurveyorID(data1.data);
 
                     const object = {
                         survey_id: props.surveyID,
                         question_id: props.question.id,
                         score: score,
-                        surveyor_id: data1
+                        surveyor_id: data1.data
                     };
                     fetch(`${apiRoot.url}/answers`, {
                     method: 'POST',
@@ -52,7 +52,7 @@ import React from "react";
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data2 => {
                         console.log('no surveyor last answer', data2);
-                        setAnswerID(data2);
+                        setAnswerID(data2.data);
                     });
                 });
             } else {
@@ -73,7 +73,7 @@ import React from "react";
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data => {
                         console.log('with surveyor last answer', data);
-                        setAnswerID(data);
+                        setAnswerID(data.data);
                     });
                 } 
                 //If answerID is already exist, send PUT method to edit the existing row

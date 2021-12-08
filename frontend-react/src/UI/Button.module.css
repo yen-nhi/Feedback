@@ -7,12 +7,12 @@
     margin: 5px;
     border: none;
     background-color: rgb(186, 224, 218);
-    color: rgb(0, 97, 114);
+    color: rgb(11, 21, 46);
     font-weight: bold;
 }
 
 .button:hover{
-    background-color: rgb(0, 97, 114);
+    background-color: rgb(11, 21, 46);
     color: white;
 }
 

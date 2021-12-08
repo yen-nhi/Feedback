@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import './Survey.css';
-import Question from '../components/Question';
+import Question from '../components/surveys/Question';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import Button from '../UI/Button';
 import { useParams, Link } from 'react-router-dom';

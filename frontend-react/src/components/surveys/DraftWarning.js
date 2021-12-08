@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import Button from '../UI/Button';
-import Modal from '../UI/Modal';
+import Button from '../../UI/Button';
+import Modal from '../../UI/Modal';
 import './DraftWarning.css';
-import useFetch from '../hooks/use-fetch';
-import EndpointContext from '../store/api-endpoint';
+import useFetch from '../../hooks/use-fetch';
+import EndpointContext from '../../store/api-endpoint';
 
 
 const DraftWarning = (props) => {
