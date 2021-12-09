@@ -8,7 +8,7 @@ COPY . /app
 
 RUN pip3 install -r requirements.txt
 
-ENV FLASK_APP flaskAPI.py
+ENV FLASK_APP main.py
 ENV FLASK_ENV development
 ENV DATABASE feedback.db
 
