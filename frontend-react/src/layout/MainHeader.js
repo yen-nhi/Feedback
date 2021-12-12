@@ -6,6 +6,7 @@ import { clientActions } from '../store/client';
 
 import logo from '../media/FeeDBack.png';
 import menuIcon from '../media/menu.svg';
+import { useEffect } from 'react';
 
 const MainHeader = () => {
     const user = useSelector(state => state.auth);
@@ -76,12 +77,12 @@ const MainHeader = () => {
         </div>
     );
 
+    useEffect( () => {
+        setMobileResponsive(window.innerWidth < 756 ? true : false);
+    }, [window.innerWidth])
+
     window.onresize = () => {
-        if ( window.innerWidth < 756 ) {
-            setMobileResponsive(true);
-        } else {
-            setMobileResponsive(false);
-        }
+        setMobileResponsive(window.innerWidth < 756 ? true : false);
     };
 
     return(

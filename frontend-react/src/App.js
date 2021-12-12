@@ -36,7 +36,9 @@ function App() {
         .then(response => response.json()).then(result => {
           if (result.status === 'OK') {
             dispatch(clientActions.login({token: currentToken}));
-          } 
+          } else {
+            dispatch(clientActions.logout());
+          }
         });
       }
     }, [apiRoot.url, dispatch]);

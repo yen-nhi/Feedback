@@ -47,7 +47,7 @@ def verification_token():
         token = request.headers.get('Authorization')
         payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms='HS256')
     except Exception as error:  
-        return jsonify(status='Fail', message=error), 401
+        return jsonify(status='Fail', message= f'{error}')
     return jsonify(status='OK')
 
 

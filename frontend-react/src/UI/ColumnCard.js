@@ -3,10 +3,10 @@ import classes from './ColumnCard.module.css';
 const ColumnCard = (props) => {
     return(
         <div className={classes.card}>
-            <div className={`${props.reverse ? classes.smallLeftColumn : classes.leftColumn} ${props.className}`}>
+            <div className={classes.leftColumn}>
                 {props.leftColumn}
             </div>
-            <div className={`${props.reverse ? classes.smallRightColumn : classes.rightColumn} ${props.className}`}>
+            <div className={classes.rightColumn}>
                 {props.rightColumn}
             </div>
         </div>

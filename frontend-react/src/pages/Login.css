@@ -9,13 +9,22 @@
     margin-top: 12%;
     margin-left: auto;
     margin-right: auto;
-    opacity: 0.8;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     color: rgb(0, 88, 104);
 }
+
+.login-box input{
+    border: none;
+    border-bottom: rgb(19, 19, 92) solid 1px;
+}
+
+.login-box input:focus {
+    box-shadow: none;
+}
+
 .form-group{
     margin: 30px;   
 }

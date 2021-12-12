@@ -6,33 +6,24 @@
 }
 
 .card img{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card img{
     width: 100%;
 }
 
 
 .leftColumn{
     float: left;
-    width: 60%;
-    margin: 1rem;
-}
-
-.smallLeftColumn{
-    float: left;
-    width: 40%;
-    line-height: 100%;
+    width: 50%;
     margin: 1rem;
 }
 
 .rightColumn{
     float: right;
-    width: 40%;
-    margin: 1rem;
-
-}
-
-.smallRightColumn{
-    float: right;
-    width: 60%;
+    width: 50%;
     margin: 1rem;
 }
 
