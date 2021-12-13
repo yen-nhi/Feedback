@@ -1,5 +1,5 @@
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import React, { useEffect, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clientActions } from './store/client';
@@ -24,6 +24,7 @@ function App() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   console.log('isAuthenticated', isAuthenticated);
   const apiRoot = React.useContext(EndpointContext);
+  const history = useHistory();
 
 
   useEffect( () => {
@@ -35,9 +36,11 @@ function App() {
                     'Authorization': currentToken}})
         .then(response => response.json()).then(result => {
           if (result.status === 'OK') {
+            history.replace('/account');
             dispatch(clientActions.login({token: currentToken}));
           } else {
             dispatch(clientActions.logout());
+            
           }
         });
       }

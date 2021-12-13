@@ -28,7 +28,7 @@ def select_questions(connection, client_id, survey_id):
 def select_survey_by_title(connection, client_id, title):
     cur = connection.cursor()
     data = cur.execute('select id, name from surveys where client_id=? and name=?', (client_id, title))
-    return data.fetchall()
+    return data.fetchone()
 
 def delete_survey(connection, client_id, survey_id):
     cur = connection.cursor()

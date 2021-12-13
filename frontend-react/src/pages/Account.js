@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import AccountInfo from '../components/account/AccountInfo';
 import EndpointContext from '../store/api-endpoint';
+import RemovingAllDraftsConfirm from '../components/surveys/RemovingAllDraftsConfirm';
 
 const Account = () => {
     const apiRoot = useContext(EndpointContext);
@@ -21,6 +22,8 @@ const Account = () => {
     const [showDrafts, setShowDrafts] = useState(false);
     const [changeingPassword, setChangingPassword] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
+    const [isRemovingAllDrafts, setIsRemovingAllDrafts] = useState(false);
+    
 
     const changeingPasswordToggle = () => {setChangingPassword(!changeingPassword)};
     const showInfoHandler = () => {setShowInfo(!showInfo)};
@@ -54,8 +57,13 @@ const Account = () => {
             console.log(data);
         })
         .catch(err => console.log(err));
-        setDrafts([]);
+        setDrafts(drafts.filter(draft => draft.id !== id));
     }
+
+    const removeAllDrafts = () => {
+        setIsRemovingAllDrafts(true);
+    }
+
 
     const surveysList = 
         
@@ -71,7 +79,7 @@ const Account = () => {
                                 <img src={removeIcon} alt='icon' className="remove-icon" onClick={() => removeDraft(item.id)}/>
                                 <Link to={{ pathname: `/new-survey`, state: { draft:  item.id, name: item.name}}}>{item.name}</Link>
                             </li>)}
-                        <li><button className="clear-drafts"><img src={trashBinIcon} alt='icon' width='25'/> Clear all drafts</button></li>
+                        <li><button className="clear-drafts" onClick={removeAllDrafts}><img src={trashBinIcon} alt='icon' width='25'/> Clear all drafts</button></li>
                     </ul>}
                     
                 </div>
@@ -97,6 +105,10 @@ const Account = () => {
         <React.Fragment>
             {changeingPassword && <ChangePasswordForm onClose={changeingPasswordToggle}/>}
             {showInfo && <AccountInfo onClose={showInfoHandler}/>}
+            {isRemovingAllDrafts && 
+                <RemovingAllDraftsConfirm onClose={() => setIsRemovingAllDrafts(false)}
+                onDone={() => setDrafts([])}/>
+            }
             <div className='account'>
                 <div className='category' onClick={() => dispatch(accountActions.profileToggle())}>
                     <img src={userIcon} alt='icon' width='40'/>Your profile

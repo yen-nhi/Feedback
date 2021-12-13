@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
-import './DraftWarning.css';
 import useFetch from '../../hooks/use-fetch';
 import EndpointContext from '../../store/api-endpoint';
 
@@ -10,19 +9,18 @@ const DraftWarning = (props) => {
     const { recievedData, fetchData } = useFetch();
     const apiRoot = useContext(EndpointContext);
 
-    const object = {...props.object(), draft_id: props.id}
-    const replaceDraft = () => {
-        fetchData(`${apiRoot.url}/drafts/${props.id}`, 'PUT', null, object);
+    const removingDrafts = () => {
+        fetchData(`${apiRoot.url}/drafts`, 'DELETE', null, null);
         console.log(recievedData);
-        props.doneReplace();
+        props.onDone();
         props.onClose();
     };
 
     return(
         <Modal onClose={props.onClose}>
-            <p>There is a existing survey's title. Do you want to replace?</p>
+            <p>Are you sure you want to remove all drafts?</p>
             <div className='replace-button'>
-                <Button onClick={replaceDraft}>Yes</Button>
+                <Button onClick={removingDrafts}>Yes</Button>
                 <Button onClick={props.onClose}>No</Button>
             </div>
         </Modal>

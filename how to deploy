@@ -1,0 +1,14 @@
+
+ssh -i ~/.ssh/ssh-key-2021-11-17.key opc@129.159.242.53
+cd app
+docker-compose down
+rm -r Feedback/
+git clone https://github.com/yen-nhi/Feedback.git
+cd Feedback/backend-flask
+vi Dockerfile  #add SECRET_KEY
+i
+ESC
+:x
+cd ..
+docker-compose build
+docker-compose up

@@ -13,8 +13,9 @@ const NewSurvey = () => {
     const title = useRef('');
     const [invalidTitle, setInvalidTitle] = useState(null);
     const [showDrafts, setShowDrafts] = useState(false);
-    const [isDraft, setIsDraft] = useState(null);
+    const [isDraft, setIsDraft] = useState(false);
     const [drafts, setDrafts] = useState([]);
+    const [draftId, setDraftId] = useState(); 
     const [inputs, setInputs] = useState([]);
     const apiRoot = useContext(EndpointContext);
     const location = useLocation();
@@ -74,6 +75,7 @@ const NewSurvey = () => {
         if (location.state !== null) {
             const { draft, name } = location.state;
             openDraftHandler(draft, name);
+            setDraftId(draft);
         } else {
             setInputs(['', '', '']);
         }
@@ -103,7 +105,7 @@ const NewSurvey = () => {
         }
         fetch(`${apiRoot.url}/surveys?title=${draft_name}`, {headers: header})
         .then(res => res.json()).then(data => {
-            if (data.message === 'NOT EXIST') {
+            if (data.data === null) {
                 setInvalidTitle(null);
                 fetch(`${apiRoot.url}/drafts`, {
                     method: 'POST',
@@ -112,7 +114,7 @@ const NewSurvey = () => {
                 })
             } else {
                 setInvalidTitle('*Existed title');
-                setIsDraft(data.message);
+                setIsDraft(true);
             }
         });
     };
@@ -136,13 +138,15 @@ const NewSurvey = () => {
         <div className="new-survey-page">
             {showDrafts && 
                 <Modal onClose={closeDraftsModal}>
+                    {drafts.length === 0 && <p>You have no draft saved.</p>}
                     <ul className="drafts">{drafts}</ul>
                 </Modal>
             }
-            {isDraft !== null && <DraftWarning 
+            {isDraft && <DraftWarning 
                 onClose={() => setIsDraft(null)} 
-                id={isDraft}
-                object={object}/>}
+                doneReplace={() => setInvalidTitle(null)}
+                id={draftId}
+                object={() => object()}/>}
             <div className='survey-header-control'>
                 <ButtonOutline type='button' onClick={draftsHandler}>Open drafts</ButtonOutline>
                 <ButtonOutline type='button' onClick={saveDraftHandler}>Save as drafts</ButtonOutline>

@@ -1,0 +1,23 @@
+.datePickerOutline{
+    outline: none !important;
+    width: 200px !important;
+    display: inline-block !important;
+    border-bottom: rgb(0, 97, 114) solid 1px;
+    margin-right: 1rem;
+    justify-self:left;
+    position: relative;
+}
+
+.datePicker input{
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px;
+}
+
+.datePickerOutline img{
+    position: absolute;
+    right: 5px;
+    top: 20%;
+    z-index: 10;;
+}
