@@ -7,8 +7,8 @@
     margin-bottom: 2rem;
 }
 
-.active{
-    background-color: rgb(218, 242, 250) !important;
+.chart-active{
+    background-color: rgb(225, 240, 246) !important;
 }
 
 .report-session{

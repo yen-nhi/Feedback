@@ -4,6 +4,7 @@ import './SurveyLink.css';
 import copyIcon from '../../media/copy1.png';
 import QRCode from "qrcode.react";
 import EndpointContext from '../../store/api-endpoint';
+import scanMe from '../../media/scan-me.png';
 
 
 const SurveyLink = (props) => { 
@@ -20,6 +21,7 @@ const SurveyLink = (props) => {
         document.body.removeChild(tempInput)
     }
 
+
     const downloadQRCodeHandler = () => {
         const qrCodeURL = document.getElementById('QRcode')
             .toDataURL("image/png")
@@ -33,6 +35,8 @@ const SurveyLink = (props) => {
     };
 
 
+
+
     
     return(
         <Modal onClose={props.onClose}>
@@ -44,8 +48,9 @@ const SurveyLink = (props) => {
                         <img src={copyIcon} alt='Copy' width='25'/>
                     </span>
                 </p>
-                <div className='qr-code'>
-                    <QRCode id='QRcode' value={link} size={256}/>
+                <div className='qr-code' id='download-area'>
+                    <QRCode className="QR-code" id='QRcode' 
+                    value={link} fgColor='rgb(0, 0, 60)' includeMargin={true} size={300}/>
                 </div>
                 <div className='download'><button onClick={downloadQRCodeHandler}>Download QRCode</button></div>
                 

@@ -43,8 +43,8 @@ const Report = (props) => {
     return(
         <div className='report'>
             <div className='report-header-control'>
-                <ButtonOutline className={isOverall && 'active'} onClick={onOverall}>Overall</ButtonOutline>
-                <ButtonOutline className={isDetails && 'active'} onClick={onDetails}>Details</ButtonOutline>
+                <ButtonOutline className={isOverall && 'chart-active'} onClick={onOverall}>Overall</ButtonOutline>
+                <ButtonOutline className={isDetails && 'chart-active'} onClick={onDetails}>Details</ButtonOutline>
                 <ButtonOutline onClick={onPeriod}>Period</ButtonOutline>
                 {showDatePicker && 
                     <span>

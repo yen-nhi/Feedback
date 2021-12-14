@@ -59,8 +59,12 @@ const MainHeader = () => {
             {showMenu &&
                 <ul className={classes.menuNav}>
                     {user.isAuthenticated && 
-                    <li onClick={logoutHandler}>
-                        <NavLink to='/'>My account</NavLink>
+                    <li>
+                        <NavLink to='/account'>My account</NavLink>
+                    </li>}
+                    {user.isAuthenticated && 
+                    <li>
+                        <NavLink to='/new-survey'>Create survey</NavLink>
                     </li>}
                     {user.isAuthenticated && 
                      <li onClick={logoutHandler}>

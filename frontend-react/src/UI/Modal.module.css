@@ -32,7 +32,7 @@
     right: 5px;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 1000px) {
     .modal{
         width: 80%;
         margin-left: 10%;
