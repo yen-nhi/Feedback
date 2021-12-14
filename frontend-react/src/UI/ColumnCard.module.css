@@ -33,6 +33,14 @@
         margin: 0;
     }
 
+    .leftColumn{
+        float: none;
+    }
+
+    .rightColumn{
+        float: none;
+    }
+
     .card div{
         width: 100%;
         margin: 0;

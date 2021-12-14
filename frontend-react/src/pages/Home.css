@@ -20,6 +20,7 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
     padding-top: 25%;
+    z-index: 20;
 }
 
 .banner{
@@ -72,6 +73,10 @@
 }
 
 @media (max-width: 1200px) {
+    .banner-main{
+        height: 100%;
+    }
+
     .contact p{
         font-size: small;
         margin-bottom: 0;
@@ -93,7 +98,6 @@
     .banner-content-1{
         bottom: 3%;
         left: 3%;
-        border: white dashed 1px;
         padding: 20px;
     }
 

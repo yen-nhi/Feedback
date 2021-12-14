@@ -25,7 +25,7 @@ const Home = (props) => {
     )
     return(
             <div className='home'>
-                <div>
+                <div className="banner-main">
                     <ColumnCard
                         className='home-card'
                         leftColumn={<video src={video} type="video/mp4" autoPlay muted width="100%"></video>}

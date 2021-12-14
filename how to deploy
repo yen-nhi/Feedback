@@ -6,9 +6,8 @@ rm -r Feedback/
 git clone https://github.com/yen-nhi/Feedback.git
 cd Feedback/backend-flask
 vi Dockerfile  #add SECRET_KEY
-i
-ESC
-:x
+i	#insert mode
+:x  	#save
 cd ..
 docker-compose build
 docker-compose up
