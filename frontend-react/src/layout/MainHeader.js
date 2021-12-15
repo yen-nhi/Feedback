@@ -83,7 +83,7 @@ const MainHeader = () => {
 
     useEffect( () => {
         setMobileResponsive(window.innerWidth < 756 ? true : false);
-    }, [window.innerWidth])
+    }, [])
 
     window.onresize = () => {
         setMobileResponsive(window.innerWidth < 756 ? true : false);

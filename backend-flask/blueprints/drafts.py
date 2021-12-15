@@ -1,7 +1,7 @@
 from util import jwt_required, db_connection
 from flask import request, jsonify, Blueprint
 from flask_cors import cross_origin
-from bl.surveys import insert_survey, select_surveys, insert_questions, delete_survey
+from bl.surveys import insert_survey, select_surveys, insert_questions, delete_survey, select_survey_by_title
 from bl.drafts import delete_drafts, update_draft, delete_drafts
 
 
@@ -27,9 +27,11 @@ def api_drafts_post(client_id, connection):
     body = request.get_json('body')
     title = body['title']
     questions = body['questions']
+    if select_survey_by_title(connection, client_id, title) is not None:
+        return jsonify(message='Survey exist', status='Fail')
     survey_id = insert_survey(connection, client_id, title, is_draft=True)
     insert_questions(connection, survey_id, questions)
-    return jsonify(message='Save survey successfully!', status='OK')
+    return jsonify(message='Save survey successfully!', data=survey_id, status='OK')
 
 
 @drafts_routes.route('/drafts/<draft_id>', methods=['PUT'])

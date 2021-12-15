@@ -1,4 +1,6 @@
 .new-survey-page{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     height: 100vh;
     background-color: white;
     margin-left: 4rem;
@@ -65,5 +67,10 @@
     .new-survey-page{
         margin-left: 0;
         margin-right: 0;
+    }
+
+    .survey-header-control{
+        padding: 0rem;
+        margin-left: 1rem;
     }
 }

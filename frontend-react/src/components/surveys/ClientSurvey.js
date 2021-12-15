@@ -11,7 +11,7 @@ import ChartBar from '../charts/ChartBar';
 import EndpointContext from '../../store/api-endpoint';
 
 
-const ClientSurvey = (props) => {
+const ClientSurvey = () => {
 
     const apiRoot = useContext(EndpointContext);
     const { isLoading, hasError, recievedData, fetchData } = useFetch();
@@ -27,6 +27,7 @@ const ClientSurvey = (props) => {
         // eslint-disable-next-line
     }, []);
 
+    console.log(recievedData);
     const questions =  recievedData.map((item, i) => 
         <li key={item.id}>{i+1}. {item.question} <ChartBar questionID={item.id} avgScore={item.avg_score}/></li>);  
 

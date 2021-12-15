@@ -1,9 +1,10 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import './ColumnChart.css';
 import EndpointContext from '../../store/api-endpoint';
 import Chart from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';	
 import useFetch from "../../hooks/use-fetch";
+import LoadingSpinner from "../../UI/LoadingSpinner";
 
 const ColumnChart = (props) => {
 	const apiRoot = useContext(EndpointContext);
@@ -61,7 +62,13 @@ const ColumnChart = (props) => {
 		],
 	  };
 
-	return <Bar options={options} data={data} />;
+	return (
+	<React.Fragment>
+		{isLoading && <LoadingSpinner/>}
+		{hasError && <p>Something went wrong!</p>}
+		<Bar options={options} data={data} />
+	</React.Fragment>
+	);
 }
 
 export default ColumnChart;

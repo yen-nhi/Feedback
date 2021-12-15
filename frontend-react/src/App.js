@@ -44,7 +44,7 @@ function App() {
           }
         });
       }
-    }, [apiRoot.url, dispatch]);
+    }, [apiRoot.url, dispatch, history]);
 
 
    

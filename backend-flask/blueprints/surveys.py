@@ -1,7 +1,7 @@
 from util import jwt_required, db_connection
 from flask import request, jsonify, Blueprint
 from flask_cors import cross_origin
-from bl.surveys import delete_survey, insert_survey, insert_questions, select_survey_by_title, select_questions, select_surveys
+from bl.surveys import delete_survey, insert_survey, insert_questions, select_survey_by_title, select_questions, select_surveys, update_survey
 
 
 surveys_routes = Blueprint('surveys', __name__)
@@ -14,9 +14,24 @@ def api_surveys_post(client_id, connection):
     body = request.get_json('body')
     title = body['title']
     questions = body['questions']
+    if select_survey_by_title(connection, client_id, title) is not None:
+        return jsonify(message='Survey exist', status='Fail')
     survey_id = insert_survey(connection, client_id, title, is_draft=False)
     insert_questions(connection, survey_id, questions)
-    return jsonify(message='Save survey successfully!')
+    return jsonify(message='Save survey successfully!', status='OK')
+
+
+@surveys_routes.route('/surveys/<survey_id>', methods=['PUT'])
+@cross_origin()
+@jwt_required
+@db_connection
+def api_surveys_update(survey_id, client_id, connection): 
+    body = request.get_json('body')
+    title = body['title']
+    questions = body['questions']
+    update_survey(connection=connection, client_id=client_id, survey_id=survey_id, title=title, questions=questions)
+    return jsonify(message='Save survey successfully!', status='OK')
+
 
 
 @surveys_routes.route('/surveys', methods=['GET'])
@@ -24,11 +39,7 @@ def api_surveys_post(client_id, connection):
 @jwt_required
 @db_connection
 def api_surveys(client_id, connection):
-    title = request.args.get('title')
-    if title:
-        data = select_survey_by_title(connection, client_id, title)
-    else:
-        data = select_surveys(connection, client_id)
+    data = select_surveys(connection, client_id)
     return jsonify(data=data, status='OK')    
 
 

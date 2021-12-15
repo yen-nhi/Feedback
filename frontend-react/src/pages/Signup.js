@@ -21,7 +21,7 @@ const SignUp = () => {
     const [isPasswordValid, setIsPasswordValid] = useState(true);
     const [informing, setInforming] = useState(false);
 
-    const { isLoading, hasError, recievedData, fetchData } = useFetch();
+    const { isLoading, hasError, fetchData } = useFetch();
 
     const checkEmail = () => {
         if (email.current.value.trim() !== '') {

@@ -2,20 +2,27 @@ import { useContext } from 'react';
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import './DraftWarning.css';
-import useFetch from '../../hooks/use-fetch';
 import EndpointContext from '../../store/api-endpoint';
 
 
 const DraftWarning = (props) => {
-    const { recievedData, fetchData } = useFetch();
     const apiRoot = useContext(EndpointContext);
 
-    const object = {...props.object(), draft_id: props.id}
+    const object = {...props.object, draft_id: props.id}
     const replaceDraft = () => {
-        fetchData(`${apiRoot.url}/drafts/${props.id}`, 'PUT', null, object);
-        console.log(recievedData);
-        props.doneReplace();
-        props.onClose();
+        fetch(`${apiRoot.url}/drafts/${props.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')        
+            },
+            body: JSON.stringify(object)
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data);
+            props.doneReplace();
+            props.onClose();    
+        });
     };
 
     return(

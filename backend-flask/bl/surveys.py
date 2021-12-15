@@ -11,6 +11,15 @@ def insert_questions(connection, survey_id, questions):
     data = [(survey_id, question) for question in questions]
     connection.cursor().executemany('insert into questions (survey_id, question) values (?, ?)', data)
 
+
+def update_survey(connection, client_id, survey_id, title, questions):
+    cur = connection.cursor()
+    cur.execute('update surveys set name=?, is_draft=? where id=? and client_id=?', (title, 0, survey_id, client_id))
+    cur.execute('delete from questions where survey_id=?', (survey_id, ))
+    data = [(survey_id, question) for question in questions]
+    connection.cursor().executemany('insert into questions (survey_id, question) values (?, ?)', data)
+
+
 def select_surveys(connection, client_id, is_draft=False):
     cur = connection.cursor()
     data = cur.execute(

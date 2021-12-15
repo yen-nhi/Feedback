@@ -4,7 +4,6 @@ import './SurveyLink.css';
 import copyIcon from '../../media/copy1.png';
 import QRCode from "qrcode.react";
 import EndpointContext from '../../store/api-endpoint';
-import scanMe from '../../media/scan-me.png';
 
 
 const SurveyLink = (props) => { 
