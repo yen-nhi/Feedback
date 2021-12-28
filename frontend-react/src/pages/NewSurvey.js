@@ -74,7 +74,7 @@ const NewSurvey = () => {
     };
 
     useEffect( () => {
-        if (location.state !== null) {
+        if (location.state !== null && location.state !== undefined) {
             console.log('location.state', location.state);
             const { draft, name } = location.state;
             openDraftHandler(draft, name);
@@ -94,6 +94,7 @@ const NewSurvey = () => {
         />);
 
     const resetForm = () => {
+        setHasError(false);
         setDraftId(null);
         setInvalidTitle(null);
         setInputs(['', '', '']);
@@ -150,7 +151,7 @@ const NewSurvey = () => {
                 headers: header,
                 body: JSON.stringify({
                     title: title.current.value.trim(),
-                    questions: inputs    
+                    questions: inputs  
                 })
             }).then(res => res.json()).then(result => {
                 if (result.status === 'OK'){

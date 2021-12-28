@@ -30,7 +30,7 @@ def api_drafts_post(client_id, connection):
     if select_survey_by_title(connection, client_id, title) is not None:
         return jsonify(message='Survey exist', status='Fail')
     survey_id = insert_survey(connection, client_id, title, is_draft=True)
-    insert_questions(connection, survey_id, questions)
+    insert_questions(connection, survey_id, client_id, questions)
     return jsonify(message='Save survey successfully!', data=survey_id, status='OK')
 
 

@@ -18,6 +18,7 @@ CREATE TABLE surveys (
 CREATE TABLE questions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     survey_id INTEGER NOT NULL,
+    client_id INTEGER NOT NULL,
     question TEXT NOT NULL,
     FOREIGN KEY(survey_id) REFERENCES surveys(id) ON DELETE CASCADE
 );
@@ -28,7 +29,7 @@ CREATE TABLE answers (
     score INTEGER NOT NULL,
     optional_answer TEXT,
     surveyor_id INTEGER NOT NULL,
-    datetime DATETIME NOT NULL,
+    date DATE NOT NULL,
     FOREIGN KEY(question_id) REFERENCES questions(id) ON DELETE CASCADE,
     FOREIGN KEY(surveyor_id) REFERENCES surveyors(id) ON DELETE CASCADE
 );

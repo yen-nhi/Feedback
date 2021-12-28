@@ -12,7 +12,7 @@ def create_surveyor(connection, survey_id):
 
 def create_answer(connection, question_id, score, surveyor_id):
     cur = connection.cursor()
-    cur.execute('insert into answers (question_id, score, surveyor_id) values (?, ?, ?)', (question_id, score, surveyor_id))
+    cur.execute('insert into answers (question_id, score, surveyor_id, date) values (?, ?, ?, date())', (question_id, score, surveyor_id))
     return cur.lastrowid
 
 def update_optional_answer(connection, answer_id, optional_answer):

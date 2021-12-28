@@ -7,17 +7,17 @@ def insert_survey(connection, client_id, title, is_draft=False):
     return cur.lastrowid
 
 
-def insert_questions(connection, survey_id, questions):
-    data = [(survey_id, question) for question in questions]
-    connection.cursor().executemany('insert into questions (survey_id, question) values (?, ?)', data)
+def insert_questions(connection, survey_id, client_id, questions):
+    data = [(survey_id, client_id, question) for question in questions]
+    connection.cursor().executemany('insert into questions (survey_id, client_id, question) values (?, ?, ?)', data)
 
 
 def update_survey(connection, client_id, survey_id, title, questions):
     cur = connection.cursor()
     cur.execute('update surveys set name=?, is_draft=? where id=? and client_id=?', (title, 0, survey_id, client_id))
-    cur.execute('delete from questions where survey_id=?', (survey_id, ))
-    data = [(survey_id, question) for question in questions]
-    connection.cursor().executemany('insert into questions (survey_id, question) values (?, ?)', data)
+    cur.execute('delete from questions where survey_id=? and client_id=?', (survey_id, client_id))
+    data = [(survey_id, client_id, question) for question in questions]
+    connection.cursor().executemany('insert into questions (survey_id, client_id, question) values (?, ?, ?)', data)
 
 
 def select_surveys(connection, client_id, is_draft=False):
@@ -30,7 +30,7 @@ def select_surveys(connection, client_id, is_draft=False):
 
 def select_questions(connection, client_id, survey_id):
     cur = connection.cursor()
-    data = cur.execute('select id, question from questions where survey_id=?', (survey_id, ))
+    data = cur.execute('select id, question from questions where client_id=? and survey_id=?', (client_id, survey_id))
     return data.fetchall()
 
 
@@ -41,6 +41,6 @@ def select_survey_by_title(connection, client_id, title):
 
 def delete_survey(connection, client_id, survey_id):
     cur = connection.cursor()
-    cur.execute('delete from questions where survey_id=?', (survey_id, ))
+    cur.execute('delete from questions where client_id=? and survey_id=?', (client_id, survey_id))
     cur.execute('delete from surveys where client_id=? and id=?', (client_id, survey_id))
 

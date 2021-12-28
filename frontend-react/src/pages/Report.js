@@ -48,8 +48,13 @@ const Report = (props) => {
                 <ButtonOutline onClick={onPeriod}>Period</ButtonOutline>
                 {showDatePicker && 
                     <span>
-                        <span><DatePicker /></span>
-                        <span><DatePicker /></span>
+                        <select className='period-select'>
+                            <option value="1">1 month</option>
+                            <option value="2">3 months</option>
+                            <option value="3">6 months</option>
+                            <option value="4">1 year</option>
+                            <option defaultValue="5">Max</option>
+                        </select>
                     </span>
                 }
             </div>

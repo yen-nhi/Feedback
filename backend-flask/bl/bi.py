@@ -1,3 +1,4 @@
+import datetime
 
 def select_answers(connection, client_id, survey_id):
     cur = connection.cursor()
@@ -31,7 +32,19 @@ def select_answers_by_score(connection, survey_id):
     for quest in sorted(dic.keys()):
         for i in range(len(dic[quest])):
             data[i].append(dic[quest][i])
-    print(data)
-
     return data
+
+def select_avg_score_by_month(connection, client_id, survey_id, period):
+    #var 'period' is number of days
+    cur = connection.cursor()
+    date_from = datetime.datetime.utcnow() - datetime.timedelta(days=period)
+    date_to = datetime.datetime.utcnow()
+    raw_data = cur.execute((
+        'select q.question, avg(score) from '
+        'answers a '
+        'right join questions q on q.id = a.question_id '
+        'where '
+        'questions id in (select id from questions where survey_id=? and client_id=?) ' 
+        'and datetime between ? and ?'
+    ), (survey_id, client_id, date_from, date_to))
 

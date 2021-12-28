@@ -40,7 +40,6 @@ function App() {
             dispatch(clientActions.login({token: currentToken}));
           } else {
             dispatch(clientActions.logout());
-            
           }
         });
       }
