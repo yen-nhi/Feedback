@@ -23,7 +23,12 @@ const Account = () => {
     const [changeingPassword, setChangingPassword] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
     const [isRemovingAllDrafts, setIsRemovingAllDrafts] = useState(false);
-    
+
+    const routes = {
+        newSurvey: '/new-survey',
+        surveyDetail: '/account/surveys/',
+        surveyReport: '/account/reports/'
+    };
 
     const changeingPasswordToggle = () => {setChangingPassword(!changeingPassword)};
     const showInfoHandler = () => {setShowInfo(!showInfo)};
@@ -65,17 +70,17 @@ const Account = () => {
 
     const surveysList = 
         
-        (surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={'/new-survey'}>Create survey</Link></p>
+        (surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={routes.newSurvey}>Create survey</Link></p>
             : 
             <ul className='inner'>
-                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/surveys/${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
+                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: routes.surveyDetail + `${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
                 <div>
                     <p className='drafts-el' onClick={() => setShowDrafts(!showDrafts)}>Drafts</p>
                     {showDrafts &&
                     <ul>
                         {drafts.map(item => <li key={item.id} title={item.name}>
                                 <img src={removeIcon} alt='icon' className="remove-icon" onClick={() => removeDraft(item.id)}/>
-                                <Link to={{ pathname: `/new-survey`, state: { draft:  item.id, name: item.name}}}>{item.name}</Link>
+                                <Link to={{ pathname: routes.newSurvey, state: { draft:  item.id, name: item.name}}}>{item.name}</Link>
                             </li>)}
                         <li><button className="clear-drafts" onClick={removeAllDrafts}><img src={trashBinIcon} alt='icon' width='25'/> Clear all drafts</button></li>
                     </ul>}
@@ -95,7 +100,7 @@ const Account = () => {
             (surveys.length === 0 ? <p className='inner'>No survey found</p>
             :
             <ul className='inner'>
-                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: `/account/reports/${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
+                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: routes.surveyReport + `${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
             </ul>);
  
 
