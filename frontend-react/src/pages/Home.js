@@ -61,17 +61,6 @@ const Home = (props) => {
                       
             </div>  
     )
-
-
-    // return (
-    //     <div className="home">
-    //         <div className="banner1">
-    //             <img src={banner1} alt="banner" />
-    //             <Link to='/login'><button className="join-us-btn">Join us</button></Link>
-    //         </div>
-
-    //     </div>
-    //)
 };
 
 export default Home;

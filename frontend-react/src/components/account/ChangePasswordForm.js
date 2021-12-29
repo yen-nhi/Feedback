@@ -53,16 +53,13 @@ const ChangePasswordForm = (props) => {
                 })
             }).then(res => res.json())
             .then(data => {
-                console.log(data);
                 if (data.status === 'Fail') {
                     setWrongPassword(true);
                 } else {
                     dispatch(clientActions.logout());
-                    
                     history.replace('/login');
                 }
             })
-            .catch(err => console.log(err));
         }
     };
 

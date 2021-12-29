@@ -38,13 +38,11 @@ const Account = () => {
         .then(data => {
             setSurveys(data.data);
         })
-        .catch(err => console.log(err));
 
         fetch(`${apiRoot.url}/drafts`, {headers: header}).then(res => res.json())
         .then(data => {
             setDrafts(data.data);
         })
-        .catch(err => console.log(err));
 
         // eslint-disable-next-line
     }, []);   
@@ -53,10 +51,7 @@ const Account = () => {
         fetch(`${apiRoot.url}/surveys/${id}`, {
             method: 'DELETE',
             headers: header
-        }).then(res => res.json()).then(data => {
-            console.log(data);
-        })
-        .catch(err => console.log(err));
+        });
         setDrafts(drafts.filter(draft => draft.id !== id));
     }
 
@@ -64,6 +59,9 @@ const Account = () => {
         setIsRemovingAllDrafts(true);
     }
 
+    const onCloseConfirming = () => {setIsRemovingAllDrafts(false)};
+    
+    const onDoneHanler = () => setDrafts([]);
 
     const surveysList = 
         
@@ -106,8 +104,8 @@ const Account = () => {
             {changeingPassword && <ChangePasswordForm onClose={changeingPasswordToggle}/>}
             {showInfo && <AccountInfo onClose={showInfoHandler}/>}
             {isRemovingAllDrafts && 
-                <RemovingAllDraftsConfirm onClose={() => setIsRemovingAllDrafts(false)}
-                onDone={() => setDrafts([])}/>
+                <RemovingAllDraftsConfirm onClose={onCloseConfirming}
+                onDone={onDoneHanler}/>
             }
             <div className='account'>
                 <div className='category' onClick={() => dispatch(accountActions.profileToggle())}>

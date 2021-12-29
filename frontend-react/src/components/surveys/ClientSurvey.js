@@ -27,13 +27,15 @@ const ClientSurvey = () => {
         // eslint-disable-next-line
     }, []);
 
-    console.log(recievedData);
     const questions =  recievedData.map((item, i) => 
         <li key={item.id}>{i+1}. {item.question} <ChartBar questionID={item.id} avgScore={item.avg_score}/></li>);  
 
     const returnHandler = () => {
         history.push(`/account`);
     };
+
+    const showLinkHandler = () => {setShowLink(true)};
+    const showDeletionConfirmHandler = () => {setShowDeletionConfirm(true)};
 
     return(
         <React.Fragment>
@@ -55,8 +57,8 @@ const ClientSurvey = () => {
                     </ul>
                     <hr/>
                     <div className='inactive-btn'>
-                        <Button onClick={() => setShowLink(true)}>Get link</Button>
-                        <Button onClick={() => setShowDeletionConfirm(true)}>Delete</Button>
+                        <Button onClick={showLinkHandler}>Get link</Button>
+                        <Button onClick={showDeletionConfirmHandler}>Delete</Button>
                     </div>
                 </div>
             </div>

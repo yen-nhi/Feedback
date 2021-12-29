@@ -72,10 +72,8 @@ const SignUp = () => {
 
     const SubmitHandler = (event) => {
         event.preventDefault();
-        console.log('click Sign Up!');
 
         if (existingEmail || existingName || !isPasswordValid || !isPasswordsMatch) {
-            console.log('Invalid form!')
             return;
         }
 

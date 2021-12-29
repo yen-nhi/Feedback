@@ -7,7 +7,7 @@ from bl.surveyor import *
 surveyor_routes = Blueprint('surveyor', __name__)
 
 
-@surveyor_routes.route("/<survey_id>/questions", methods=['GET'])
+@surveyor_routes.route("/anonymous/surveys/<survey_id>/questions", methods=['GET'])
 @db_connection
 def api_survey_id_questions(connection, survey_id):
     data = get_surveyor_survey(connection, survey_id)

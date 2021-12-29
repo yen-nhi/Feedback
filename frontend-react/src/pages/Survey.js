@@ -21,7 +21,7 @@ const Survey = () => {
         const header = {
             'Content-Type': 'application/json',
         }
-        fetchData(`${apiRoot.url}/${surveyID}/questions`, 'GET', header, null);
+        fetchData(`${apiRoot.url}/anonymous/surveys/${surveyID}/questions`, 'GET', header, null);
         // eslint-disable-next-line
     }, []);
 

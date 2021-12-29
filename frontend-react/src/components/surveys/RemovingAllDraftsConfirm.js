@@ -11,7 +11,6 @@ const DraftWarning = (props) => {
 
     const removingDrafts = () => {
         fetchData(`${apiRoot.url}/drafts`, 'DELETE', null, null);
-        console.log(recievedData);
         props.onDone();
         props.onClose();
     };

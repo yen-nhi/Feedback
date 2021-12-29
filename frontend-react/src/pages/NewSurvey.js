@@ -139,6 +139,8 @@ const NewSurvey = () => {
 
     };
 
+    const exitHandler = () => {history.push('/account')};
+
     const submitHandler = (event) => {
         event.preventDefault();
         setSavingNewSurvey(true);
@@ -180,7 +182,7 @@ const NewSurvey = () => {
                 <ButtonOutline type='button' onClick={draftsHandler}>Open drafts</ButtonOutline>
                 <ButtonOutline type='button' onClick={saveDraftHandler}>Save as drafts</ButtonOutline>
                 <ButtonOutline type='button' onClick={resetForm}>New survey</ButtonOutline>
-                <ButtonOutline type='button' onClick={() => history.push('/account')}>Exit</ButtonOutline>
+                <ButtonOutline type='button' onClick={exitHandler}>Exit</ButtonOutline>
             </div>
             <form className='new-survey-form' onSubmit={submitHandler}>
                 <div className="mb-3">

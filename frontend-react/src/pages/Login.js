@@ -17,7 +17,6 @@ const Login = () => {
 
     const logInHandler = (event) => {
         event.preventDefault();
-        console.log('Login');
         fetch(`${apiRoot.url}/accounts/login`, {
             method: 'POST',
             headers: {
@@ -29,7 +28,6 @@ const Login = () => {
                 setInvalidUser(true);
                 return
             }
-            console.log(data);
             dispatch(clientActions.login({token: data.token}));
             history.replace('/account');
         });

@@ -37,7 +37,6 @@ import React from "react";
                 })
                 }).then(res => res.json())
                 .then(data1 => {
-                    console.log('last surveyor', data1);
                     surveyorCtx.updateSurveyorID(data1.data);
 
                     const object = {
@@ -51,7 +50,6 @@ import React from "react";
                     headers: header,
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data2 => {
-                        console.log('no surveyor last answer', data2);
                         setAnswerID(data2.data);
                     });
                 });
@@ -72,7 +70,6 @@ import React from "react";
                     headers: header,
                     body: JSON.stringify(object)
                     }).then(res => res.json()).then(data => {
-                        console.log('with surveyor last answer', data);
                         setAnswerID(data.data);
                     });
                 } 

@@ -17,8 +17,7 @@ const DeletionConfirm = (props) => {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
             }
-        }).then(res => res.json()).then(data =>  console.log(data))
-        .catch(err => console.log(err));
+        })
         history.replace(`/account`)
     };
 

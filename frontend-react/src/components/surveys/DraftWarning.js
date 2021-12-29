@@ -19,7 +19,6 @@ const DraftWarning = (props) => {
             body: JSON.stringify(object)
         }).then(res => res.json())
         .then(data => {
-            console.log(data);
             props.doneReplace();
             props.onClose();    
         });

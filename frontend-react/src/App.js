@@ -8,7 +8,7 @@ import EndpointContext, { EndpointProvider } from './store/api-endpoint';
 import Login from './pages/Login';
 import Layout from './layout/Layout';
 import NotFound from './pages/NotFound';
-const Survey = React.lazy(() => import('./pages/Survey'));
+import Survey from './pages/Survey';
 const Home = React.lazy(() => import('./pages/Home'));
 const Thankyou = React.lazy(() => import('./pages/Thankyou'));
 const SignUp = React.lazy(() => import('./pages/Signup'));
