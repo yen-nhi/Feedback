@@ -1,4 +1,4 @@
-.new-survey-page{
+.newSurveyPage{
     padding-top: 2rem;
     padding-bottom: 2rem;
     height: 100vh;
@@ -7,19 +7,19 @@
     margin-right: 4rem;
 }
 
-.survey-header-control{
+.surveyHeaderControl{
     padding: 1rem;
     margin-left: 5rem;
 }
 
-.new-survey-form{
+.newSurveyForm{
     padding: 1rem;
     margin-left: 5rem;
     margin-right: 5rem;
     color: rgb(0, 131, 155);
 }
 
-.new-survey-form small{
+.newSurveyForm small{
     color: gray;
 }
 
@@ -33,7 +33,7 @@
     margin: 0.5rem;
 }
 
-.save-new-survey{
+.saveNewSurvey{
     display: inline;
     width: 100%;
     background-color: rgb(186, 224, 218);
@@ -44,12 +44,12 @@
     margin-top: 4rem;
 }
 
-.save-new-survey:disabled{
+.saveNewSurvey:disabled{
     background-color: lightgrey;
     color: white;
 }
 
-.save-new-survey:hover{
+.saveNewSurvey:hover{
     background-color: rgb(140, 207, 209);
 }
 
@@ -58,18 +58,18 @@
 }
 
 @media (max-width: 536px) {
-    .new-survey-form{
+    .newSurveyForm{
         padding: 1rem;
         margin-left: 0;
         margin-right: 0;
     }
 
-    .new-survey-page{
+    .newSurveyPage{
         margin-left: 0;
         margin-right: 0;
     }
 
-    .survey-header-control{
+    .surveyHeaderControl{
         padding: 0rem;
         margin-left: 1rem;
     }

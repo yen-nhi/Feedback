@@ -1,4 +1,4 @@
-import './ChartBar.css';
+import classes from './ChartBar.module.css';
 
 
 const ChartBar = (props) => {
@@ -7,8 +7,8 @@ const ChartBar = (props) => {
     const percent = (props.avgScore/5)*100 + '%';
 
     return(
-        <div className='chart-bar'>
-            <div className='filling' style={{width: percent}}><span>{avgScore}</span></div>
+        <div className={classes.chartBar}>
+            <div className={classes.filling} style={{width: percent}}><span>{avgScore}</span></div>
         </div>
     )
 };

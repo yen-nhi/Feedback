@@ -1,5 +1,5 @@
 import Score from "./Score";
-import './Question.css';
+import classes from './Question.module.css';
 import OptionalQuestion from "./OptionalQuestion";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/use-fetch";
@@ -95,11 +95,11 @@ import React from "react";
 
         return(
             <React.Fragment>
-            <li className='question'>
-                <div className='question-left'>
+            <li className={classes.question}>
+                <div className={classes.questionLeft}>
                     <p>{props.question.question}</p>
                 </div>
-                <div className='question-right'>
+                <div className={classes.questionRight}>
                     <Score onScore={onScoreHandler}/>
                 </div>
                 {showOptinalQuestion && <OptionalQuestion onInput={updateAnwser}/>}

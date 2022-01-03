@@ -1,4 +1,4 @@
-import './ChangePasswordForm.css';
+import classes from './ChangePasswordForm.module.css';
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import { useRef, useState, useContext } from 'react';
@@ -66,19 +66,15 @@ const ChangePasswordForm = (props) => {
     return(
         <Modal onClose={props.onClose}>
             <form onSubmit={changePasswordHandler}>
-                {wrongPassword && <small className='invalid'>Current password is wrong</small>}
+                {wrongPassword && <small className={classes.invalid}>Current password is wrong</small>}
                 <div className="form-group">
-                    <input className="form-control" type="password" placeholder="Current password" ref={currentPassword} required />
+                    <input className="form-input" type="password" placeholder="Current password" ref={currentPassword} required />
+                    <input className="form-input" type="password" placeholder="New password" ref={newPassword} onBlur={checkNewPassword} required/>
+                    {!newPasswordValid && <small className={classes.invalid}>Password must be at least 8 characters and not be used before.</small>}
+                    <input className="form-input" type="password" placeholder="Confirm new password" ref={confirmPassword} onBlur={checkConfirmPassword} required/>
+                    {!rePasswordValid && <small className={classes.invalid}>Confirm password does not match.</small>}
                 </div>
-                <div className="form-group">
-                    <input className="form-control" type="password" placeholder="New password" ref={newPassword} onBlur={checkNewPassword} required/>
-                    {!newPasswordValid && <small>Password must be at least 8 characters and not be used before.</small>}
-                </div>
-                <div className="form-group">
-                    <input className="form-control" type="password" placeholder="Confirm new password" ref={confirmPassword} onBlur={checkConfirmPassword} required/>
-                    {!rePasswordValid && <small>Confirm password does not match.</small>}
-                </div>
-                <div className="change-pw-button">
+                <div className={classes.changePwButton}>
                     <Button>Save change</Button>
                 </div>
             </form>

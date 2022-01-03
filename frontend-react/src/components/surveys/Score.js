@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import './Score.css';
+import classes from './Score.module.css';
 import Icon1b from '../../media/1b.png';
 import Icon1 from '../../media/1.png'; 
 import Icon2b from '../../media/2b.png'; 
@@ -41,7 +41,7 @@ const Score = (props) => {
     }
 
     return(
-            <div className='score'>
+            <div className={classes.score}>
                 <div data-value='1' onClick={scoreHandler}>
                     <img src={checked.score1 ? Icon1 : Icon1b} alt='icon 1' width='30'/>
                 </div>

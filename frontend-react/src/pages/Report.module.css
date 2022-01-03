@@ -3,11 +3,11 @@
     padding: 2rem;
 }
 
-.report-header-control{
+.reportHeaderControl{
     margin-bottom: 2rem;
 }
 
-.period-select{
+.periodSelect{
     padding: 10px;
     border: none;
     border-bottom: rgb(0, 97, 114) solid 1px;
@@ -17,15 +17,15 @@
     margin: 0.5rem;
 }
 
-.chart-active{
+.chartActive{
     background-color: rgb(225, 240, 246) !important;
 }
 
-.report-session{
+.reportSession{
     margin: 10%;
 }
 
-.report-session li{
+.reportSession li{
     display: inline;
     width: 50%;
     margin-bottom: 2rem;

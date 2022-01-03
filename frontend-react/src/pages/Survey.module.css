@@ -1,10 +1,10 @@
-.survey-page{
+.surveyPage{
     width: 100%;
     height: 100vh;
     display: block;
 }
 
-.survey-content{
+.surveyContent{
     box-shadow: 0px 2px 6px 0px rgb(168, 167, 167);
     width: 70%;
     height: 95vh;
@@ -16,13 +16,13 @@
     color: gray;
 }
 
-.survey-page ul{
+.surveyPage ul{
     list-style: none;
     height: 90%;
     overflow: auto;
 }
 
-.submit-survey{
+.submitSurvey{
     position: absolute;
     bottom: 2rem;
     width: 65%;
@@ -32,7 +32,7 @@
 
 @media (max-width: 768px) {  
 
-    .survey-content{
+    .surveyContent{
         width: 100%;
         height: fit-content;
         padding: 1rem;

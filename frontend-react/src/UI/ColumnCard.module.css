@@ -1,8 +1,6 @@
 .card{
     display: flex;
     color: white;
-    margin-left: 5rem;
-    margin-right: 5rem;
 }
 
 .card img{
@@ -18,13 +16,11 @@
 .leftColumn{
     float: left;
     width: 50%;
-    margin: 1rem;
 }
 
 .rightColumn{
     float: right;
     width: 50%;
-    margin: 1rem;
 }
 
 @media (max-width: 900px) {

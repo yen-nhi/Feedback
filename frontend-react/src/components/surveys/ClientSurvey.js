@@ -1,4 +1,4 @@
-import './ClientSurvey.css';
+import classes from './ClientSurvey.module.css';
 import useFetch from '../../hooks/use-fetch';
 import React, { useEffect, useState, useContext } from 'react';
 import Button from '../../UI/Button';
@@ -41,11 +41,11 @@ const ClientSurvey = () => {
         <React.Fragment>
             {showlink && <SurveyLink surveyID={params.surveyID} onClose={() => setShowLink(false)}/>}
             {showDeletionConfirm && <DeletionConfirm title={title} surveyID={params.surveyID} onClose={() => setShowDeletionConfirm(false)}/>}
-            <div className='survey-details-page'>
-                <div className='survey-details'>
-                    <div className='survey-header'>
+            <div className={classes.surveyDetailsPage}>
+                <div className={classes.surveyDetails}>
+                    <div className={classes.surveyHeader }>
                         <h4>{title}</h4>
-                        <div className='icons'>
+                        <div className={classes.icons}>
                             <img src={backIcon} alt='back' width='20' onClick={returnHandler}/>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ const ClientSurvey = () => {
                         {questions}
                     </ul>
                     <hr/>
-                    <div className='inactive-btn'>
+                    <div className={classes.inactiveBtn}>
                         <Button onClick={showLinkHandler}>Get link</Button>
                         <Button onClick={showDeletionConfirmHandler}>Delete</Button>
                     </div>

@@ -1,12 +1,11 @@
 import React, {useEffect, useContext, useState} from 'react';
 import ColumnChart from '../components/charts/ColumnChart';
-import './Report.css';
+import classes from './Report.module.css';
 import useFetch from '../hooks/use-fetch';
 import { useParams } from 'react-router-dom';
 import EndpointContext from '../store/api-endpoint';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import ButtonOutline from '../UI/ButtonOutline';
-import DatePicker from '../UI/DatePicker';
 import LineChart from '../components/charts/LineChart';
 
 const Report = (props) => {
@@ -41,14 +40,14 @@ const Report = (props) => {
     };
 
     return(
-        <div className='report'>
-            <div className='report-header-control'>
-                <ButtonOutline className={isOverall && 'chart-active'} onClick={onOverall}>Overall</ButtonOutline>
-                <ButtonOutline className={isDetails && 'chart-active'} onClick={onDetails}>Details</ButtonOutline>
+        <div className={classes.report}>
+            <div className={classes.reportHeaderControl}>
+                <ButtonOutline className={isOverall && classes.chartActive} onClick={onOverall}>Overall</ButtonOutline>
+                <ButtonOutline className={isDetails && classes.chartActive} onClick={onDetails}>Details</ButtonOutline>
                 <ButtonOutline onClick={onPeriod}>Period</ButtonOutline>
                 {showDatePicker && 
                     <span>
-                        <select className='period-select'>
+                        <select className={classes.periodSelect}>
                             <option value="1">1 month</option>
                             <option value="2">3 months</option>
                             <option value="3">6 months</option>
@@ -58,7 +57,7 @@ const Report = (props) => {
                     </span>
                 }
             </div>
-            <div className='report-session'>
+            <div className={classes.reportSession}>
                 {isLoading && <LoadingSpinner/>}
                 {hasError && <p>Something went wrong!</p>}
                 {isOverall && <ColumnChart questions={questions} surveyID={params.surveyID}/>}

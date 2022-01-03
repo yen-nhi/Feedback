@@ -1,9 +1,8 @@
-
 .home img{
     width: 100%;
 }
 
-.join-us-btn{
+.joinUsBtn{
     color: white;
     border: white solid 2px;
     background-color: rgba(0, 0, 0, 0.3);
@@ -12,12 +11,12 @@
     font-size: large;
 }
 
-.home-card{
+.homeCard{
     margin-top: 5%;
 }
 
-.card-content{
-    padding-top: 2rem;
+.cardContent{
+    padding: 5rem;
     padding-bottom: 2rem;
     padding-top: 25%;
     z-index: 20;
@@ -28,7 +27,7 @@
     color: white;
 } 
 
-.banner-content-1{
+.bannerContent1{
     position: absolute;
     bottom: 20%;
     left: 5%;
@@ -38,12 +37,12 @@
     box-shadow: 0px 2px 6px 0px black ;
 }
 
-.banner-title{
+.bannerTitle{
     font-family:Verdana, Geneva, Tahoma, sans-serif !important;
     font-size:3rem;
 }
 
-.banner-body{
+.bannerBody{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size:1.5rem;
     font-stretch:ultra-expanded !important;
@@ -56,7 +55,7 @@
     font-size: large;
 }
 
-.for-more-info{
+.forMoreInfo{
     color: skyblue;
     font-weight: bold;
 }
@@ -73,7 +72,7 @@
 }
 
 @media (max-width: 1200px) {
-    .banner-main{
+    .bannerMain{
         height: 100%;
     }
 
@@ -90,22 +89,22 @@
 
 @media (max-width: 900px) {
 
-    .card-content{
+    .cardContent{
         padding-top: 30px;
         text-align: center;
     }
     
-    .banner-content-1{
+    .bannerContent1{
         bottom: 3%;
         left: 3%;
         padding: 20px;
     }
 
-    .banner-title{
+    .bannerTitle{
         font-size:1.5rem;
     }
     
-    .banner-body{
+    .bannerBody{
         font-size:0.5rem;
     }
 

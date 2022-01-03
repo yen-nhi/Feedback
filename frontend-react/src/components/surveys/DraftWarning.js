@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
-import './DraftWarning.css';
+import classes from './DraftWarning.module.css';
 import EndpointContext from '../../store/api-endpoint';
 
 
@@ -27,7 +27,7 @@ const DraftWarning = (props) => {
     return(
         <Modal onClose={props.onClose}>
             <p>There is a existing survey's title. Do you want to replace?</p>
-            <div className='replace-button'>
+            <div className={classes.replaceButton}>
                 <Button onClick={replaceDraft}>Yes</Button>
                 <Button onClick={props.onClose}>No</Button>
             </div>

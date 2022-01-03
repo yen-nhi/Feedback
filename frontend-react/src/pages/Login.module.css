@@ -1,10 +1,10 @@
-.login-background{
+.loginBackground{
     position: fixed;
     width: 100vw;
     height: 100vh;
 }
 
-.login-box{
+.loginBox{
     width: 30%;
     margin-top: 12%;
     margin-left: auto;
@@ -14,31 +14,34 @@
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     color: rgb(0, 88, 104);
+    box-sizing: border-box;
 }
 
-.login-box input{
+.loginBox input{
     border: none;
     border-bottom: rgb(19, 19, 92) solid 1px;
 }
 
-.login-box input:focus {
+.loginBox input:focus {
     box-shadow: none;
 }
 
-.form-group{
-    margin: 30px;   
+.formGroup{
+    padding: 10px;
+    margin-bottom: 30px;   
 }
-.login-button{
+
+.loginButton{
     text-align: center;
 }
 
-.register-link{
+.registerLink{
     text-align: center;
     margin-top: 30px;
     text-decoration: underline;
 }
 
-.register-link span{
+.registerLink span{
     font-weight: bold;
 }
 
@@ -51,7 +54,7 @@
 }
 
 @media (max-width: 756px) {
-    .login-box{
+    .loginBox{
         width: 100%;
         background-image: none;
         box-shadow: none;

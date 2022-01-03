@@ -1,7 +1,7 @@
-.score-bar{
+.scoreBar{
     display: inline;
 }
-.chart-bar{
+.chartBar{
     padding: 0.1rem;
     height: 0.8rem;
     background-color: rgb(226, 241, 239);
@@ -16,7 +16,7 @@
     position: relative;
 }
 
-.chart-bar span{
+.chartBar span{
     position: absolute;
     right: -20px;
     top: -5px;

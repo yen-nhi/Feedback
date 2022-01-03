@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import './Survey.css';
+import classes from './Survey.module.css';
 import Question from '../components/surveys/Question';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import Button from '../UI/Button';
@@ -28,10 +28,10 @@ const Survey = () => {
 
     return (
         <SurveyorContextProvider>
-            <div className='survey-page'>
-                <div className='survey-content'>
+            <div className={classes.surveyPage}>
+                <div>
                     {isLoading && <LoadingSpinner />}
-                    {hasError && <p className='error'>{hasError}</p>}
+                    {hasError && <p className={classes.error}>{hasError}</p>}
                     <h4>{recievedData[0] ? recievedData[0].name : ''}</h4>
                     <ul>
                     {recievedData.map((quest) => 
@@ -41,7 +41,7 @@ const Survey = () => {
                                 surveyID={surveyID}
                             />)}
                     </ul>
-                    <div className='submit-survey'>
+                    <div className={classes.submitSurvey}>
                         <Link to='/thankyou'><Button>Finish</Button></Link>
                     </div>
                 </div>

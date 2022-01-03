@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from "react";
-import './ColumnChart.css';
 import EndpointContext from '../../store/api-endpoint';
 import Chart from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';	

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
-import './NewSurvey.css';
+import classes from './NewSurvey.module.css';
 import NewQuestion from '../components/surveys/NewQuestion';
 import DraftWarning from '../components/surveys/DraftWarning';
 import EndpointContext from '../store/api-endpoint';
@@ -166,11 +166,11 @@ const NewSurvey = () => {
     };
 
     return(
-        <div className="new-survey-page">
+        <div className={classes.newSurveyPage}>
             {showDrafts && 
                 <Modal onClose={closeDraftsModal}>
                     {drafts.length === 0 && <p>You have no draft saved.</p>}
-                    <ul className="drafts">{drafts}</ul>
+                    <ul className={classes.drafts}>{drafts}</ul>
                 </Modal>
             }
             {isExist && <DraftWarning 
@@ -178,24 +178,24 @@ const NewSurvey = () => {
                 doneReplace={() => setInvalidTitle(null)}
                 id={draftId}
                 object={{title: title.current.value.trim(), questions: inputs}}/>}
-            <div className='survey-header-control'>
+            <div className={classes.surveyHeaderControl}>
                 <ButtonOutline type='button' onClick={draftsHandler}>Open drafts</ButtonOutline>
                 <ButtonOutline type='button' onClick={saveDraftHandler}>Save as drafts</ButtonOutline>
                 <ButtonOutline type='button' onClick={resetForm}>New survey</ButtonOutline>
                 <ButtonOutline type='button' onClick={exitHandler}>Exit</ButtonOutline>
             </div>
-            <form className='new-survey-form' onSubmit={submitHandler}>
+            <form className={classes.newSurveyForm} onSubmit={submitHandler}>
                 <div className="mb-3">
-                    <input className="form-control" type="text" placeholder="Survey's title" ref={title} required/>
-                    {invalidTitle !== null && <small className='warning'>{invalidTitle}</small>}
+                    <input className="form-input" type="text" placeholder="Survey's title" ref={title} required/>
+                    {invalidTitle !== null && <small className={classes.warning}>{invalidTitle}</small>}
                 </div>
                 <p>Questions</p>
                 <small>* Please be notice that every question is answered by giving score from 1 to 5. Make sure they are score-questions.</small>
                 <br/><br/>
                 {questions}
                 <ButtonOutline type='button'onClick={addQuestionHandler}>Add question</ButtonOutline>
-                {hasError && <p className='warning'>Save survey failed!</p>}
-                <button type='submit' className='save-new-survey'>Save</button>
+                {hasError && <p className={classes.warning}>Save survey failed!</p>}
+                <button type='submit' className={classes.saveNewSurvey}>Save</button>
             </form>
         </div>
     );

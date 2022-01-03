@@ -4,21 +4,21 @@
     vertical-align: middle;
 }
 
-.question-left{
+.questionLeft{
     font-size: large;
 }
 
-.question-right{
+.questionRight{
     text-align: center;
 }
 
 @media (min-width: 768px) {
-    .question-left{
+    .questionLeft{
         float: left;
         width: 60%;
     }
     
-    .question-right{
+    .questionRight{
         float: right;
         width: 40%;
     }

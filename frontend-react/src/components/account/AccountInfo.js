@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import Modal from '../../UI/Modal';
-import './AccountInfo.css';
+import classes from './AccountInfo.module.css';
 import useFetch from '../../hooks/use-fetch'
 import LoadingSpinner from '../../UI/LoadingSpinner';
 import EndpointContext from '../../store/api-endpoint';
@@ -20,8 +20,8 @@ const AccountInfo = (props) => {
                 {isLoading && <LoadingSpinner/>}
                 {hasError && <p>Get data failed!</p>}
                 <div>
-                    <p><span className='info-title'>Name</span>{recievedData.name}</p>
-                    <p><span className='info-title'>Email</span>{recievedData.email}</p>
+                    <p><span className={classes.infoTitle}>Name :</span>{recievedData.name}</p>
+                    <p><span className={classes.infoTitle}>Email: </span>{recievedData.email}</p>
                 </div>
             </div>
         </Modal>

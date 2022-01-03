@@ -1,6 +1,6 @@
 import { useRef, useState, useContext } from 'react';
 import Button from '../UI/Button';
-import './Signup.css';
+import classes from './Signup.module.css';
 import { Link } from 'react-router-dom';
 import useFetch from '../hooks/use-fetch';
 import LoadingSpinner from '../UI/LoadingSpinner';
@@ -67,7 +67,7 @@ const SignUp = () => {
     const onCloseModal = () => { setInforming(false) };
     const redirectToLogin = <Modal onClose={onCloseModal}>
             <span>Your account has been created! </span>
-            <Link className='to-log-in' to='/login'>Log in</Link>
+            <Link className={classes.toLogIn} to='/login'>Log in</Link>
         </Modal>;
 
     const SubmitHandler = (event) => {
@@ -94,35 +94,29 @@ const SignUp = () => {
         setInforming(true);
     };
     return (
-        <div id="register-background">
+        <div>
             {informing && redirectToLogin}
-            <div className="register-box">
+            <div className={classes.registerBox}>
                 {isLoading && <LoadingSpinner/>}
                 {hasError && <p>{hasError}</p>}
                 <form onSubmit={SubmitHandler}>
                     <p>Create an account right away!</p>
                     <hr/>
-                    <div className="form-group">
-                        <input type="email" className="form-control" placeholder="* Email" required="required" ref={email} onBlur={checkEmail}/>
-                        {existingEmail && <p className='warning'>This email already exists.</p>}
+                    <div className={classes.formGroup}>
+                        <input type="email" className="form-input" placeholder="* Email" required="required" ref={email} onBlur={checkEmail}/>
+                        {existingEmail && <p className={classes.warning}>This email already exists.</p>}
+                        <input type="text" className="form-input" placeholder="* Business's name" required="required" ref={name} onBlur={checkName}/>
+                        {existingName && <p className={classes.warning}>This name already exists.</p>}
+                        <input type="password" className="form-input" name="password" placeholder="* Password" required="required" ref={password} onBlur={checkPassword}/>
+                        {!isPasswordValid && <p className={classes.warning}>Password must be at least 8 characters.</p>}
+                        <input type="password" className="form-input" name="confirm_password" placeholder="* Confirm Password" required="required" ref={rePassword} onBlur={checkRePassword}/>
+                        {!isPasswordsMatch && <p className={classes.warning}>Re-typed password does not match!</p>}
                     </div>
-                    <div className="form-group">
-                        <input type="text" className="form-control" placeholder="* Business's name" required="required" ref={name} onBlur={checkName}/>
-                        {existingName && <p className='warning'>This name already exists.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input type="password" className="form-control" name="password" placeholder="* Password" required="required" ref={password} onBlur={checkPassword}/>
-                        {!isPasswordValid && <p className='warning'>Password must be at least 8 characters.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input type="password" className="form-control" name="confirm_password" placeholder="* Confirm Password" required="required" ref={rePassword} onBlur={checkRePassword}/>
-                        {!isPasswordsMatch && <p className='warning'>Re-typed password does not match!</p>}
-                    </div>        
                     <div className="form-group">
                         <Button>Sign up</Button>
                     </div>
                 </form>
-                <div className="login-link">
+                <div className={classes.loginLink}>
                     Already had an account? <span><Link to='/login'>Log in</Link></span>
                 </div>
             </div>

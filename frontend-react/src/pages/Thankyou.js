@@ -1,9 +1,9 @@
 import image from '../media/thankyou1.png';
-import './Thankyou.css';
+import classes from './Thankyou.module.css';
 
 const Thankyou = () => {
     return(
-        <div className="thankyou">
+        <div className={classes.thankyou}>
             <img src={image} alt="thank you" />
         </div>
     )

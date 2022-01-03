@@ -1,10 +1,4 @@
-#register-background{
-    width: 100%;
-    height: 92.5vh;
-    padding-top: 5rem;
-}
-
-.register-box{
+.registerBox{
     background-color: white;
     width: 40%;
     margin: auto;
@@ -15,21 +9,25 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-.register-box input{
+.formGroup{
+    margin: 1rem;
+}
+
+.registerBox input{
     border: none;
     border-bottom: rgb(19, 19, 92) solid 1px;
 }
 
-.register-box input:focus {
+.registerBox input:focus {
     box-shadow: none;
 }
 
-.login-link{
+.loginLink{
     margin-bottom: 2rem;
     text-decoration: underline;
 }
 
-.login-link span{
+.loginLink span{
     font-weight: bold;
 }
 
@@ -40,13 +38,13 @@
     font-size: small;
 }
 
-.to-log-in{
+.toLogIn{
     text-decoration: underline;
     color: darkblue;
 }
 
 @media (max-width: 900px) {
-    .register-box{
+    .registerBox{
         width: 100%;
         background-image: none;
         box-shadow: none;

@@ -40,13 +40,13 @@
     color: rgb(0, 65, 82);
 }
 
-.drafts-el{
+.draftsEl{
     font-weight: bold;
     color: rgb(0, 88, 104);
     margin-top: 1rem;
 }
 
-.clear-drafts{
+.clearDrafts{
     border: rgb(82, 253, 225) solid 1px;
     padding: 5px 15px;
     color: rgb(0, 97, 114);
@@ -54,12 +54,12 @@
     margin-top: 1rem;
 }
 
-.remove-icon{
+.removeIcon{
     width: 20px;
     margin-right: 1rem;
 }
 
-.clear-drafts img{
+.clearDrafts img{
     margin-bottom: 10px;
 }
 

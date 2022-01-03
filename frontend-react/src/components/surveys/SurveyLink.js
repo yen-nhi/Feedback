@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Modal from "../../UI/Modal";
-import './SurveyLink.css';
+import classes from './SurveyLink.module.css';
 import copyIcon from '../../media/copy1.png';
 import QRCode from "qrcode.react";
 import EndpointContext from '../../store/api-endpoint';
@@ -41,17 +41,17 @@ const SurveyLink = (props) => {
         <Modal onClose={props.onClose}>
             <div>
                 <p>Copy this url and send to your customers.</p>
-                <p className='survey-link'>
+                <p className={classes.surveyLink}>
                     <span id='survey-url'>{link}</span>
-                    <span className='copy' onClick={copyLinkHandler}>
+                    <span className={classes.copy} onClick={copyLinkHandler}>
                         <img src={copyIcon} alt='Copy' width='25'/>
                     </span>
                 </p>
-                <div className='qr-code' id='download-area'>
-                    <QRCode className="QR-code" id='QRcode' 
+                <div className={classes.qrCode} id='download-area'>
+                    <QRCode className={classes.QRCode} id='QRcode' 
                     value={link} fgColor='rgb(0, 0, 60)' includeMargin={true} size={300}/>
                 </div>
-                <div className='download'><button onClick={downloadQRCodeHandler}>Download QRCode</button></div>
+                <div className={classes.download}><button onClick={downloadQRCodeHandler}>Download QRCode</button></div>
                 
             </div>
         </Modal>

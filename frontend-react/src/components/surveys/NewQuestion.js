@@ -1,4 +1,4 @@
-import './NewQuestion.css';
+import classes from './NewQuestion.module.css';
 import deleteIcon from '../../media/close.png';
 
 const NewQuestion = (props) => {
@@ -12,11 +12,13 @@ const NewQuestion = (props) => {
     };
 
     return(
-        <div className='new-question'>
-            <div className="input-group mb-3">
-                <span className="input-group-text">{props.index + 1}</span>
-                <input type="text" className="form-control" required value={props.value} onChange={onChangeHandler}/>
-                <span className="input-group-text delete-question" onClick={deleteHandler}><img src={deleteIcon} alt='delete' width='20'/></span>
+        <div className={classes.newQuestion}>
+            <div className={classes.formGroup}>
+                <span className={classes.inputSpan}>{props.index + 1}</span>
+                <span className={classes.inputQuestion}>
+                    <input type="text"  required value={props.value} onChange={onChangeHandler}/>
+                </span>
+                <span className={classes.removeIcon} onClick={deleteHandler}><img src={deleteIcon} alt='delete' width='20'/></span>
             </div>
         </div>    
     );

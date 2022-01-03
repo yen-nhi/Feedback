@@ -1,5 +1,5 @@
 import Button from '../UI/Button';
-import './Login.css';
+import classes from './Login.module.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useRef, useState, useContext } from 'react';
 import EndpointContext from '../store/api-endpoint';
@@ -35,21 +35,19 @@ const Login = () => {
 
 
     return (
-        <div className='login-background'>
-            <div className="login-box">
-                {invaidUser && <p className='warning'>Invalid user.</p>}
+        <div className={classes.loginBackground}>
+            <div className={classes.loginBox}>
+                {invaidUser && <p className={classes.warning}>Invalid user.</p>}
                 <form method='PUT' onSubmit={logInHandler}>
-                    <div className="form-group">
-                        <input autoFocus className="form-control" type="text" placeholder="Username" ref={email} required/>
+                    <div className={classes.formGroup}>
+                        <input autoFocus className='form-input' type="text" placeholder="Username" ref={email} required/>
+                        <input className='form-input' type="password" placeholder="Password" ref={password} required/>
                     </div>
-                    <div className="form-group">
-                        <input className="form-control" type="password" placeholder="Password" ref={password} required/>
-                    </div>
-                    <div className="login-button">
+                    <div className={classes.loginButton}>
                         <Button>Log in</Button>
                     </div>
                 </form>
-                <div className="register-link">
+                <div className={classes.registerLink}>
                     Don't have an account? <span><Link to='/signup'>Register</Link></span>
                 </div>
             </div>

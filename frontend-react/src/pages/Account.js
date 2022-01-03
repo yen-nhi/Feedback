@@ -1,4 +1,4 @@
-import './Account.css';
+import classes from './Account.module.css';
 import userIcon from '../media/user.png';
 import surveyIcon from '../media/essay.png';
 import reportIcon from '../media/line-chart.png';
@@ -67,22 +67,23 @@ const Account = () => {
     const onCloseConfirming = () => {setIsRemovingAllDrafts(false)};
     
     const onDoneHanler = () => setDrafts([]);
+    const showDraftsHandler = () => setShowDrafts(!showDrafts);
 
     const surveysList = 
         
-        (surveys.length === 0 ? <p className='inner'>You have no survey. <Link to={routes.newSurvey}>Create survey</Link></p>
+        (surveys.length === 0 ? <p className={classes.inner}>You have no survey. <Link to={routes.newSurvey}>Create survey</Link></p>
             : 
-            <ul className='inner'>
+            <ul className={classes.inner}>
                 {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: routes.surveyDetail + `${item.id}`, state: { title:  item.name}}}>{item.name}</Link></li>)}
                 <div>
-                    <p className='drafts-el' onClick={() => setShowDrafts(!showDrafts)}>Drafts</p>
+                    <p className={classes.draftsEl} onClick={showDraftsHandler}>Drafts</p>
                     {showDrafts &&
                     <ul>
                         {drafts.map(item => <li key={item.id} title={item.name}>
-                                <img src={removeIcon} alt='icon' className="remove-icon" onClick={() => removeDraft(item.id)}/>
+                                <img src={removeIcon} alt='icon' className={classes.removeIcon} onClick={() => removeDraft(item.id)}/>
                                 <Link to={{ pathname: routes.newSurvey, state: { draft:  item.id, name: item.name}}}>{item.name}</Link>
                             </li>)}
-                        <li><button className="clear-drafts" onClick={removeAllDrafts}><img src={trashBinIcon} alt='icon' width='25'/> Clear all drafts</button></li>
+                        <li><button className={classes.clearDrafts} onClick={removeAllDrafts}><img src={trashBinIcon} alt='icon' width='25'/> Clear all drafts</button></li>
                     </ul>}
                     
                 </div>
@@ -90,16 +91,16 @@ const Account = () => {
             );
 
     const profileInner = (
-        <ul className='inner'>
+        <ul className={classes.inner}>
             <li onClick={showInfoHandler}>Account infomation</li>
             <li onClick={changeingPasswordToggle}>Change password</li>
         </ul>
     );
 
     const reportsInner = 
-            (surveys.length === 0 ? <p className='inner'>No survey found</p>
+            (surveys.length === 0 ? <p className={classes.inner}>No survey found</p>
             :
-            <ul className='inner'>
+            <ul className={classes.inner}>
                 {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: routes.surveyReport + `${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
             </ul>);
  
@@ -112,16 +113,16 @@ const Account = () => {
                 <RemovingAllDraftsConfirm onClose={onCloseConfirming}
                 onDone={onDoneHanler}/>
             }
-            <div className='account'>
-                <div className='category' onClick={() => dispatch(accountActions.profileToggle())}>
+            <div className={classes.account}>
+                <div className={classes.category} onClick={() => dispatch(accountActions.profileToggle())}>
                     <img src={userIcon} alt='icon' width='40'/>Your profile
                 </div>
                 {account.profile && profileInner}
-                <div className='category' onClick={() => dispatch(accountActions.surveysToggle())}>
+                <div className={classes.category} onClick={() => dispatch(accountActions.surveysToggle())}>
                     <img src={surveyIcon} alt='icon' width='40'/>Your surveys
                 </div>
                 {account.surveys && surveysList}
-                <div className='category' onClick={() => dispatch(accountActions.reportsToggle())}>
+                <div className={classes.category} onClick={() => dispatch(accountActions.reportsToggle())}>
                     <img src={reportIcon} alt='icon' width='40'/>Analysis   
                 </div>
                 {account.reports && reportsInner}
