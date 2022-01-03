@@ -29,7 +29,7 @@ const Home = (props) => {
                 <div className={classes.bannerMain}>
                     <ColumnCard
                         className={classes.homeCard}
-                        leftColumn={<img src={mainImage} alt='image'/>}
+                        leftColumn={<img src={mainImage} alt='image' width={'100%'}/>}
                         rightColumn={content}
                         reverse={false}
                     />
