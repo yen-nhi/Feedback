@@ -12,7 +12,7 @@ const NewQuestion = (props) => {
     };
 
     return(
-        <div className={classes.newQuestion}>
+        <li className={classes.newQuestion}>
             <div className={classes.formGroup}>
                 <span className={classes.inputSpan}>{props.index + 1}</span>
                 <span className={classes.inputQuestion}>
@@ -20,7 +20,7 @@ const NewQuestion = (props) => {
                 </span>
                 <span className={classes.removeIcon} onClick={deleteHandler}><img src={deleteIcon} alt='delete' width='20'/></span>
             </div>
-        </div>    
+        </li>    
     );
 };
 

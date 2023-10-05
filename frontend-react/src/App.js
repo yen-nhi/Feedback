@@ -15,7 +15,6 @@ const SignUp = React.lazy(() => import('./pages/Signup'));
 const NewSurvey = React.lazy(() => import('./pages/NewSurvey'));
 const Account = React.lazy(() => import('./pages/Account'));
 const ClientSurvey = React.lazy(() => import('./components/surveys/ClientSurvey'));
-const Report = React.lazy(() => import('./pages/Report'));
 
 
 function App() {
@@ -75,9 +74,6 @@ function App() {
             </Route>
             <Route path='/account/surveys/:surveyID'>
               <ClientSurvey/>
-            </Route>
-            <Route path='/account/reports/:surveyID'>
-              <Report/>
             </Route>
             <Route path="*">
               <NotFound />

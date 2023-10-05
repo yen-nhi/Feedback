@@ -5,6 +5,7 @@
     color: rgb(0, 97, 114);
     margin: 0.5rem;
     width: 8rem;
+    cursor: pointer;
 }
 
 .buttonOutline:hover{

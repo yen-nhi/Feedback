@@ -2,7 +2,6 @@ import sqlite3
 from flask import jsonify, request
 import datetime
 from flask.globals import current_app
-from werkzeug.security import check_password_hash
 import os, jwt
 import functools
 

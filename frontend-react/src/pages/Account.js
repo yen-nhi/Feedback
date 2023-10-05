@@ -1,7 +1,6 @@
 import classes from './Account.module.css';
 import userIcon from '../media/user.png';
 import surveyIcon from '../media/essay.png';
-import reportIcon from '../media/line-chart.png';
 import trashBinIcon from '../media/trash-bin.png';
 import removeIcon from '../media/close.png';
 import ChangePasswordForm from '../components/account/ChangePasswordForm';
@@ -27,7 +26,6 @@ const Account = () => {
     const routes = {
         newSurvey: '/new-survey',
         surveyDetail: '/account/surveys/',
-        surveyReport: '/account/reports/'
     };
 
     const changeingPasswordToggle = () => {setChangingPassword(!changeingPassword)};
@@ -96,13 +94,6 @@ const Account = () => {
             <li onClick={changeingPasswordToggle}>Change password</li>
         </ul>
     );
-
-    const reportsInner = 
-            (surveys.length === 0 ? <p className={classes.inner}>No survey found</p>
-            :
-            <ul className={classes.inner}>
-                {surveys.map(item => <li key={item.id} title={item.name}><Link to={{ pathname: routes.surveyReport + `${item.id}`, state: { title:  item.name}}}>Report on {item.name}</Link></li>)}
-            </ul>);
  
 
     return (
@@ -122,10 +113,6 @@ const Account = () => {
                     <img src={surveyIcon} alt='icon' width='40'/>Your surveys
                 </div>
                 {account.surveys && surveysList}
-                <div className={classes.category} onClick={() => dispatch(accountActions.reportsToggle())}>
-                    <img src={reportIcon} alt='icon' width='40'/>Analysis   
-                </div>
-                {account.reports && reportsInner}
             </div>
         </React.Fragment>
     )

@@ -3,8 +3,11 @@
     padding-bottom: 2rem;
     height: 100vh;
     background-color: white;
-    margin-left: 4rem;
-    margin-right: 4rem;
+}
+
+.NewQuestionList{
+    height: 40vh;
+    overflow: scroll;
 }
 
 .surveyHeaderControl{
@@ -63,12 +66,6 @@
         margin-left: 0;
         margin-right: 0;
     }
-
-    .newSurveyPage{
-        margin-left: 0;
-        margin-right: 0;
-    }
-
     .surveyHeaderControl{
         padding: 0rem;
         margin-left: 1rem;

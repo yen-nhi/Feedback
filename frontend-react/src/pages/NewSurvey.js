@@ -192,7 +192,7 @@ const NewSurvey = () => {
                 <p>Questions</p>
                 <small>* Please be notice that every question is answered by giving score from 1 to 5. Make sure they are score-questions.</small>
                 <br/><br/>
-                {questions}
+                <ul className={classes.NewQuestionList}>{questions}</ul>
                 <ButtonOutline type='button'onClick={addQuestionHandler}>Add question</ButtonOutline>
                 {hasError && <p className={classes.warning}>Save survey failed!</p>}
                 <button type='submit' className={classes.saveNewSurvey}>Save</button>
